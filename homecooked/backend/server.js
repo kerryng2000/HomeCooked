@@ -18,6 +18,12 @@ connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })
 
+const homecooksRouter = require('routes/homecooks');
+const dishRouter = require('./routes/dish');
+
+app.use('/homecooks', homecooksRouter);
+app.use('/dish', dishRouter);
+
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
