@@ -1,0 +1,7 @@
+{
+  "name": "HomeCooked",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
