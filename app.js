@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false}));
 
 require('./models/User');
 
-require('./config/passport');
+require('./config/passport')(passport);
 app.use(passport.initialize());
 
 app.use('/users', require('./routes/users'));
