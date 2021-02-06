@@ -5,6 +5,15 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const jsonwebtoken = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'homecookedsjsu@gmail.com',
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
 
 const issueJWT = user => {
     const payload = {
@@ -30,7 +39,7 @@ const issueJWT = user => {
 //Create a user
 router.post(
     '/register',
-    body('email').isEmail(),
+    body('email').isEmail().normalizeEmail(),
     body('password').isLength({ min: 5}), 
     (req, res) => {
     User.findOne({ email: req.body.email })
@@ -54,6 +63,13 @@ router.post(
                         email: req.body.email,
                         password: hash
                     });
+
+                    const mailOptions = {
+                        from: 'homecookedsjsu@gmail.com',
+                        to: newUser.email,
+                        subject: 'HomeCooked account created',
+                        text: 'Your HomeCooked account has successfully been created'
+                    };
         
                     newUser.save()
                     .then(user => {
@@ -65,6 +81,13 @@ router.post(
                             token: jwt.token,
                             expirsIn: jwt.expires
                         })
+
+                        transporter.sendMail(mailOptions, (err, info) => {
+                            if (err)
+                                console.log(err);
+                            else
+                                console.log('Email sent: ' + info.response);
+                        });
                     })
                     .catch(err => res.json({ error: err }));
                 }
