@@ -1,7 +1,6 @@
 import { IonButton, IonInput, IonItem, IonLabel, IonPage } from "@ionic/react";
 import { register } from '../actions/userActions';
-import userInterface from '../interfaces/userInterface';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 
 const Register: React.FC = () => {
     const emailInputRef = useRef<HTMLIonInputElement>(null);
@@ -9,7 +8,6 @@ const Register: React.FC = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("hello");
 
         const email = emailInputRef.current!.value;
         const password = passwordInputRef.current!.value;
@@ -35,7 +33,6 @@ const Register: React.FC = () => {
         </IonItem>
         <IonButton className="ion-margin-top" type="submit">Create account</IonButton>
       </form>
-
     </IonPage>
   );
 };

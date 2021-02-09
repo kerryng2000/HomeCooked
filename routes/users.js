@@ -30,10 +30,7 @@ const issueJWT = user => {
         { expiresIn: expiresIn }
         );
 
-    return {
-        token: "Bearer " + signedToken,
-        expires: expiresIn
-    };
+    return signedToken;
 };
 
 //Create a user
@@ -42,6 +39,7 @@ router.post(
     body('email').isEmail().normalizeEmail(),
     body('password').isLength({ min: 5}), 
     (req, res) => {
+    
     User.findOne({ email: req.body.email })
     .exec()
     .then(user => {
@@ -75,12 +73,8 @@ router.post(
                     .then(user => {
                         const jwt = issueJWT(user);
         
-                        res.json({ 
-                            success: true,
-                            user: user,
-                            token: jwt.token,
-                            expirsIn: jwt.expires
-                        })
+                        res.cookie("access_token", jwt, { httpOnly: true });
+                        res.json({ success: true });
 
                         transporter.sendMail(mailOptions, (err, info) => {
                             if (err)
@@ -113,12 +107,8 @@ router.post('/login', (req, res) => {
             {
                 const jwt = issueJWT(user);
 
-                res.status(200).json( { 
-                    success: true,
-                    user: user,
-                    token: jwt.token,
-                    expires: jwt.expires
-                });
+                res.cookie("access_token", jwt, { httpOnly: true });
+                res.status(200).json({ success: true });
             }
             else
             {
@@ -130,9 +120,14 @@ router.post('/login', (req, res) => {
 });
 
 //Test authenticated route
-router.get('/protected', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/checkAuth', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.status(200).json({ success: true, msg: "You are authorized"});
 });
+
+router.get('/signOut', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.clearCookie("access_token");
+    res.json({ success: true });
+})
 
 
 module.exports = router;

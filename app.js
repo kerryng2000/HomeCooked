@@ -3,10 +3,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3000;
 
 //Able to read variables from .env file
 require('dotenv').config();
+
+app.use(cookieParser());
 
 //Fixes cors errors
 app.use(cors());
