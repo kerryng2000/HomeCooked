@@ -49,11 +49,11 @@ router.post(
         {
             const errors = validationResult(req);
             if (!errors.isEmpty())
-                return res.status(400).json({ errors: errors.array() });
+                return res.status(400).json({ success: false, errors: errors.array() });
             
             bcrypt.hash(req.body.password, 10, (err, hash) => {
                 if (err)
-                    res.status(500).json({ error: err });
+                    res.status(500).json({ success: false, error: err });
                 else
                 {
                     const newUser = new User({
@@ -83,12 +83,12 @@ router.post(
                                 console.log('Email sent: ' + info.response);
                         });
                     })
-                    .catch(err => res.json({ error: err }));
+                    .catch(err => res.json({ success: false, error: err }));
                 }
             });
         }
     })
-    .catch(err => res.json({ error: err}));
+    .catch(err => res.json({ success: false, error: err}));
 
 });
 

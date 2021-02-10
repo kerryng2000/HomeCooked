@@ -1,10 +1,12 @@
 import { IonButton, IonInput, IonItem, IonLabel, IonPage } from "@ionic/react";
 import { register } from '../actions/userActions';
 import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
 const Register: React.FC = () => {
     const emailInputRef = useRef<HTMLIonInputElement>(null);
     const passwordInputRef = useRef<HTMLIonInputElement>(null);
+    const dispatch = useDispatch();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -16,8 +18,9 @@ const Register: React.FC = () => {
           email: String(email),
           password: String(password)
         }
-
-        register(user);
+        
+        dispatch(register(user));
+        
     }
   
     return (
