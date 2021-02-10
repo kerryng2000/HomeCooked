@@ -9,6 +9,11 @@ const DishSchema = new mongoose.Schema( {
     price: {
         type: Number,
         required: true,
+    },
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+        ref: 'User'
     }
 }, {
     timestamps: true
