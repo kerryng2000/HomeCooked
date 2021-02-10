@@ -1,4 +1,5 @@
-const DEFAULT_STATE = {
+
+const InitialState = {
     isAuthenticated: false,
     errorMessage: ''
 }
@@ -8,7 +9,7 @@ interface userActionInterface {
     payload?: string;
 }
 
-const userReducer = (state = DEFAULT_STATE, action: userActionInterface) => {
+export const userReducer = (state = InitialState, action: userActionInterface) => {
     switch(action.type) {
         case 'AUTH_REGISTER':
             return {...state, isAuthenticated: true, errorMessage: ''};
@@ -18,5 +19,3 @@ const userReducer = (state = DEFAULT_STATE, action: userActionInterface) => {
             return state;
     }
 }
-
-export default userReducer;
