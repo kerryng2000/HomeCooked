@@ -121,12 +121,18 @@ router.post('/login', (req, res) => {
 
 //Test authenticated route
 router.get('/checkAuth', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log("checkAuth backend")
     res.status(200).json({ success: true, msg: "You are authorized"});
 });
 
 router.get('/signOut', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.clearCookie("access_token");
     res.json({ success: true });
+})
+
+router.get('/test', (req, res) => {
+    res.json({message: "test"});
+    console.log("test backend")
 })
 
 

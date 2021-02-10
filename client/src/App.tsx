@@ -22,9 +22,20 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { checkAuth } from './actions/userActions';
 
-const App: React.FC = () => (
-  <IonApp>
+const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("useEffect");
+    dispatch(checkAuth());
+  })
+  
+  return (
+    <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/register" component={Register} exact></Route>
@@ -37,6 +48,7 @@ const App: React.FC = () => (
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
-);
+  );
+  };
 
 export default App;
