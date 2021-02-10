@@ -8,7 +8,7 @@ interface registerInterface {
 
 export const register = (user: registerInterface) => {
     return function(dispatch: Dispatch) {
-    axios.post("/users/register", user, { withCredentials: true })
+    axios.post("/users/register", user)
     .then(res => {
         console.log(res.data);
         dispatch({
@@ -23,9 +23,18 @@ export const register = (user: registerInterface) => {
 }
 
 export const checkAuth = () => {
-    /*axios.get("/users/checkAuth")
-    .catch(() => console.log("User is authenticated"))
-    .then(err => console.log(err));*/
+    return (dispatch: Dispatch) => {
+        axios.get("/users/checkAuth")
+        .then(() => 
+            dispatch({
+                type: 'AUTH_SIGN_IN'
+            }))
+        .catch(() =>
+            dispatch({
+                type: 'AUTH_ERROR',
+                payload: "Unauthorized"
+            }))
+    }
 }
 
 export const signOut = () => {

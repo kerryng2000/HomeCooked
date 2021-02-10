@@ -19,8 +19,7 @@ const Register: React.FC = () => {
           password: String(password)
         }
         
-        dispatch(register(user));
-        
+      dispatch(register(user));        
     }
   
     return (

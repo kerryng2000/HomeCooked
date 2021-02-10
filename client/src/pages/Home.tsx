@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../reducers';
 
 const Home: React.FC = () => {
-  const {isAuthenticated, errorMessage} = useSelector((state: AppState) => state.user);
-  console.log(isAuthenticated);
+  const {isAuthenticated} = useSelector((state: AppState) => state.user);
+  console.log("isAuth " + isAuthenticated);
+
   return (
     <IonPage>
       <IonHeader>
