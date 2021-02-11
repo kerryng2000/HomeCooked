@@ -15,6 +15,8 @@ export const userReducer = (state = InitialState, action: userActionInterface) =
             return {...state, isAuthenticated: true, errorMessage: ''};
         case 'AUTH_SIGN_IN':
             return {...state, isAuthenticated: true, errorMessage: ''};
+        case 'AUTH_SIGN_OUT':
+                return {...state, isAuthenticated: false, errorMessage: ''};
         case 'AUTH_ERROR':
             return {...state, isAuthenticated: false, errorMessage: action.payload};
         default:
