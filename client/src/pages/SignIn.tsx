@@ -1,11 +1,11 @@
 import { IonButton, IonInput, IonItem, IonLabel, IonPage } from "@ionic/react";
-import { register } from '../actions/userActions';
+import { register, signIn } from '../actions/userActions';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { AppState } from '../reducers';
 
-const Register: React.FC = () => {
+const SignIn: React.FC = () => {
     const emailInputRef = useRef<HTMLIonInputElement>(null);
     const passwordInputRef = useRef<HTMLIonInputElement>(null);
     const dispatch = useDispatch();
@@ -14,8 +14,9 @@ const Register: React.FC = () => {
     const {isAuthenticated} = useSelector((state: AppState) => state.user);
 
     /*useEffect(() => {
-      if (isAuthenticated)
-        history.push("/home");
+        console.log("sign in effect")
+        if (isAuthenticated)
+            history.push("/home");
     }, [isAuthenticated])*/
 
 
@@ -30,7 +31,7 @@ const Register: React.FC = () => {
           password: String(password)
         }
         
-      dispatch(register(user, history));       
+      dispatch(signIn(user, history));       
     }
   
     return (
@@ -44,10 +45,10 @@ const Register: React.FC = () => {
           <IonLabel position="floating">Password</IonLabel>
           <IonInput type="password" ref={ passwordInputRef }></IonInput>
         </IonItem>
-        <IonButton className="ion-margin-top" type="submit">Create account</IonButton>
+        <IonButton className="ion-margin-top" type="submit">Sign in</IonButton>
       </form>
     </IonPage>
   );
 };
 
-export default Register;
+export default SignIn;

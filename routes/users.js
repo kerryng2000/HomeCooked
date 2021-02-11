@@ -93,7 +93,7 @@ router.post(
 });
 
 //Login a user
-router.post('/login', (req, res) => {
+router.post('/signIn', (req, res) => {
     User.findOne({ email: req.body.email })
     .then(user => {
         if (!user)
@@ -121,19 +121,13 @@ router.post('/login', (req, res) => {
 
 //Test authenticated route
 router.get('/checkAuth', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log("checkAuth backend")
     res.status(200).json({ success: true, msg: "You are authorized"});
 });
 
 router.get('/signOut', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log("signOut backend")
     res.clearCookie("access_token");
     res.json({ success: true });
 })
-
-router.get('/test', (req, res) => {
-    res.json({message: "test"});
-    console.log("test backend")
-})
-
 
 module.exports = router;

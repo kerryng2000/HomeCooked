@@ -25,12 +25,12 @@ import './theme/variables.css';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { checkAuth } from './actions/userActions';
+import SignIn from './pages/SignIn';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("useEffect");
     dispatch(checkAuth());
   })
   
@@ -39,6 +39,7 @@ const App: React.FC = () => {
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/register" component={Register} exact></Route>
+        <Route path="/signIn" component={SignIn} exact></Route>
         <Route exact path="/home">
           <Home />
         </Route>
