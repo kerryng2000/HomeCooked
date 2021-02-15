@@ -6,6 +6,27 @@ const passport = require('passport');
 const jsonwebtoken = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './uploads');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + file.originalname);
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png')
+        cb(null, true);
+    else
+        cb(null, false);
+}
+
+const upload = multer({ storage: storage,
+    limits: { fileSize: 1024 * 1024 * 5 },
+    fileFilter: fileFilter });
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -128,6 +149,30 @@ router.get('/signOut', passport.authenticate('jwt', { session: false }), (req, r
     console.log("signOut backend")
     res.clearCookie("access_token");
     res.json({ success: true });
+})
+
+//Get user profile info
+router.get('/userProfile', passport.authenticate('jwt', { session :false }), (req, res) => {    
+    return res.json({
+        id: req.user._id,
+        email: req.user.email
+    })
+})
+
+//Update user
+router.put('/updateUser', passport.authenticate('jwt', { session: false }), (req, res) => {
+    User.findOneAndUpdate({ _id: req.user._id }, req.body)
+    .exec()
+    .then(user => res.json(user))
+    .catch(err => res.json({ error: err }))
+})
+
+//Update profile picture
+router.put('/updateProfPic', upload.single('profilePicture'), passport.authenticate('jwt', { session: false }), (req, res) => {
+    User.findOneAndUpdate({ _id: req.user._id }, { profilePicture: req.file.path })
+    .exec()
+    .then(user => res.json(user))
+    .catch(err => res.json({ error: err }))
 })
 
 module.exports = router;
