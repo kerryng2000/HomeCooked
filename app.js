@@ -6,6 +6,8 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3000;
 
+app.use('/uploads', express.static('uploads'));
+
 //Able to read variables from .env file
 require('dotenv').config();
 
