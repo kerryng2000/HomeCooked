@@ -80,7 +80,9 @@ router.post(
                     const newUser = new User({
                         _id: new mongoose.Types.ObjectId(),
                         email: req.body.email,
-                        password: hash
+                        password: hash,
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName
                     });
 
                     const mailOptions = {
@@ -152,11 +154,8 @@ router.get('/signOut', passport.authenticate('jwt', { session: false }), (req, r
 })
 
 //Get user profile info
-router.get('/userProfile', passport.authenticate('jwt', { session :false }), (req, res) => {    
-    return res.json({
-        id: req.user._id,
-        email: req.user.email
-    })
+router.get('/userProfile', passport.authenticate('jwt', { session : false }), (req, res) => {    
+    return res.json(req.user);
 })
 
 //Update user
