@@ -26,6 +26,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { checkAuth } from './actions/userActions';
 import SignIn from './pages/SignIn';
+import TabBar from './components/TabBar';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const App: React.FC = () => {
           <Redirect to="/home" />
         </Route>
       </IonRouterOutlet>
+      <TabBar />
     </IonReactRouter>
   </IonApp>
   );

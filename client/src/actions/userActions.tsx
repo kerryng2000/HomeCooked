@@ -2,6 +2,13 @@ import axios from 'axios';
 import { Dispatch } from 'redux';
 
 interface registerInterface {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+}
+
+interface signInInterface {
     email: string;
     password: string;
 }
@@ -23,7 +30,7 @@ export const register = (user: registerInterface, history: any) => {
     }
 }
 
-export const signIn = (user: registerInterface, history: any) => {
+export const signIn = (user: signInInterface, history: any) => {
     return function(dispatch: Dispatch) {
     axios.post("/users/signIn", user)
     .then(res => {

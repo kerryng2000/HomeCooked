@@ -58,7 +58,7 @@ const issueJWT = user => {
 router.post(
     '/register',
     body('email').isEmail().normalizeEmail(),
-    body('password').isLength({ min: 5}), 
+    body('password').isLength({ min: 5 }), 
     (req, res) => {
     
     User.findOne({ email: req.body.email })
