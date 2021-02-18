@@ -1,9 +1,8 @@
 import { IonButton, IonInput, IonItem, IonLabel, IonPage } from "@ionic/react";
 import { register } from "../actions/userActions";
-import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { AppState } from "../reducers";
 
 const Register: React.FC = () => {
   const emailInputRef = useRef<HTMLIonInputElement>(null);
@@ -12,8 +11,6 @@ const Register: React.FC = () => {
   const lastNameInputRef = useRef<HTMLIonInputElement>(null);
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const { isAuthenticated } = useSelector((state: AppState) => state.user);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
