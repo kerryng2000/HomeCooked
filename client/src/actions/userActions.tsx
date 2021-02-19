@@ -19,13 +19,14 @@ export const register = (user: registerInterface, history: any) => {
     .then(res => {
         console.log(res.data);
         dispatch({
-            type: 'AUTH_REGISTER'
+            type: 'AUTH_REGISTER',
+            payload: res.data.user
         }) 
         history.push("/home");
     })
     .catch(err => dispatch({
         type: 'AUTH_ERROR',
-        payload: 'Email is already in use'
+        errorMsg: 'Email is already in use'
     }));
     }
 }
@@ -36,13 +37,14 @@ export const signIn = (user: signInInterface, history: any) => {
     .then(res => {
         console.log(res.data);
         dispatch({
-            type: 'AUTH_SIGN_IN'
+            type: 'AUTH_SIGN_IN',
+            payload: res.data.user
         }) 
         history.push("/home");
     })
     .catch(err => dispatch({
         type: 'AUTH_ERROR',
-        payload: 'Invalid email/password'
+        errorMsg: 'Invalid email/password'
     }));
     }
 }
@@ -58,7 +60,7 @@ export const checkAuth = () => {
         .catch(() =>
             dispatch({
                 type: 'AUTH_ERROR',
-                payload: "Unauthorized"
+                errorMsg: "Unauthorized"
             }))
     }
 }

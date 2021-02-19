@@ -34,11 +34,10 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("hello");
     dispatch(checkAuth());
   }, []);
 
-  const {isAuthenticated} = useSelector((state: AppState) => state.user);
+  const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
 
   return (
     <IonApp>
