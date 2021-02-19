@@ -9,7 +9,7 @@ const persistConfig = {
     blacklist: ['user']
 }
 
-const allReducers = combineReducers({
+export const allReducers = combineReducers({
     user: userReducer
 });
 
