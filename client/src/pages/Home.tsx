@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSearchbar, IonFooter } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+
 
 const Home: React.FC = () => {
   const [searchText, setSearchText] = useState('');

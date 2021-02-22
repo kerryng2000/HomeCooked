@@ -2,6 +2,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
+import Register from './pages/Register';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -21,13 +22,26 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { checkAuth } from './actions/userActions';
+import SignIn from './pages/SignIn';
 
-const App: React.FC = () => (
-  <IonApp>
+const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  })
+  
+  return (
+    <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+        <Route path="/register" component={Register} exact></Route>
+        <Route path="/signIn" component={SignIn} exact></Route>
         <Route exact path="/home">
-          <Home/>
+          <Home />
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
@@ -35,6 +49,7 @@ const App: React.FC = () => (
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
-);
+  );
+  };
 
 export default App;
