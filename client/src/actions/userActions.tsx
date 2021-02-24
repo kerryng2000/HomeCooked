@@ -40,7 +40,7 @@ export const signIn = (user: signInInterface, history: any) => {
             type: 'AUTH_SIGN_IN',
             payload: res.data.user
         }) 
-        history.push("/home");
+        history.push("/user/account");
     })
     .catch(err => dispatch({
         type: 'AUTH_ERROR',
@@ -65,13 +65,14 @@ export const checkAuth = () => {
     }
 }
 
-export const signOut = () => {
+export const signOut = (history: any) => {
     return (dispatch: Dispatch) => {
         axios.get("/users/signOut")
         .then(() => {
             dispatch({
                 type: 'AUTH_SIGN_OUT'
             })
+            history.push("/user/signIn")
         })
         .catch(err => console.log(err))
     }

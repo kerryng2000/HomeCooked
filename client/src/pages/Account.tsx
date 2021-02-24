@@ -3,14 +3,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../actions/userActions";
 import { AppState } from "../reducers";
+import { useHistory } from 'react-router-dom';
+
 
 const Account: React.FC = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     
     const profile = useSelector((state: AppState) => state.user.profile);
 
     const handleSignOut = () => {
-        dispatch(signOut())
+        dispatch(signOut(history))
     }
 
     return (
