@@ -44,14 +44,13 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route path="/register" component={Register} exact></Route>
-            <Route path="/signIn" component={SignIn} exact></Route>
-            <Route path="/account" exact>
-              {isAuthenticated ? <Account/> : <Redirect to="signIn"/>}
+            <Route path="/:tab(user)/register" component={Register}></Route>
+            <Route path="/:tab(user)/signIn" component={SignIn}></Route>
+            <Route path="/:tab(user)/account" component={Account}></Route>
+            <Route path="/:tab(user)" exact>
+              {isAuthenticated ? <Redirect to="/user/account"/> : <Redirect to="/user/signIn"/>}
             </Route>
-            <Route exact path="/home">
-              <Home />
-            </Route>
+            <Route exact path="/:tab(home)" component={Home}/>
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
@@ -62,7 +61,7 @@ const App: React.FC = () => {
                     <IonIcon icon={ home } />
                     <IonLabel>Home</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab="account" href={isAuthenticated ? "/account" : "/signin"}>
+                <IonTabButton tab="account" href="/user">
                     <IonIcon icon={ person } />
                     <IonLabel>Account</IonLabel>
                 </IonTabButton>
