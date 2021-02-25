@@ -1,10 +1,11 @@
 import { IonAvatar, IonButton, IonContent, IonImg, IonItem, IonLabel, IonList, IonPage } from "@ionic/react"
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signOut } from "../actions/userActions";
+import { signOut, updateProfPic } from "../actions/userActions";
 import { AppState } from "../reducers";
 import { useHistory } from 'react-router-dom';
 import { Camera, CameraResultType } from "@capacitor/core";
+import { decode } from "base64-arraybuffer";
 
 
 const Account: React.FC = () => {
@@ -12,7 +13,7 @@ const Account: React.FC = () => {
     const history = useHistory();
     
     const profile = useSelector((state: AppState) => state.user.profile);
-
+    
     const handleSignOut = () => {
         dispatch(signOut(history))
     }
@@ -21,10 +22,13 @@ const Account: React.FC = () => {
         const image = await Camera.getPhoto({
             quality: 100,
             allowEditing: false,
-            resultType: CameraResultType.Uri
+            resultType: CameraResultType.Base64
         });
 
-        console.log(image);
+        const blob = new Blob([new Uint8Array(decode(image.base64String!))], 
+            { type: `image/${image.format}`})
+
+        dispatch(updateProfPic(blob, image.format))
     }
 
     return (

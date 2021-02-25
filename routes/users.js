@@ -217,12 +217,15 @@ router.put(
   upload.single("profilePicture"),
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log(req.file);
+    
     User.findOneAndUpdate(
       { _id: req.user._id },
-      { profilePicture: req.file.path }
+      { profilePicture: req.file.path },
+      { new: true }
     )
       .exec()
-      .then((user) => res.json(user))
+      .then((user) => res.json(user.profilePicture))
       .catch((err) => res.json({ error: err }));
   }
 );
