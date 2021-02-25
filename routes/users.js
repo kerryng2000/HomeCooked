@@ -162,7 +162,14 @@ router.get(
   "/checkAuth",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.status(200).json({ success: true, msg: "You are authorized" });
+    console.log(req.user);
+    res.status(200).json({ success: true, msg: "You are authorized", user: {
+      profilePicture: req.user.profilePicture,
+      _id: req.user._id,
+      email: req.user.email,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName
+    } });
   }
 );
 

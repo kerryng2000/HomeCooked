@@ -53,9 +53,10 @@ export const signIn = (user: signInInterface, history: any) => {
 export const checkAuth = () => {
     return (dispatch: Dispatch) => {
         axios.get("/users/checkAuth")
-        .then(() => 
+        .then((res) => 
             dispatch({
-                type: 'AUTH_SIGN_IN'
+                type: 'AUTH_SIGN_IN',
+                payload: res.data.user
             }))
         .catch(() =>
             dispatch({
