@@ -35,6 +35,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(checkAuth());
+    console.log('check')
   }, []);
 
   const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
