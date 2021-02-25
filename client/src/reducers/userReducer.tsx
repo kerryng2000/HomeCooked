@@ -2,10 +2,10 @@ interface userInterface {
     isAuthenticated: boolean;
     errorMessage?: string;
     profile?: {
-        profilePicture: string;
-        firstName: string;
-        lastName: string;
-        email: string;
+        profilePicture?: string;
+        firstName?: string;
+        lastName?: string;
+        email?: string;
     }
 }
 
@@ -20,18 +20,7 @@ const InitialState: userInterface = {
     }
 }
 
-interface userActionInterface {
-    type: string;
-    errorMsg?: string;
-    payload?: {
-        profilePicture: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-    };
-}
-
-export const userReducer = (state = InitialState, action: userActionInterface): userInterface => {
+export const userReducer = (state = InitialState, action: any): userInterface => {
     switch(action.type) {
         case 'AUTH_REGISTER':
             return {...state, isAuthenticated: true, errorMessage: '', profile: action.payload};
@@ -44,6 +33,8 @@ export const userReducer = (state = InitialState, action: userActionInterface): 
                     lastName: '',
                     email: ''
                 }};
+        case 'UPDATE_PROF_PIC':
+            return {...state, profile: {...state.profile, profilePicture: action.payload} }
         case 'AUTH_ERROR':
             return {...state, isAuthenticated: false, errorMessage: action.errorMsg};
         default:

@@ -78,3 +78,21 @@ export const signOut = (history: any) => {
         .catch(err => console.log(err))
     }
 }
+
+export const updateProfPic = (file: Blob, format: String) => {
+    return (dispatch: Dispatch) => {
+        const formData = new FormData();
+
+        formData.append("profilePicture", file, `.${format}`);
+                
+        axios.put("/users/updateProfPic", formData)
+        .then((res) => {
+            dispatch({
+                type: 'UPDATE_PROF_PIC',
+                payload: { profilePicture: res.data.profilePicture }
+            })
+            window.location.reload();
+        })
+        .catch(err => console.log(err))
+    }
+}
