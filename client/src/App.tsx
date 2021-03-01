@@ -43,26 +43,23 @@ const App: React.FC = () => {
   const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
 
   return (
-    <IonApp>
+          <IonApp>
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route path="/register" component={Register} exact></Route>
-            <Route path="/signIn" component={SignIn} exact></Route>
+            <Route path="/:tab(user)/register" component={Register}></Route>
+            <Route path="/:tab(user)/signIn" component={SignIn}></Route>
+            <Route path="/:tab(user)/account" component={Account}></Route>
             <Route path="/AddDish" component={AddDish} exact></Route>
             <Route path="/allDishes" component={Dish} exact></Route>
-            <Route path="/account" exact>
-              {isAuthenticated ? <Account/> : <Redirect to="signIn"/>}
+            <Route path="/:tab(user)" exact>
+              {isAuthenticated ? <Redirect to="/user/account"/> : <Redirect to="/user/signIn"/>}
             </Route>
-            <Route exact path="/home">
-              <Home />
-            </Route>
+            <Route exact path="/:tab(home)" component={Home}/>
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
-            
           </IonRouterOutlet>
-         
           <IonTabBar slot="bottom">
                 <IonTabButton tab="home" href="/home">
                     <IonIcon icon={ home } />
