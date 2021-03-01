@@ -28,11 +28,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false}));
 
 require('./models/User');
+require('./models/Dish');
 
 require('./config/passport')(passport);
 app.use(passport.initialize());
 
 app.use('/users', require('./routes/users'));
+app.use('/Dishes', require('./routes/Dishes'));
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
