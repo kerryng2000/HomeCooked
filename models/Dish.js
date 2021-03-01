@@ -11,9 +11,8 @@ const DishSchema = new mongoose.Schema( {
         required: true,
     },
     chef: {
-        type: mongoose.Schema.Types.ObjectId,
-        require: true,
-        ref: 'User'
+        type: String,
+        required: true,
     }
 }, {
     timestamps: true
