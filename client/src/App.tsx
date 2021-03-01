@@ -38,28 +38,20 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(checkAuth());
-    console.log('check')
   }, []);
 
   const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
 
   return (
-    <IonApp>
+          <IonApp>
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route path="/register" component={Register} exact></Route>
-            <Route path="/signIn" component={SignIn} exact></Route>
-            <Route path="/AddDish" component={AddDish} exact></Route>
-            <Route path="/allDishes" component={Dish} exact></Route>
-            <Route path="/account" exact>
-              {isAuthenticated ? <Account/> : <Redirect to="signIn"/>}
-            </Route>
-            <Route exact path="/home">
-              <Home />
             <Route path="/:tab(user)/register" component={Register}></Route>
             <Route path="/:tab(user)/signIn" component={SignIn}></Route>
             <Route path="/:tab(user)/account" component={Account}></Route>
+            <Route path="/AddDish" component={AddDish} exact></Route>
+            <Route path="/allDishes" component={Dish} exact></Route>
             <Route path="/:tab(user)" exact>
               {isAuthenticated ? <Redirect to="/user/account"/> : <Redirect to="/user/signIn"/>}
             </Route>
@@ -67,9 +59,7 @@ const App: React.FC = () => {
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
-            
           </IonRouterOutlet>
-         
           <IonTabBar slot="bottom">
                 <IonTabButton tab="home" href="/home">
                     <IonIcon icon={ home } />
@@ -80,7 +70,6 @@ const App: React.FC = () => {
                     <IonLabel>Dishes</IonLabel>
                 </IonTabButton>
                 <IonTabButton tab="account" href={isAuthenticated ? "/account" : "/signin"}>
-                <IonTabButton tab="account" href="/user">
                     <IonIcon icon={ person } />
                     <IonLabel>Account</IonLabel>
                 </IonTabButton>
@@ -90,6 +79,5 @@ const App: React.FC = () => {
     </IonApp>
   );
 };
-
 
 export default App;
