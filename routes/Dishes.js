@@ -2,24 +2,29 @@ const express = require('express')
 const router = new express.Router()
 const Dish = require('../models/Dish')
 
-router.post('/', async(req, res) =>{
-    const dish = new Dish({
-        ...req.body,
-        email: req.user.email
-    })
-})
-router.get('/alldishes', auth,  async (req, res) => {
+router.post('/AddDish', (req, res) =>{
+    const newDish = new Dish({
+        name: req.body.name,
+        price: req.body.price,
+        chef: req.body.chef,
+      });
     try{
-        const dishes = await Dish.find()
-        res.status(201).send(dishes)
+        newDish.save()
+        res.status(201).send(newDish)
     }
-    catch(error){
-        res.status(500).send(error)
-    }   
+    catch (error){
+        res.status(400).send(error)
+    }
 })
-router.delete('/:id', auth, async (req, res) => {
+router.get('/allDishes',  async(req, res) => {
+   
+        const dishes =  await Dish.find()
+        res.send(dishes)
+      
+})
+router.delete('/:id', (req, res) => {
     try{
-        const dish = await Dish.findOneAndDelete({_id: req.params.id, owner: req.user._id })
+        const dish = Dish.findOneAndDelete({_id: req.params.id, chef: req.user._id })
         if(!dish){
             res.status(404).send()
         }
@@ -29,7 +34,7 @@ router.delete('/:id', auth, async (req, res) => {
         res.status(500).send()
     }
 })
-router.get('/', (req,res) => {
+router.get('/', (req, res) => {
     res.json("Dish router")
 })
 
