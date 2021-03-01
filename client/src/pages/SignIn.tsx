@@ -37,7 +37,7 @@ const SignIn: React.FC = () => {
           <IonInput type="password" ref={ passwordInputRef }></IonInput>
         </IonItem>
         <IonButton className="ion-margin-top" type="submit">Sign in</IonButton>
-        <IonRouterLink href="/register">Don't have an account? Register here</IonRouterLink>
+        <IonRouterLink routerLink="/user/register">Don't have an account? Register here</IonRouterLink>
       </form>
     </IonPage>
   );

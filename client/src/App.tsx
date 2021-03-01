@@ -38,6 +38,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(checkAuth());
+    console.log('check')
   }, []);
 
   const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
@@ -56,7 +57,13 @@ const App: React.FC = () => {
             </Route>
             <Route exact path="/home">
               <Home />
+            <Route path="/:tab(user)/register" component={Register}></Route>
+            <Route path="/:tab(user)/signIn" component={SignIn}></Route>
+            <Route path="/:tab(user)/account" component={Account}></Route>
+            <Route path="/:tab(user)" exact>
+              {isAuthenticated ? <Redirect to="/user/account"/> : <Redirect to="/user/signIn"/>}
             </Route>
+            <Route exact path="/:tab(home)" component={Home}/>
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
@@ -73,6 +80,7 @@ const App: React.FC = () => {
                     <IonLabel>Dishes</IonLabel>
                 </IonTabButton>
                 <IonTabButton tab="account" href={isAuthenticated ? "/account" : "/signin"}>
+                <IonTabButton tab="account" href="/user">
                     <IonIcon icon={ person } />
                     <IonLabel>Account</IonLabel>
                 </IonTabButton>
@@ -82,5 +90,6 @@ const App: React.FC = () => {
     </IonApp>
   );
 };
+
 
 export default App;
