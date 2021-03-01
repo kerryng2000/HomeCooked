@@ -3,7 +3,7 @@ import { IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabButton, IonTabs, IonT
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import { home, person } from 'ionicons/icons';
+import { home, person, fastFood } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -30,6 +30,9 @@ import SignIn from "./pages/SignIn";
 import { AppState } from "./reducers";
 import Account from "./pages/Account";
 
+import AddDish from "./pages/AddDish";
+import Dish from "./pages/Dish";
+
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -45,6 +48,15 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
+            <Route path="/register" component={Register} exact></Route>
+            <Route path="/signIn" component={SignIn} exact></Route>
+            <Route path="/AddDish" component={AddDish} exact></Route>
+            <Route path="/allDishes" component={Dish} exact></Route>
+            <Route path="/account" exact>
+              {isAuthenticated ? <Account/> : <Redirect to="signIn"/>}
+            </Route>
+            <Route exact path="/home">
+              <Home />
             <Route path="/:tab(user)/register" component={Register}></Route>
             <Route path="/:tab(user)/signIn" component={SignIn}></Route>
             <Route path="/:tab(user)/account" component={Account}></Route>
@@ -55,6 +67,7 @@ const App: React.FC = () => {
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
+            
           </IonRouterOutlet>
          
           <IonTabBar slot="bottom">
@@ -62,6 +75,11 @@ const App: React.FC = () => {
                     <IonIcon icon={ home } />
                     <IonLabel>Home</IonLabel>
                 </IonTabButton>
+                <IonTabButton tab="Dish" href="/allDishes">
+                    <IonIcon icon={ fastFood } />
+                    <IonLabel>Dishes</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="account" href={isAuthenticated ? "/account" : "/signin"}>
                 <IonTabButton tab="account" href="/user">
                     <IonIcon icon={ person } />
                     <IonLabel>Account</IonLabel>
