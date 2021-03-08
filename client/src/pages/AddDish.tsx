@@ -1,4 +1,4 @@
-import { IonButton, IonPage, IonItem, IonLabel, IonInput} from "@ionic/react"
+import { IonButton, IonPage, IonItem, IonLabel, IonInput, IonIcon } from "@ionic/react"
 import React from "react";
 import { useRef } from "react";
 import { useDispatch} from "react-redux";
@@ -22,7 +22,7 @@ const AddDish: React.FC = () => {
     const dish = {
       name: String(Dish),
       price: Number(Price),
-      chef: String(Chef)
+      chef: String(Chef),
     };
         
         

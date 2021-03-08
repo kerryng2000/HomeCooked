@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const DishSchema = new mongoose.Schema( {
-    
+    _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
         required: true
@@ -13,7 +13,10 @@ const DishSchema = new mongoose.Schema( {
     chef: {
         type: String,
         required: true,
-    }
+    },
+    foodPicture: { 
+        type: String, 
+        default: "uploads\\defaultfood.jpg"}
 }, {
     timestamps: true
 })
