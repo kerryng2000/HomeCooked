@@ -11,9 +11,11 @@ const AddDish: React.FC = () => {
     const DishChef = useRef<HTMLIonInputElement>(null);
     const dispatch = useDispatch();
     const history = useHistory();
+    
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) =>
     {
-        
+    event.preventDefault();  
+
     const Dish = DishName.current!.value;
     const Price = DishPrice.current!.value;
     const Chef = DishChef.current!.value;

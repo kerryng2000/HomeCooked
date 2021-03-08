@@ -40,6 +40,7 @@ export const signIn = (user: signInInterface, history: any) => {
             type: 'AUTH_SIGN_IN',
             payload: res.data.user
         }) 
+        console.log("history push to account");
         history.push("/user/account");
     })
     .catch(err => dispatch({
