@@ -1,9 +1,33 @@
 const express = require('express')
 const router = new express.Router()
 const Dish = require('../models/Dish')
+const mongoose = require("mongoose");
+const multer = require('multer');
+ 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png")
+      cb(null, true);
+    else cb(null, false);
+  };
+  
+  const upload = multer({
+    storage: storage,
+    limits: { fileSize: 1024 * 1024 * 5 },
+    fileFilter: fileFilter,
+  });
 
 router.post('/AddDish', (req, res) =>{
     const newDish = new Dish({
+        _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
         chef: req.body.chef,
@@ -22,17 +46,17 @@ router.get('/allDishes',  async(req, res) => {
         res.send(dishes)
       
 })
-router.delete('/:id', (req, res) => {
+router.get('/:id',  async(req, res) => {
     try{
-        const dish = Dish.findOneAndDelete({_id: req.params.id, chef: req.user._id })
-        if(!dish){
-            res.status(404).send()
-        }
-        res.send(dish)
+    const dish = await Dish.find({_id: req.params.id})
+    if(!dish){
+        res.status(404).send()
     }
-    catch(error){
-        res.status(500).send()
-    }
+    res.send(dish)
+}
+catch(error){
+    console.log(error)
+}
 })
 router.get('/', (req, res) => {
     res.json("Dish router")
