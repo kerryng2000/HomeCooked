@@ -162,7 +162,14 @@ router.get(
   "/checkAuth",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.status(200).json({ success: true, msg: "You are authorized" });
+    console.log(req.user);
+    res.status(200).json({ success: true, msg: "You are authorized", user: {
+      profilePicture: req.user.profilePicture,
+      _id: req.user._id,
+      email: req.user.email,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName
+    } });
   }
 );
 
@@ -210,12 +217,15 @@ router.put(
   upload.single("profilePicture"),
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log(req.file);
+    
     User.findOneAndUpdate(
       { _id: req.user._id },
-      { profilePicture: req.file.path }
+      { profilePicture: req.file.path },
+      { new: true }
     )
       .exec()
-      .then((user) => res.json(user))
+      .then((user) => res.json(user.profilePicture))
       .catch((err) => res.json({ error: err }));
   }
 );
