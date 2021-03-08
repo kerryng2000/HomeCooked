@@ -32,6 +32,7 @@ import Account from "./pages/Account";
 
 import AddDish from "./pages/AddDish";
 import Dish from "./pages/Dish";
+import Recipe from "./pages/Recipe";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ const App: React.FC = () => {
             <Route path="/:tab(user)/account" component={Account}></Route>
             <Route path="/AddDish" component={AddDish} exact></Route>
             <Route path="/allDishes" component={Dish} exact></Route>
+            <Route path="/Dishes/:id" component={Recipe} exact></Route>
             <Route path="/:tab(user)" exact>
               {isAuthenticated ? <Redirect to="/user/account"/> : <Redirect to="/user/signIn"/>}
             </Route>

@@ -1,13 +1,14 @@
-import { IonList, IonPage, IonItem, IonContent, IonRouterLink, IonImg, IonRouterOutlet} from "@ionic/react"
-import React, { useState, useEffect } from "react";
+import { IonList, IonPage, IonItem, IonContent, IonImg} from "@ionic/react"
+import React, { useState, useEffect} from "react";
+import { useParams } from "react-router-dom";
 import axios from 'axios';
 
-const Dish: React.FC = () => {
-
-
+const Recipe: React.FC = () => {
   const [dishes, setDishes] = useState([]);
+  const params = useParams();
+  console.log(params)
   useEffect(() => {
-    sendGetRequest().then(data => setDishes(data));
+    sendGetRequest(  params ).then(data => setDishes(data));
   }, []);
       return (
         <IonPage>
@@ -22,19 +23,20 @@ const Dish: React.FC = () => {
                         Chef: {dish['chef']}
                         <IonImg src={`../../../${dish['foodPicture']}`}>
                         </IonImg>
-                        <IonRouterLink href= {`/Dishes/${dish['_id']}`}>Order</IonRouterLink>
                       </IonItem>
                     );
               })
             }
             </IonList>
           </IonContent>
-          <IonRouterLink href="/AddDish">Add Dish here</IonRouterLink>
       </IonPage>
 ) }
-const sendGetRequest = () => {
+
+const sendGetRequest = (tsm : any) => {
+  var newData = tsm.id;
+  console.log(newData);
   return axios({
-    url: "/Dishes/allDishes",
+    url: `/Dishes/${newData}`,
     method: 'get'
   }).then(response => {
     console.log(response);
@@ -42,4 +44,4 @@ const sendGetRequest = () => {
   })
 };
 
-export default Dish;
+export default Recipe;
