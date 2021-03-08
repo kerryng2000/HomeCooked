@@ -18,7 +18,8 @@ export const Add = (dish: DishInterface, history: any) => {
             type: 'ADD_DISHES',
             payload: res.data.dish
         }) 
-        history.push("/home");
+        
+        history.push("/dish/allDishes");
     })
     }
 

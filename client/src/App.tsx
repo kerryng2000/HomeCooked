@@ -51,11 +51,14 @@ const App: React.FC = () => {
             <Route path="/:tab(user)/register" component={Register}></Route>
             <Route path="/:tab(user)/signIn" component={SignIn}></Route>
             <Route path="/:tab(user)/account" component={Account}></Route>
-            <Route path="/AddDish" component={AddDish} exact></Route>
-            <Route path="/allDishes" component={Dish} exact></Route>
-            <Route path="/Dishes/:id" component={Recipe} exact></Route>
+            <Route path="/:tab(dish)/AddDish" component={AddDish} exact></Route>
+            <Route path="/:tab(dish)/allDishes" component={Dish} exact></Route>
+            <Route path="/:tab(dish)/dishes/:id" component={Recipe} exact></Route>
             <Route path="/:tab(user)" exact>
               {isAuthenticated ? <Redirect to="/user/account"/> : <Redirect to="/user/signIn"/>}
+            </Route>
+            <Route path="/:tab(dish)" exact>
+              <Redirect to="/dish/allDishes"/>
             </Route>
             <Route exact path="/:tab(home)" component={Home}/>
             <Route exact path="/">
@@ -67,11 +70,11 @@ const App: React.FC = () => {
                     <IonIcon icon={ home } />
                     <IonLabel>Home</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab="Dish" href="/allDishes">
+                <IonTabButton tab="dish" href="/dish">
                     <IonIcon icon={ fastFood } />
                     <IonLabel>Dishes</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab="account" href={isAuthenticated ? "/account" : "/signin"}>
+                <IonTabButton tab="account" href="/user">
                     <IonIcon icon={ person } />
                     <IonLabel>Account</IonLabel>
                 </IonTabButton>

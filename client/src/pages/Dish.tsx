@@ -29,7 +29,7 @@ const Dish: React.FC = () => {
             }
             </IonList>
           </IonContent>
-          <IonRouterLink href="/AddDish">Add Dish here</IonRouterLink>
+          <IonRouterLink href="/dish/AddDish">Add Dish here</IonRouterLink>
       </IonPage>
 ) }
 const sendGetRequest = () => {
