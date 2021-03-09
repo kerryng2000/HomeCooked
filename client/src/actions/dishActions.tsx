@@ -3,11 +3,8 @@ import { Dispatch } from 'redux';
 
 interface DishInterface {
     name: String,
-    price: Number,
-    chef: String
-   
+    price: Number
 }
-
 
 export const Add = (dish: DishInterface, history: any) => {
     return function(dispatch: Dispatch) {
