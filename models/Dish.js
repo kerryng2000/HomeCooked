@@ -11,8 +11,8 @@ const DishSchema = new mongoose.Schema( {
         required: true,
     },
     chef: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     foodPicture: { 
         type: String, 
