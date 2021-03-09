@@ -3,6 +3,7 @@ const router = new express.Router()
 const Dish = require('../models/Dish')
 const mongoose = require("mongoose");
 const multer = require('multer');
+const passport = require("passport");
  
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -25,12 +26,12 @@ const fileFilter = (req, file, cb) => {
     fileFilter: fileFilter,
   });
 
-router.post('/AddDish', (req, res) =>{
+router.post('/AddDish', passport.authenticate("jwt", { session: false }), (req, res) =>{
     const newDish = new Dish({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        chef: req.body.chef,
+        chef: req.user._id
       });
     try{
         newDish.save()
@@ -40,9 +41,10 @@ router.post('/AddDish', (req, res) =>{
         res.status(400).send(error)
     }
 })
+
 router.get('/allDishes',  async(req, res) => {
    
-        const dishes =  await Dish.find()
+        const dishes =  await Dish.find().populate("chef", "firstName lastName")
         res.send(dishes)
       
 })
