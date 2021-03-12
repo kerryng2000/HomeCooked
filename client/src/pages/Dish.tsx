@@ -1,4 +1,4 @@
-import { IonList, IonPage, IonItem, IonContent, IonRouterLink, IonImg, IonRouterOutlet} from "@ionic/react"
+import { IonList, IonPage, IonItem, IonContent, IonRouterLink, IonImg, IonRouterOutlet, IonSpinner} from "@ionic/react"
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useSelector } from "react-redux";
@@ -6,14 +6,29 @@ import { AppState } from "../reducers";
 
 const Dish: React.FC = () => {
   const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [dishes, setDishes] = useState<any[]>([]);
+
+  const sendGetRequest = () => {
+    setLoading(true);
+    return axios({
+      url: "/Dishes/allDishes",
+      method: 'get'
+    }).then(response => {
+      setLoading(false);
+      return response.data;
+    })
+  };
+  
   useEffect(() => {
     sendGetRequest().then(data => setDishes(data));
   }, []);
-      return (
+      
+  return (
         <IonPage>
-          <IonContent >
+          <IonContent>
+            {loading ? <IonSpinner /> : 
             <IonList >
             {
                 dishes.map(dish => {
@@ -29,20 +44,11 @@ const Dish: React.FC = () => {
                     );
               })
             }
-            </IonList>
+            </IonList>}
+            
           </IonContent>
           {isAuthenticated && <IonRouterLink href="/dish/AddDish">Add Dish here</IonRouterLink>}
-
       </IonPage>
 ) }
-
-const sendGetRequest = () => {
-  return axios({
-    url: "/Dishes/allDishes",
-    method: 'get'
-  }).then(response => {
-    return response.data;
-  })
-};
 
 export default Dish;

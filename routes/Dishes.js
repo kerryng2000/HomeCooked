@@ -31,7 +31,8 @@ router.post('/AddDish', passport.authenticate("jwt", { session: false }), (req, 
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        chef: req.user._id
+        chef: req.user._id,
+        stock: req.body.stock
       });
     try{
         newDish.save()
