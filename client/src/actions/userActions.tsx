@@ -22,7 +22,7 @@ export const register = (user: registerInterface, history: any) => {
             type: 'AUTH_REGISTER',
             payload: res.data.user
         }) 
-        history.push("/home");
+        history.push("/user/account");
     })
     .catch(err => dispatch({
         type: 'AUTH_ERROR',
