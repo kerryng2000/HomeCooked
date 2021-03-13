@@ -1,43 +1,74 @@
-import { IonList, IonPage, IonItem, IonContent, IonImg, IonHeader, IonToolbar, IonButtons, IonBackButton} from "@ionic/react"
-import React, { useState, useEffect} from "react";
+import {
+  IonList,
+  IonPage,
+  IonItem,
+  IonContent,
+  IonImg,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonSpinner,
+} from "@ionic/react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 const Recipe: React.FC = () => {
-  const [dishes, setDishes] = useState([]);
-  
+  const [dish, setDish] = useState<any>({});
+  const [loading, setLoading] = useState(false);
+
   const params = useParams();
-  
+
   useEffect(() => {
-    sendGetRequest( params ).then(data => setDishes(data));
-    console.log(dishes);
+    sendGetRequest(params)
   }, []);
 
+  let initialRender = useRef(true);
+  useEffect(() => {
+    if (initialRender.current)
+      initialRender.current = false;
+    else{
+      setLoading(false);
+      console.log(dish.name)
+    }
+  },[dish])
+
+  const sendGetRequest = (tsm: any) => {
+    setLoading(true);
+    var newData = tsm.id;
+    axios({
+      url: `/Dishes/${newData}`,
+      method: "get",
+    }).then((response) => {
+      setDish(response.data)
+    });
+  };
+
+  const loadingStyle = {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  };
   return (
     <IonPage>
-      <IonContent>
       <IonHeader>
-          <IonToolbar className="ion-padding-top">
-            <IonButtons slot="start">
-              <IonBackButton defaultHref=""/>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonList color = "primary">
-            {
-                dishes.map(dish => {
-                    return (
-                      <IonItem>
-                        Name: {dish['name']}
-                        Price: {dish['price']}
-                      </IonItem>
-                    );
-              })
-            }
-            </IonList>
+        <IonToolbar className="ion-padding-top">
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="" />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        {loading ? (
+          <IonSpinner style={loadingStyle} />
+        ) : (
+          <h1>{dish!.name}</h1>
+        )}
       </IonContent>
     </IonPage>
-  )
+  );
   /*const [dishes, setDishes] = useState([]);
   const params = useParams();
   console.log(params)
@@ -64,19 +95,7 @@ const Recipe: React.FC = () => {
             </IonList>
           </IonContent>
       </IonPage>
-          )*/ 
-}
-
-const sendGetRequest = (tsm : any) => {
-  var newData = tsm.id;
-  console.log(newData);
-  return axios({
-    url: `/Dishes/${newData}`,
-    method: 'get'
-  }).then(response => {
-    console.log(response);
-    return response.data;
-  })
+          )*/
 };
 
 export default Recipe;

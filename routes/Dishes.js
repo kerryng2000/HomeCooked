@@ -50,17 +50,19 @@ router.get('/allDishes',  async(req, res) => {
       
 })
 router.get('/:id',  async(req, res) => {
+    console.log(req.params.id)
     try{
-    const dish = await Dish.find({_id: req.params.id})
+    const dish = await Dish.findById(req.params.id)
     if(!dish){
         res.status(404).send()
     }
-    res.send(dish)
+    res.json(dish)
 }
 catch(error){
     console.log(error)
 }
 })
+
 router.get('/', (req, res) => {
     res.json("Dish router")
 })

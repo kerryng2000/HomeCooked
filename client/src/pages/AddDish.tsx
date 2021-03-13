@@ -38,7 +38,6 @@ const AddDish: React.FC = () => {
   };
   return (
     <IonPage>
-      <IonContent>
       <IonHeader>
           <IonToolbar className="ion-padding-top">
             <IonButtons slot="start">
@@ -46,6 +45,7 @@ const AddDish: React.FC = () => {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
+      <IonContent>
       <form className="ion-padding" onSubmit={handleSubmit}>
         <IonItem>
           <IonLabel position="floating">Dish Name</IonLabel>
