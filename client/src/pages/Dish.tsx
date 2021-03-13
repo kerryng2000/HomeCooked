@@ -44,39 +44,41 @@ const Dish: React.FC = () => {
   const dishPicStyle = {
     width: "150px",
     height: "150px",
-    marginRight: "10px"
+    marginRight: "10px",
   };
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar className="ion-padding-top">
+          {isAuthenticated && (
+            <IonButtons slot="end">
+              <IonButton onClick={() => history.push("/dish/AddDish")}>
+                <IonIcon icon={addCircleOutline} />
+                Add dish
+              </IonButton>
+            </IonButtons>
+          )}
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
-        <IonHeader>
-          <IonToolbar className="ion-padding-top">
-            {isAuthenticated && (
-              <IonButtons slot="end">
-                <IonButton onClick={() => history.push("/dish/AddDish")}>
-                  <IonIcon icon={addCircleOutline} />
-                  Add dish
-                </IonButton>
-              </IonButtons>
-            )}
-          </IonToolbar>
-        </IonHeader>
         <IonList>
           {dishes.map((dish) => {
             return (
-              <IonItem className="ion-margin-top" onClick={() => {
-                history.push(`/dish/page/${dish['_id']}`)
-              }}>
+              <IonItem
+                className="ion-margin-top"
+                onClick={() => {
+                  history.push(`/dish/page/${dish["_id"]}`);
+                }}
+              >
                 <IonImg
                   style={dishPicStyle}
                   src={`../../../${dish["foodPicture"]}`}
                 ></IonImg>
                 {dish["name"]}
                 <br />
-                <br/>
-                ${dish["price"]}
-                <IonIcon slot="end" icon={chevronForwardOutline}/>
+                <br />${dish["price"]}
+                <IonIcon slot="end" icon={chevronForwardOutline} />
               </IonItem>
             );
           })}
