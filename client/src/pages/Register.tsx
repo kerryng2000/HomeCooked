@@ -34,7 +34,7 @@ const Register: React.FC = () => {
     <IonPage>
       <IonContent>
         <IonHeader>
-          <IonToolbar>
+          <IonToolbar className="ion-padding-top">
             <IonButtons slot="start">
               <IonBackButton defaultHref=""/>
             </IonButtons>

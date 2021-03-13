@@ -53,7 +53,7 @@ const App: React.FC = () => {
             <Route path="/:tab(user)/account" component={Account}></Route>
             <Route path="/:tab(dish)/AddDish" component={AddDish} exact></Route>
             <Route path="/:tab(dish)/allDishes" component={Dish} exact></Route>
-            <Route path="/:tab(dish)/dishes/:id" component={Recipe} exact></Route>
+            <Route path="/:tab(dish)/page/:id" component={Recipe} exact></Route>
             <Route path="/:tab(user)" exact>
               {isAuthenticated ? <Redirect to="/user/account"/> : <Redirect to="/user/signIn"/>}
             </Route>
