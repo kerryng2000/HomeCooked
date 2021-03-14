@@ -199,6 +199,16 @@ router.get(
   }
 );
 
+//Get user by id
+router.get("/:id", (req, res) => {
+  User.findById(req.params.id)
+  .select("-password")
+  .then(user => {
+    res.json(user);
+  })
+  .catch(err => res.json({error: err}))
+})
+
 //Update user
 router.put(
   "/updateUser",

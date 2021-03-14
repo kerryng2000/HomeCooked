@@ -31,7 +31,8 @@ router.post('/AddDish', passport.authenticate("jwt", { session: false }), (req, 
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        chef: req.user._id
+        chef: req.user._id,
+        stock: req.body.stock
       });
     try{
         newDish.save()
@@ -50,16 +51,17 @@ router.get('/allDishes',  async(req, res) => {
 })
 router.get('/:id',  async(req, res) => {
     try{
-    const dish = await Dish.find({_id: req.params.id})
+    const dish = await Dish.findById(req.params.id)
     if(!dish){
         res.status(404).send()
     }
-    res.send(dish)
+    res.json(dish)
 }
 catch(error){
     console.log(error)
 }
 })
+
 router.get('/', (req, res) => {
     res.json("Dish router")
 })

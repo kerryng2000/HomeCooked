@@ -13,4 +13,4 @@ const UserSchema = new mongoose.Schema({
     lastName: { type: String, required: true }
 });
 
-mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
