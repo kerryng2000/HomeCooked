@@ -1,6 +1,6 @@
-import { IonButton, IonInput, IonItem, IonLabel, IonPage } from "@ionic/react";
+import { IonButton, IonInput, IonItem, IonLabel, IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton } from "@ionic/react";
 import { register } from "../actions/userActions";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -32,6 +32,14 @@ const Register: React.FC = () => {
 
   return (
     <IonPage>
+      <IonContent>
+        <IonHeader>
+          <IonToolbar className="ion-padding-top">
+            <IonButtons slot="start">
+              <IonBackButton defaultHref=""/>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
       <form className="ion-padding" onSubmit={handleSubmit}>
         <IonItem>
           <IonLabel position="floating">First Name</IonLabel>
@@ -66,6 +74,7 @@ const Register: React.FC = () => {
           Create account
         </IonButton>
       </form>
+      </IonContent>
     </IonPage>
   );
 };
