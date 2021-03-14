@@ -1,7 +1,5 @@
 import {
-  IonList,
   IonPage,
-  IonItem,
   IonContent,
   IonImg,
   IonHeader,
@@ -9,30 +7,35 @@ import {
   IonButtons,
   IonBackButton,
   IonSpinner,
+  IonTitle,
+  IonAvatar,
+  IonGrid,
+  IonCol,
+  IonRow,
+  IonButton,
+  IonIcon,
+  IonText,
 } from "@ionic/react";
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { addCircleOutline, removeCircleOutline } from "ionicons/icons";
+import { useSelector } from "react-redux";
+import { AppState } from "../reducers";
 
 const Recipe: React.FC = () => {
   const [dish, setDish] = useState<any>({});
+  const [chef, setChef] = useState<any>({});
+  const [amount, setAmount] = useState<number>(0);
   const [loading, setLoading] = useState(false);
+  const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
+  const email = useSelector((state: AppState) => state.user.profile!.email);
 
   const params = useParams();
 
   useEffect(() => {
-    sendGetRequest(params)
+    sendGetRequest(params);
   }, []);
-
-  let initialRender = useRef(true);
-  useEffect(() => {
-    if (initialRender.current)
-      initialRender.current = false;
-    else{
-      setLoading(false);
-      console.log(dish.name)
-    }
-  },[dish])
 
   const sendGetRequest = (tsm: any) => {
     setLoading(true);
@@ -41,9 +44,30 @@ const Recipe: React.FC = () => {
       url: `/Dishes/${newData}`,
       method: "get",
     }).then((response) => {
-      setDish(response.data)
+      setDish(response.data);
+      sendChefRequest(response.data.chef);
     });
   };
+
+  const sendChefRequest = (chefId: any) => {
+    axios
+      .get(`/users/${chefId}`)
+      .then((chef) => {
+        setChef(chef.data);
+        setLoading(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const increaseAmount = () => {
+    if (amount + 1 <= dish.stock)
+      setAmount(amount + 1);
+  }
+
+  const decreaseAmount = () => {
+    if (amount - 1 >= 0)
+      setAmount(amount - 1);
+  }
 
   const loadingStyle = {
     position: "fixed",
@@ -51,51 +75,68 @@ const Recipe: React.FC = () => {
     left: "50%",
     transform: "translate(-50%, -50%)",
   };
+
+  const profPicStyle = {
+    width: "100px",
+    height: "100px",
+  };
+
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className="ion-padding-top">
+        <IonToolbar className="ion-padding-top ion-margin-bottom">
           <IonButtons slot="start">
             <IonBackButton defaultHref="" />
           </IonButtons>
+          <IonTitle size="large" className="ion-text-center">
+            {dish.name}
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        {loading ? (
-          <IonSpinner style={loadingStyle} />
-        ) : (
-          <h1>{dish!.name}</h1>
-        )}
-      </IonContent>
+      {loading ? (
+        <IonSpinner style={loadingStyle} />
+      ) : (
+        <IonContent>
+          <IonImg
+            className="ion-margin-bottom"
+            src={`../../../${dish["foodPicture"]}`}
+          ></IonImg>
+
+          <IonGrid className="ion-padding">
+            <IonRow>
+              <IonCol>
+                <IonAvatar style={profPicStyle}>
+                  <IonImg src={`../../../${chef.profilePicture}`}></IonImg>
+                </IonAvatar>
+              </IonCol>
+              <IonCol className="ion-align-self-center">
+                <h1 style={{float: "right",}}>${dish.price}</h1>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol className="ion-align-self-center">
+                <h2>
+                  {chef.firstName} {chef.lastName}
+                </h2>
+              </IonCol>
+              {email !== chef.email && 
+              <IonCol className="ion-align-self-center ion-margin-bottom">
+              <IonButton fill="clear" onClick={decreaseAmount}>
+                <IonIcon slot="icon-only" icon={removeCircleOutline}/>
+              </IonButton>
+              <IonText>{amount}</IonText>
+              <IonButton fill="clear" onClick={increaseAmount}>
+                <IonIcon slot="icon-only" icon={addCircleOutline}/>
+              </IonButton>
+            </IonCol>
+              }
+            </IonRow>
+          </IonGrid>
+          {isAuthenticated && email !== chef.email && <IonButton expand="block">Add to cart</IonButton>}
+        </IonContent>
+      )}
     </IonPage>
   );
-  /*const [dishes, setDishes] = useState([]);
-  const params = useParams();
-  console.log(params)
-  useEffect(() => {
-    sendGetRequest(  params ).then(data => setDishes(data));
-  }, []);
-      return (
-        <IonPage>
-          <IonContent color = "primary" >
-            <IonList color = "primary">
-            {
-                dishes.map(dish => {
-                    return (
-                      <IonItem>
-                        Name: {dish['name']}
-                        Price: {dish['price']}
-                        Chef: {dish['chef']}
-                        <IonImg src={`../../../${dish['foodPicture']}`}>
-                        </IonImg>
-                      </IonItem>
-                    );
-              })
-            }
-            </IonList>
-          </IonContent>
-      </IonPage>
-          )*/
 };
 
 export default Recipe;
