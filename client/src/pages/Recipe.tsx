@@ -20,8 +20,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { addCircleOutline, removeCircleOutline } from "ionicons/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../reducers";
+import { addToCart } from "../actions/cartActions";
 
 const Recipe: React.FC = () => {
   const [dish, setDish] = useState<any>({});
@@ -29,6 +30,7 @@ const Recipe: React.FC = () => {
   const [amount, setAmount] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
+  const dispatch = useDispatch();
   const email = useSelector((state: AppState) => state.user.profile!.email);
 
   const params = useParams();
@@ -67,6 +69,18 @@ const Recipe: React.FC = () => {
   const decreaseAmount = () => {
     if (amount - 1 >= 0)
       setAmount(amount - 1);
+  }
+
+  const handleAddToCart = () => {
+    if (amount > 0)
+    {
+      const item = {
+        dish: dish._id,
+        quantity: amount
+      }
+      dispatch(addToCart(item));
+    }
+
   }
 
   const loadingStyle = {
@@ -132,7 +146,7 @@ const Recipe: React.FC = () => {
               }
             </IonRow>
           </IonGrid>
-          {isAuthenticated && email !== chef.email && <IonButton expand="block">Add to cart</IonButton>}
+          {isAuthenticated && email !== chef.email && <IonButton onClick={handleAddToCart} expand="block">Add to cart</IonButton>}
         </IonContent>
       )}
     </IonPage>
