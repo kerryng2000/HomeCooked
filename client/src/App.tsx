@@ -1,9 +1,17 @@
 import { Redirect, Route } from "react-router-dom";
-import { IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabButton, IonTabs, IonTabBar } from "@ionic/react";
+import {
+  IonApp,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonTabButton,
+  IonTabs,
+  IonTabBar,
+} from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import { home, person, fastFood } from 'ionicons/icons';
+import { home, person, fastFood } from "ionicons/icons";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -33,6 +41,7 @@ import Account from "./pages/Account";
 import AddDish from "./pages/AddDish";
 import Dish from "./pages/Dish";
 import Recipe from "./pages/Recipe";
+import Cart from "./pages/Cart";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -41,13 +50,16 @@ const App: React.FC = () => {
     dispatch(checkAuth());
   }, []);
 
-  const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state: AppState) => state.user.isAuthenticated
+  );
 
   return (
-          <IonApp>
+    <IonApp>
       <IonReactRouter>
+        {isAuthenticated && <Cart/>}
         <IonTabs>
-          <IonRouterOutlet>
+          <IonRouterOutlet id="cart">
             <Route path="/:tab(user)/register" component={Register}></Route>
             <Route path="/:tab(user)/signIn" component={SignIn}></Route>
             <Route path="/:tab(user)/account" component={Account}></Route>
@@ -55,30 +67,34 @@ const App: React.FC = () => {
             <Route path="/:tab(dish)/allDishes" component={Dish} exact></Route>
             <Route path="/:tab(dish)/page/:id" component={Recipe} exact></Route>
             <Route path="/:tab(user)" exact>
-              {isAuthenticated ? <Redirect to="/user/account"/> : <Redirect to="/user/signIn"/>}
+              {isAuthenticated ? (
+                <Redirect to="/user/account" />
+              ) : (
+                <Redirect to="/user/signIn" />
+              )}
             </Route>
             <Route path="/:tab(dish)" exact>
-              <Redirect to="/dish/allDishes"/>
+              <Redirect to="/dish/allDishes" />
             </Route>
-            <Route exact path="/:tab(home)" component={Home}/>
+            <Route exact path="/:tab(home)" component={Home} />
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
-                <IonTabButton tab="home" href="/home">
-                    <IonIcon icon={ home } />
-                    <IonLabel>Home</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="dish" href="/dish">
-                    <IonIcon icon={ fastFood } />
-                    <IonLabel>Dishes</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="account" href="/user">
-                    <IonIcon icon={ person } />
-                    <IonLabel>Account</IonLabel>
-                </IonTabButton>
-            </IonTabBar>
+            <IonTabButton tab="home" href="/home">
+              <IonIcon icon={home} />
+              <IonLabel>Home</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="dish" href="/dish">
+              <IonIcon icon={fastFood} />
+              <IonLabel>Dishes</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="account" href="/user">
+              <IonIcon icon={person} />
+              <IonLabel>Account</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
         </IonTabs>
       </IonReactRouter>
     </IonApp>

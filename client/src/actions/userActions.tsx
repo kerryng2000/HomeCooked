@@ -35,7 +35,6 @@ export const signIn = (user: signInInterface, history: any) => {
     return function(dispatch: Dispatch) {
     axios.post("/users/signIn", user)
     .then(res => {
-        console.log(res.data);
         dispatch({
             type: 'AUTH_SIGN_IN',
             payload: res.data.user

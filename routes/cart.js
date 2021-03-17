@@ -26,23 +26,24 @@ router.post("/", passport.authenticate("jwt", { session: false }), (req, res) =>
                 { $inc: { "items.$.quantity": item.quantity } },
                 { new: true})
                 .exec()
-                .then(cart => res.json(cart))
+                .then(cart => res.json({cart: cart}))
                 .catch(err => res.json({ error: err }))
             }
             else
             {
                 foundCart.items.push(item);
                 foundCart.save()
-                .then(cart => res.json(cart))
+                .then(cart => res.json({cart: cart}))
             }
         }
         else
         {
+            console.log("create new cart")
             Cart.create({
                 user: req.user._id,
                 items:[item]
             })
-            .then(cart => res.json(cart))
+            .then(cart => res.json({cart: cart}))
         }
     })
     .catch(err => res.json({ error: err }))
@@ -52,24 +53,51 @@ router.get('/', passport.authenticate("jwt", { session: false }), (req, res) => 
     Cart.findOne({ user: req.user._id })
     .populate("items.dish")
     .exec()
-    .then(cart => {
-        if (!cart)
-            return res.json(null);
-        
-        res.json(cart);
+    .then(cart => {     
+        res.json({cart: cart});
     })
     .catch(err => res.json({ error: err }))
 })
 
 router.put('/removeItem', passport.authenticate("jwt", { session: false }), (req, res) => {
     Cart.findOne({ user: req.user._id })
+    .populate("items.dish")
     .exec()
     .then(cart => {
         cart.items = cart.items.filter(item => item._id != req.body.itemId);
         cart.save()
-        .then(newCart => res.json(newCart))
+        .then(newCart => res.json({cart: newCart}))
         .catch(err => res.json({ error: err }))
     })
     .catch(err => res.json({ error: err }))
 })
+
+router.put('/incrementQuantity', passport.authenticate("jwt", { session: false }), (req, res) => {
+    Cart.findOneAndUpdate({ 
+        user: req.user._id,
+        items: { $elemMatch: { _id: req.body.itemId }}
+        },
+        { $inc: { "items.$.quantity": 1 } },
+        { new: true})
+        .populate("items.dish")
+        .exec()
+        .then(cart => res.json({cart: cart}))
+        .catch(err => res.json({ error: err }))
+
+})
+
+router.put('/decrementQuantity', passport.authenticate("jwt", { session: false }), (req, res) => {
+    Cart.findOneAndUpdate({ 
+        user: req.user._id,
+        items: { $elemMatch: { _id: req.body.itemId }} 
+        },
+        { $inc: { "items.$.quantity": -1 } },
+        { new: true})
+        .populate("items.dish")
+        .exec()
+        .then(cart => res.json({cart: cart}))
+        .catch(err => res.json({ error: err }))
+
+})
+
 module.exports = router;
