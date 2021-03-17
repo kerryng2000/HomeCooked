@@ -37,3 +37,19 @@ export const getCart = () => {
         })
     }
 }
+
+export const removeItem = (itemId: string) => {
+    return function(dispatch: Dispatch) {
+        axios.put("/cart/removeItem", {itemId: itemId})
+        .then(res => {
+            console.log(res.data.cart);
+            dispatch({
+                type: "REMOVE_ITEM",
+                payload: res.data.cart
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+}
