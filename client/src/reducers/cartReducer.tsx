@@ -1,4 +1,5 @@
 interface itemInterface {
+    _id: string;
     dish: {
         foodPicture: string;
         name: string;
@@ -25,6 +26,8 @@ export const cartReducer = (state = InitialState, action: any): cartInterface =>
             return {...state, items: action.payload.items, user: action.payload.user};
         case "GET_CART":
             return {...state, items: action.payload.items, user: action.payload.user};
+        case "REMOVE_ITEM":
+            return {...state, items: action.payload.items};
         default:
             return state;
     }
