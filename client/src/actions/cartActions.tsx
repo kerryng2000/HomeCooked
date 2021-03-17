@@ -53,3 +53,33 @@ export const removeItem = (itemId: string) => {
         })
     }
 }
+
+export const incrementQuantity = (dishId: string) => {
+    return function(dispatch: Dispatch) {
+        axios.put("/cart/incrementQuantity", { dish: dishId })
+        .then(res => {
+            dispatch({
+                type: "INCREMENT_QUANTITY",
+                payload: res.data.cart
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+}
+
+export const decrementQuantity = (dishId: string) => {
+    return function(dispatch: Dispatch) {
+        axios.put("/cart/decrementQuantity", { dish: dishId })
+        .then(res => {
+            dispatch({
+                type: "DECREMENT_QUANTITY",
+                payload: res.data.cart
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+}

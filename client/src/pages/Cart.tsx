@@ -31,7 +31,7 @@ import {
 } from "ionicons/icons";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCart, removeItem } from "../actions/cartActions";
+import { decrementQuantity, getCart, incrementQuantity, removeItem } from "../actions/cartActions";
 import { AppState } from "../reducers";
 
 const Cart: React.FC = () => {
@@ -47,7 +47,14 @@ const Cart: React.FC = () => {
     console.log("Deleting item" + id);
     dispatch(removeItem(id));
     ionListRef.current!.closeSlidingItems();
-    dispatch(getCart())
+  }
+
+  const handleIncrement = (dishId: string) => {
+    dispatch(incrementQuantity(dishId));
+  }
+
+  const handleDecrement = (dishId: string) => {
+    dispatch(decrementQuantity(dishId));
   }
 
   return (
@@ -92,7 +99,7 @@ const Cart: React.FC = () => {
                       <IonRow className="ion-align-items-end">
                         <IonCol>{item.dish.name}</IonCol>
                         <IonCol>
-                          <IonButton size="small" fill="clear">
+                          <IonButton size="small" fill="clear" onClick={() => handleIncrement(item.dish._id)}>
                             <IonIcon slot="icon-only" icon={addCircleOutline} />
                           </IonButton>
                         </IonCol>
@@ -105,7 +112,7 @@ const Cart: React.FC = () => {
                       <IonRow className="ion-align-items-center">
                         <IonCol>${item.dish.price}</IonCol>
                         <IonCol>
-                          <IonButton size="small" fill="clear">
+                          <IonButton size="small" fill="clear" onClick={() => handleDecrement(item.dish._id)}>
                             <IonIcon
                               slot="icon-only"
                               icon={removeCircleOutline}
