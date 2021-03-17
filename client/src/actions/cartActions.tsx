@@ -54,9 +54,9 @@ export const removeItem = (itemId: string) => {
     }
 }
 
-export const incrementQuantity = (dishId: string) => {
+export const incrementQuantity = (itemId: string) => {
     return function(dispatch: Dispatch) {
-        axios.put("/cart/incrementQuantity", { dish: dishId })
+        axios.put("/cart/incrementQuantity", { itemId: itemId })
         .then(res => {
             dispatch({
                 type: "INCREMENT_QUANTITY",
@@ -69,9 +69,9 @@ export const incrementQuantity = (dishId: string) => {
     }
 }
 
-export const decrementQuantity = (dishId: string) => {
+export const decrementQuantity = (itemId: string) => {
     return function(dispatch: Dispatch) {
-        axios.put("/cart/decrementQuantity", { dish: dishId })
+        axios.put("/cart/decrementQuantity", { itemId: itemId })
         .then(res => {
             dispatch({
                 type: "DECREMENT_QUANTITY",

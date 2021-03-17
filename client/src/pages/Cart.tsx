@@ -36,7 +36,7 @@ import { AppState } from "../reducers";
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
-  const cartContents = useSelector((state: AppState) => state.cart.items);
+  const cartContents = useSelector((state: AppState) => state.cart);
   const ionListRef = useRef<any>(null);
 
   const openCart = () => {
@@ -49,12 +49,16 @@ const Cart: React.FC = () => {
     ionListRef.current!.closeSlidingItems();
   }
 
-  const handleIncrement = (dishId: string) => {
-    dispatch(incrementQuantity(dishId));
+  const handleIncrement = (itemId: string, stock: number, quantity: number) => {
+    if (quantity + 1 <= stock)
+      dispatch(incrementQuantity(itemId));
   }
 
-  const handleDecrement = (dishId: string) => {
-    dispatch(decrementQuantity(dishId));
+  const handleDecrement = (itemId: string, quantity: number) => {
+    dispatch(decrementQuantity(itemId));
+
+    if (quantity - 1 === 0)
+      dispatch(removeItem(itemId));
   }
 
   return (
@@ -74,7 +78,7 @@ const Cart: React.FC = () => {
         </IonHeader>
         <IonContent>
           <IonList ref={ionListRef}>
-            {cartContents.map((item) => {
+            {cartContents.items.map((item) => {
               return (
                 <IonItemSliding>
                   <IonItemOptions onIonSwipe={() => handleDeleteItem(item._id)}>
@@ -99,7 +103,7 @@ const Cart: React.FC = () => {
                       <IonRow className="ion-align-items-end">
                         <IonCol>{item.dish.name}</IonCol>
                         <IonCol>
-                          <IonButton size="small" fill="clear" onClick={() => handleIncrement(item.dish._id)}>
+                          <IonButton size="small" fill="clear" onClick={() => handleIncrement(item._id, item.dish.stock, item.quantity)}>
                             <IonIcon slot="icon-only" icon={addCircleOutline} />
                           </IonButton>
                         </IonCol>
@@ -112,7 +116,7 @@ const Cart: React.FC = () => {
                       <IonRow className="ion-align-items-center">
                         <IonCol>${item.dish.price}</IonCol>
                         <IonCol>
-                          <IonButton size="small" fill="clear" onClick={() => handleDecrement(item.dish._id)}>
+                          <IonButton size="small" fill="clear" onClick={() => handleDecrement(item._id, item.quantity)}>
                             <IonIcon
                               slot="icon-only"
                               icon={removeCircleOutline}
@@ -127,7 +131,8 @@ const Cart: React.FC = () => {
             })}
           </IonList>
         </IonContent>
-        {cartContents && (
+        {cartContents.total > 0 && <h1 className="ion-margin">Total: ${cartContents.total}</h1>}
+        {cartContents.items.length > 0 && (
           <IonButton className="ion-margin-bottom">Checkout</IonButton>
         )}
       </IonMenu>
