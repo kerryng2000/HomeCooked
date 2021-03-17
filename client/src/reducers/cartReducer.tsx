@@ -1,6 +1,7 @@
 interface itemInterface {
     _id: string;
     dish: {
+        _id: string,
         foodPicture: string;
         name: string;
         price: number;
@@ -27,6 +28,10 @@ export const cartReducer = (state = InitialState, action: any): cartInterface =>
         case "GET_CART":
             return {...state, items: action.payload.items, user: action.payload.user};
         case "REMOVE_ITEM":
+            return {...state, items: action.payload.items};
+        case "INCREMENT_QUANTITY":
+            return {...state, items: action.payload.items};
+         case "DECREMENT_QUANTITY":
             return {...state, items: action.payload.items};
         default:
             return state;
