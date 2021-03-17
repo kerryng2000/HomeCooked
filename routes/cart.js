@@ -75,9 +75,8 @@ router.put('/removeItem', passport.authenticate("jwt", { session: false }), (req
 router.put('/incrementQuantity', passport.authenticate("jwt", { session: false }), (req, res) => {
     Cart.findOneAndUpdate({ 
         user: req.user._id,
-        items: {
-            $elemMatch: { dish: req.body.dish }
-        } },
+        items: { $elemMatch: { _id: req.body.itemId }}
+        },
         { $inc: { "items.$.quantity": 1 } },
         { new: true})
         .populate("items.dish")
@@ -90,9 +89,8 @@ router.put('/incrementQuantity', passport.authenticate("jwt", { session: false }
 router.put('/decrementQuantity', passport.authenticate("jwt", { session: false }), (req, res) => {
     Cart.findOneAndUpdate({ 
         user: req.user._id,
-        items: {
-            $elemMatch: { dish: req.body.dish }
-        } },
+        items: { $elemMatch: { _id: req.body.itemId }} 
+        },
         { $inc: { "items.$.quantity": -1 } },
         { new: true})
         .populate("items.dish")
