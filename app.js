@@ -30,6 +30,7 @@ app.use(express.urlencoded({ extended: false}));
 require('./models/User');
 require('./models/Dish');
 require('./models/Cart');
+require('./models/Order');
 
 require('./config/passport')(passport);
 app.use(passport.initialize());
@@ -37,6 +38,7 @@ app.use(passport.initialize());
 app.use('/users', require('./routes/users'));
 app.use('/Dishes', require('./routes/Dishes'));
 app.use('/cart', require('./routes/cart'))
+app.use('/orders', require('./routes/orders'))
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
