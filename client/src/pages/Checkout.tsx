@@ -16,6 +16,36 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../reducers";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+} from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(
+  "pk_test_51IXyYgFh9O3K0dbjc5hSwDk3NOYvjWzyqsCtPf5kFJay1Ak8BLssWNr6ssUigyW3atY5WqmtzilXTHBn4cF8O90D00J0XWz5VX"
+);
+
+const stripeStyle = {
+  style: {
+    base: {
+      backgroundColor: "#000000",
+      color: "#FFFFFF",
+      fontSize: "18px",
+      borderStyle: "solid",
+      borderBottomWidth: "10px",
+      borderBottomColor: "red",
+    },
+  },
+};
+
+const borderStyle = {
+  borderBottom: "1px solid #222222",
+};
 
 const Checkout: React.FC<any> = ({ isOpen, onClose }) => {
   const profile = useSelector((state: AppState) => state.user.profile);
@@ -69,12 +99,36 @@ const Checkout: React.FC<any> = ({ isOpen, onClose }) => {
                 </IonItem>
               </IonCol>
               <IonCol>
-                  <IonItem>
-                      <IonLabel position="floating">Zip code</IonLabel>
-                      <IonInput type="number" required={true}></IonInput>
-                  </IonItem>
+                <IonItem>
+                  <IonLabel position="floating">Zip code</IonLabel>
+                  <IonInput type="number" required={true}></IonInput>
+                </IonItem>
               </IonCol>
             </IonRow>
+            <Elements stripe={stripePromise}>
+              <IonRow className="ion-padding">
+                <IonCol>
+                  <IonLabel position="floating">Card number</IonLabel>
+                  <div style={borderStyle}>
+                    <CardNumberElement options={stripeStyle} />
+                  </div>
+                </IonCol>
+              </IonRow>
+              <IonRow className="ion-padding">
+                <IonCol>
+                  <IonLabel position="floating">Expiration date</IonLabel>
+                  <div style={borderStyle}>
+                    <CardExpiryElement options={stripeStyle} />
+                  </div>
+                </IonCol>
+                <IonCol>
+                  <IonLabel position="floating">CVC</IonLabel>
+                  <div style={borderStyle}>
+                    <CardCvcElement options={stripeStyle} />
+                  </div>
+                </IonCol>
+              </IonRow>
+            </Elements>
           </IonGrid>
         </form>
       </IonContent>
