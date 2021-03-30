@@ -58,7 +58,7 @@ const CheckoutForm = () => {
   const city = useRef<HTMLIonInputElement>(null);
   const state = useRef<HTMLIonInputElement>(null);
   const zip_code = useRef<HTMLIonInputElement>(null);
-  const [orderConfirm, setOrderConfirm] = useState({ isOpen: false});
+  const [orderComplete, setOrderComplete] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -84,13 +84,17 @@ const CheckoutForm = () => {
       axios.post("/orders", order)
       .then(res => {
         console.log(res)
+        setOrderComplete(true);
       })
       .catch(error => console.log(error))
     }
 
   }
+  
   return (
-    <form onSubmit={ handleSubmit }>
+    <div>
+    {orderComplete ? <h1>Order Complete</h1> : (
+      <form onSubmit={ handleSubmit }>
       <IonGrid>
         <IonRow>
           <IonCol>
@@ -160,11 +164,12 @@ const CheckoutForm = () => {
       </IonGrid>
       <IonButton type="submit" disabled={!stripe}>Place order</IonButton>
     </form>
+    )}
+    </div>
   );
 };
 
 const Checkout: React.FC<any> = ({ isOpen, onClose }) => {
-
   return (
     <IonModal isOpen={isOpen}>
       <IonHeader>

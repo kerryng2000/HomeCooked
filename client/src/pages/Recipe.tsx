@@ -47,7 +47,9 @@ const Recipe: React.FC = () => {
       method: "get",
     }).then((response) => {
       setDish(response.data);
-      sendChefRequest(response.data.chef);
+      setChef(response.data.chef)
+      console.log(response.data.chef)
+      setLoading(false);
     });
   };
 
