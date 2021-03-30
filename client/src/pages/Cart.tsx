@@ -170,7 +170,10 @@ const Cart: React.FC = () => {
       </IonMenu>
       <Checkout
         isOpen={checkout.isOpen}
-        onClose={() => setCheckout({ isOpen: false })}
+        onClose={() => {
+          dispatch(getCart())
+          setCheckout({ isOpen: false })
+        }}
       />
     </div>
   );
