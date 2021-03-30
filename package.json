@@ -14,7 +14,8 @@
     "multer": "^1.4.2",
     "nodemailer": "^6.4.17",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "stripe": "^8.139.0"
   },
   "scripts": {
     "devstart": "nodemon app.js"

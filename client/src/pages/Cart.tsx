@@ -31,13 +31,20 @@ import {
 } from "ionicons/icons";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { decrementQuantity, getCart, incrementQuantity, removeItem } from "../actions/cartActions";
+import {
+  decrementQuantity,
+  getCart,
+  incrementQuantity,
+  removeItem,
+} from "../actions/cartActions";
 import { AppState } from "../reducers";
+import Checkout from "./Checkout";
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const cartContents = useSelector((state: AppState) => state.cart);
   const ionListRef = useRef<any>(null);
+  const [checkout, setCheckout] = useState({ isOpen: false });
 
   const openCart = () => {
     dispatch(getCart());
@@ -47,19 +54,17 @@ const Cart: React.FC = () => {
     console.log("Deleting item" + id);
     dispatch(removeItem(id));
     ionListRef.current!.closeSlidingItems();
-  }
+  };
 
   const handleIncrement = (itemId: string, stock: number, quantity: number) => {
-    if (quantity + 1 <= stock)
-      dispatch(incrementQuantity(itemId));
-  }
+    if (quantity + 1 <= stock) dispatch(incrementQuantity(itemId));
+  };
 
   const handleDecrement = (itemId: string, quantity: number) => {
     dispatch(decrementQuantity(itemId));
 
-    if (quantity - 1 === 0)
-      dispatch(removeItem(itemId));
-  }
+    if (quantity - 1 === 0) dispatch(removeItem(itemId));
+  };
 
   return (
     <div>
@@ -82,8 +87,12 @@ const Cart: React.FC = () => {
               return (
                 <IonItemSliding>
                   <IonItemOptions onIonSwipe={() => handleDeleteItem(item._id)}>
-                    <IonItemOption color="danger" expandable onClick={() => handleDeleteItem(item._id)}>
-                      <IonIcon slot="icon-only" icon={trashOutline}/>
+                    <IonItemOption
+                      color="danger"
+                      expandable
+                      onClick={() => handleDeleteItem(item._id)}
+                    >
+                      <IonIcon slot="icon-only" icon={trashOutline} />
                     </IonItemOption>
                   </IonItemOptions>
 
@@ -103,7 +112,17 @@ const Cart: React.FC = () => {
                       <IonRow className="ion-align-items-end">
                         <IonCol>{item.dish.name}</IonCol>
                         <IonCol>
-                          <IonButton size="small" fill="clear" onClick={() => handleIncrement(item._id, item.dish.stock, item.quantity)}>
+                          <IonButton
+                            size="small"
+                            fill="clear"
+                            onClick={() =>
+                              handleIncrement(
+                                item._id,
+                                item.dish.stock,
+                                item.quantity
+                              )
+                            }
+                          >
                             <IonIcon slot="icon-only" icon={addCircleOutline} />
                           </IonButton>
                         </IonCol>
@@ -116,7 +135,13 @@ const Cart: React.FC = () => {
                       <IonRow className="ion-align-items-center">
                         <IonCol>${item.dish.price}</IonCol>
                         <IonCol>
-                          <IonButton size="small" fill="clear" onClick={() => handleDecrement(item._id, item.quantity)}>
+                          <IonButton
+                            size="small"
+                            fill="clear"
+                            onClick={() =>
+                              handleDecrement(item._id, item.quantity)
+                            }
+                          >
                             <IonIcon
                               slot="icon-only"
                               icon={removeCircleOutline}
@@ -131,11 +156,25 @@ const Cart: React.FC = () => {
             })}
           </IonList>
         </IonContent>
-        {cartContents.total > 0 && <h1 className="ion-margin">Total: ${cartContents.total}</h1>}
+        {cartContents.total > 0 && (
+          <h1 className="ion-margin">Total: ${cartContents.total}</h1>
+        )}
         {cartContents.items.length > 0 && (
-          <IonButton className="ion-margin-bottom">Checkout</IonButton>
+          <IonButton
+            className="ion-margin-bottom"
+            onClick={() => setCheckout({ isOpen: true })}
+          >
+            Checkout
+          </IonButton>
         )}
       </IonMenu>
+      <Checkout
+        isOpen={checkout.isOpen}
+        onClose={() => {
+          dispatch(getCart())
+          setCheckout({ isOpen: false })
+        }}
+      />
     </div>
   );
 };

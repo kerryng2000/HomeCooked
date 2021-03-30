@@ -51,7 +51,7 @@ router.get('/allDishes',  async(req, res) => {
 })
 router.get('/:id',  async(req, res) => {
     try{
-    const dish = await Dish.findById(req.params.id)
+    const dish = await Dish.findById(req.params.id).populate("chef", "-password")
     if(!dish){
         res.status(404).send()
     }
