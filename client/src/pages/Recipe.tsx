@@ -17,7 +17,7 @@ import {
   IonText,
 } from "@ionic/react";
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import { addCircleOutline, removeCircleOutline } from "ionicons/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +32,7 @@ const Recipe: React.FC = () => {
   const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
   const dispatch = useDispatch();
   const email = useSelector((state: AppState) => state.user.profile!.email);
+  const history = useHistory();
 
   const params = useParams();
 
@@ -48,7 +49,6 @@ const Recipe: React.FC = () => {
     }).then((response) => {
       setDish(response.data);
       setChef(response.data.chef)
-      console.log(response.data.chef)
       setLoading(false);
     });
   };
@@ -104,7 +104,7 @@ const Recipe: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="" />
           </IonButtons>
-          <IonTitle size="large" className="ion-text-center">
+          <IonTitle style={{fontSize: "24px"}} className="ion-text-center">
             {dish.name}
           </IonTitle>
         </IonToolbar>
@@ -121,7 +121,7 @@ const Recipe: React.FC = () => {
           <IonGrid className="ion-padding">
             <IonRow>
               <IonCol>
-                <IonAvatar style={profPicStyle}>
+                <IonAvatar style={profPicStyle} onClick={() => history.push(`/dish/chef/${chef._id}`)}>
                   <IonImg src={`../../../${chef.profilePicture}`}></IonImg>
                 </IonAvatar>
               </IonCol>
