@@ -3,6 +3,9 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardSubtitle,
   IonCol,
   IonContent,
   IonGrid,
@@ -16,46 +19,68 @@ import {
   IonRadio,
   IonRadioGroup,
   IonRow,
+  IonTextarea,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import axios from "axios";
 import { addCircleOutline, chevronForwardOutline } from "ionicons/icons";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import { AppState } from "../reducers";
+import StarRatings from "react-star-ratings";
 
 const Chef: React.FC = () => {
   const params: any = useParams();
   const [chef, setChef] = useState<any>({});
   const [dishes, setDishes] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
   const [selected, setSelected] = useState<String>("dishes");
   const history = useHistory();
   const isAuthenticated = useSelector(
     (state: AppState) => state.user.isAuthenticated
   );
   const email = useSelector((state: AppState) => state.user.profile!.email);
+  const [rating, setRating] = useState<any>(1);
+  const descInputRef = useRef<HTMLIonTextareaElement>(null);
 
   const requestChef = axios.get(`/users/${params.id}`);
   const requestDishes = axios.get(`/users/dishes/${params.id}`);
+  const requestReviews = axios.get(`reviews/${params.id}`);
 
   useEffect(() => {
-    /*axios
-      .get(`/users/${params.id}`)
-      .then((res) => {
-        console.log(res.data);
-        setChef(res.data);
-      })
-      .catch((err) => console.log(err));*/
-    axios.all([requestChef, requestDishes]).then(
+    axios.all([requestChef, requestDishes, requestReviews]).then(
       axios.spread((...responses) => {
         setChef(responses[0].data);
         setDishes(responses[1].data);
-        console.log(responses[1].data);
+        setReviews(responses[2].data);
+        console.log(responses[2].data);
       })
     );
   }, []);
+
+  const handleSubmit = () => {
+    const description = descInputRef.current!.value;
+
+    const review = {
+      chef: params.id,
+      rating: rating,
+      description: description,
+    };
+
+    axios
+      .post("/reviews", review)
+      .then((res) => {
+        axios
+          .get(`reviews/${params.id}`)
+          .then((resp) => {
+            setReviews(resp.data);
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  };
 
   const profPicStyle = {
     margin: "0 auto",
@@ -78,14 +103,6 @@ const Chef: React.FC = () => {
           <IonTitle style={{ fontSize: "18px" }} className="ion-text-center">
             {`${chef.firstName} ${chef.lastName}`}
           </IonTitle>
-          {isAuthenticated && email !== chef.email && (
-            <IonButtons slot="end">
-              <IonButton onClick={() => history.push("/dish/addReview")}>
-                <IonIcon icon={addCircleOutline} />
-                Add review
-              </IonButton>
-            </IonButtons>
-          )}
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -137,7 +154,77 @@ const Chef: React.FC = () => {
             })}
           </IonList>
         ) : (
-          <h1>Reviews</h1>
+          <div>
+            <IonCard className="ion-padding">
+              <StarRatings
+                name="starRating"
+                rating={rating}
+                starRatedColor="rgb(66,140,255)"
+                starHoverColor="rgb(66,140,255)"
+                starDimension="20px"
+                changeRating={(newRating) => setRating(newRating)}
+              />
+              <IonCardContent>
+                <IonTextarea
+                  placeholder="Write your review"
+                  ref={descInputRef}
+                />
+              </IonCardContent>
+              <IonButton onClick={handleSubmit}>Add review</IonButton>
+            </IonCard>
+            <IonList>
+              {reviews.map((review) => {
+                return (
+                  <IonItem>
+                    <IonGrid >
+                      <IonRow>
+                        <IonCol>
+                          <IonAvatar>
+                            <IonImg
+                              src={`../../../${review.user.profilePicture}`}
+                            />
+                          </IonAvatar>
+                        </IonCol>
+                      </IonRow>
+                      <IonRow>
+                        <IonCol>
+                          {review.user.firstName}{" "}
+                          {review.user.lastName.substr(0, 1)}.
+                        </IonCol>
+                      </IonRow>
+                    </IonGrid>
+                    <IonGrid>
+                      <IonRow>
+                        <IonCol pull="7">
+                          <StarRatings
+                            starDimension="15px"
+                            rating={review["rating"]}
+                            starRatedColor="rgb(66,140,255)"
+                          />
+                        </IonCol>
+                      </IonRow>
+                      <IonRow>
+                        <IonCol pull="7">
+                          {review.description}
+                        </IonCol>
+                      </IonRow>
+                    </IonGrid>
+                  </IonItem>
+                  /*<IonItem className="ion-margin-top">
+                    <IonAvatar>
+                      <IonImg
+                        src={`../../../${review["user"].profilePicture}`}
+                      />
+                    </IonAvatar>
+                    {review["user"].firstName}
+                    <br />
+                    <br />
+                    {review["description"]}
+                  </IonItem>*/
+                );
+              })}
+            </IonList>
+          </div>
         )}
       </IonContent>
     </IonPage>
