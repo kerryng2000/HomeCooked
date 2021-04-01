@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
+const Dish = mongoose.model("Dish")
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const passport = require("passport");
@@ -205,6 +206,16 @@ router.get("/:id", (req, res) => {
   .select("-password")
   .then(user => {
     res.json(user);
+  })
+  .catch(err => res.json({error: err}))
+})
+
+//Get dishes from specific user
+router.get("/dishes/:id", (req, res) => {
+  Dish.find({ chef: req.params.id })
+  .exec()
+  .then(dishes => {
+    res.json(dishes)
   })
   .catch(err => res.json({error: err}))
 })
