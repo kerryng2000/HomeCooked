@@ -11,6 +11,7 @@ import {
   IonButtons,
   IonIcon,
   IonThumbnail,
+  IonSearchbar,
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -24,6 +25,7 @@ const Dish: React.FC = () => {
     (state: AppState) => state.user.isAuthenticated
   );
 
+  const [allDishes, setAllDishes] = useState<any[]>([]);
   const [dishes, setDishes] = useState<any[]>([]);
 
   const history = useHistory();
@@ -38,8 +40,22 @@ const Dish: React.FC = () => {
   };
 
   useEffect(() => {
-    sendGetRequest().then((data) => setDishes(data));
+    sendGetRequest().then((data) => {
+      setAllDishes(data);
+      setDishes(data);
+    })
   }, [history.location.pathname]);
+
+  const setSearchText = (value) => {
+    setDishes(allDishes);
+
+    if (value && value.trim() !== '')
+    {
+      setDishes(dishes.filter(dish => {
+        return dish.name.toLowerCase().indexOf(value.trim().toLowerCase()) > -1;
+      }))
+    }
+  }
 
   const dishPicStyle = {
     width: "150px",
@@ -62,6 +78,7 @@ const Dish: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        <IonSearchbar onIonChange={e => setSearchText(e.detail.value!)}/>
         <IonList>
           {dishes.map((dish) => {
             return (
