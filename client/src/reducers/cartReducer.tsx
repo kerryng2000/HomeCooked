@@ -1,4 +1,3 @@
-import { IonItemSliding } from "@ionic/react";
 
 interface itemInterface {
     _id: string;
