@@ -159,8 +159,8 @@ const Chef: React.FC = () => {
               <StarRatings
                 name="starRating"
                 rating={rating}
-                starRatedColor="rgb(66,140,255)"
-                starHoverColor="rgb(66,140,255)"
+                starRatedColor="yellow"
+                starHoverColor="yellow"
                 starDimension="20px"
                 changeRating={(newRating) => setRating(newRating)}
               />
@@ -199,7 +199,7 @@ const Chef: React.FC = () => {
                           <StarRatings
                             starDimension="15px"
                             rating={review["rating"]}
-                            starRatedColor="rgb(66,140,255)"
+                            starRatedColor="yellow"
                           />
                         </IonCol>
                       </IonRow>
