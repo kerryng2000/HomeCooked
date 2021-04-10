@@ -24,24 +24,26 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import axios from "axios";
-import { addCircleOutline, chevronForwardOutline } from "ionicons/icons";
+import { addCircleOutline, chevronForwardOutline, heartOutline, heartSharp } from "ionicons/icons";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import { AppState } from "../reducers";
 import StarRatings from "react-star-ratings";
+import {addFavorite, removeFavorite} from '../actions/userActions'
 
 const Chef: React.FC = () => {
   const params: any = useParams();
+  const dispatch = useDispatch();
   const [chef, setChef] = useState<any>({});
   const [dishes, setDishes] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
   const [selected, setSelected] = useState<String>("dishes");
+  const user = useSelector((state: AppState) => state.user)
+  const email = user.profile!.email
+  const [favorite, setFavorite] = useState<boolean>(user.profile!.favoriteChefs!.some(e => e.chef == params.id));
   const history = useHistory();
-  const isAuthenticated = useSelector(
-    (state: AppState) => state.user.isAuthenticated
-  );
-  const email = useSelector((state: AppState) => state.user.profile!.email);
+  const isAuthenticated = user.isAuthenticated
   const [rating, setRating] = useState<any>(1);
   const descInputRef = useRef<HTMLIonTextareaElement>(null);
 
@@ -55,7 +57,6 @@ const Chef: React.FC = () => {
         setChef(responses[0].data);
         setDishes(responses[1].data);
         setReviews(responses[2].data);
-        console.log(responses[2].data);
       })
     );
   }, []);
@@ -82,6 +83,26 @@ const Chef: React.FC = () => {
       .catch((err) => console.log(err));
   };
 
+  const renderHeart = () => {
+    if (isAuthenticated && email !== chef.email)
+    {
+      if (favorite)
+        return <IonIcon onClick={handleRemoveFavorite} color="primary" size="large" slot="end" icon={heartSharp}/>
+      else
+        return <IonIcon onClick={handleAddFavorite} color="primary" size="large" slot="end" icon={heartOutline}/>
+    }
+  }
+
+  const handleRemoveFavorite = () => {
+    dispatch(removeFavorite(chef._id))
+    setFavorite(false)
+  }
+
+  const handleAddFavorite = () => {
+    dispatch(addFavorite(chef._id))
+    setFavorite(true)
+  }
+
   const profPicStyle = {
     margin: "0 auto",
     width: "150px",
@@ -103,6 +124,7 @@ const Chef: React.FC = () => {
           <IonTitle style={{ fontSize: "18px" }} className="ion-text-center">
             {`${chef.firstName} ${chef.lastName}`}
           </IonTitle>
+          {renderHeart()}
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -210,17 +232,6 @@ const Chef: React.FC = () => {
                       </IonRow>
                     </IonGrid>
                   </IonItem>
-                  /*<IonItem className="ion-margin-top">
-                    <IonAvatar>
-                      <IonImg
-                        src={`../../../${review["user"].profilePicture}`}
-                      />
-                    </IonAvatar>
-                    {review["user"].firstName}
-                    <br />
-                    <br />
-                    {review["description"]}
-                  </IonItem>*/
                 );
               })}
             </IonList>

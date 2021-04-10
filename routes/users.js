@@ -81,6 +81,7 @@ router.post(
                 password: hash,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
+                favoriteChefs: []
               });
 
               const mailOptions = {
@@ -103,6 +104,7 @@ router.post(
                       firstName: user.firstName,
                       lastName: user.lastName,
                       profilePicture: user.profilePicture,
+                      favoriteChefs: user.favoriteChefs
                     },
                   });
 
@@ -146,6 +148,7 @@ router.post("/signIn", (req, res) => {
               firstName: user.firstName,
               lastName: user.lastName,
               profilePicture: user.profilePicture,
+              favoriteChefs: user.favoriteChefs
             },
           });
         } else {
@@ -169,7 +172,8 @@ router.get(
       _id: req.user._id,
       email: req.user.email,
       firstName: req.user.firstName,
-      lastName: req.user.lastName
+      lastName: req.user.lastName,
+      favoriteChefs: req.user.favoriteChefs
     } });
   }
 );
@@ -250,5 +254,34 @@ router.put(
       .catch((err) => res.json({ error: err }));
   }
 );
+
+router.post("/addFavorite/:id", passport.authenticate("jwt", { session: false }), (req, res) => {
+  User.findOneAndUpdate(
+    {_id: req.user._id, 'favoriteChefs.chef': { $ne: req.params.id} },
+    {$push: {
+      favoriteChefs: {'chef': req.params.id}
+    }},
+    { new: true }
+  )
+  .then(user => res.json({success: true, favoriteChefs: user.favoriteChefs}))
+  .catch(err => res.json({success: false, error: err}))
+})
+
+router.post("/removeFavorite/:id", passport.authenticate("jwt", { session: false }), (req, res) => {
+  User.updateOne(
+    {_id: req.user._id},
+    {$pull: {
+      favoriteChefs: {'chef': req.params.id}
+    }},
+    { new: true }
+  )
+  .then(user => {
+    if (user.favoriteChefs)
+       res.json({success: true, favoriteChefs: user.favoriteChefs})
+    else
+        res.json({success: true, favoriteChefs: []})
+  })
+  .catch(err => res.json({success: false, error: err}))
+})
 
 module.exports = router;
