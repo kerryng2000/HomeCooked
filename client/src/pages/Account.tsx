@@ -55,7 +55,7 @@ const Account: React.FC = () => {
         </IonAvatar>
         <IonList className="ion-margin-top">
           <IonItem>
-            <IonLabel>Edit account</IonLabel>
+            <IonLabel>Favorite chefs</IonLabel>
           </IonItem>
           <IonItem>
             <IonLabel>View orders</IonLabel>

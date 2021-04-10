@@ -95,3 +95,29 @@ export const updateProfPic = (file: Blob, format: String) => {
         .catch(err => console.log(err))
     }
 }
+
+export const addFavorite = (id: string) => {
+    return (dispatch: Dispatch) => {
+    axios.post(`/users/addFavorite/${id}`)
+    .then(res => {
+        dispatch({
+            type: 'ADD_FAVORITE',
+            payload: res.data.favoriteChefs
+        })
+    })
+    .catch(err => console.log(err))
+    }
+}
+
+export const removeFavorite = (id: string) => {
+    return (dispatch: Dispatch) => {
+    axios.post(`/users/removeFavorite/${id}`)
+    .then(res => {
+        dispatch({
+            type: 'REMOVE_FAVORITE',
+            payload: res.data.favoriteChefs
+        })
+    })
+    .catch(err => console.log(err))
+    }
+}
