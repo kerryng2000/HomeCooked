@@ -2,6 +2,7 @@ import {
   IonAvatar,
   IonButton,
   IonContent,
+  IonIcon,
   IonImg,
   IonItem,
   IonLabel,
@@ -15,6 +16,7 @@ import { AppState } from "../reducers";
 import { useHistory } from "react-router-dom";
 import { Camera, CameraResultType } from "@capacitor/core";
 import { decode } from "base64-arraybuffer";
+import { cartOutline, heartOutline, personCircleOutline, starOutline } from "ionicons/icons";
 
 const Account: React.FC = () => {
   const dispatch = useDispatch();
@@ -54,11 +56,17 @@ const Account: React.FC = () => {
           <IonImg src={`../../../${profile!.profilePicture}`}></IonImg>
         </IonAvatar>
         <IonList className="ion-margin-top">
-          <IonItem>
-            <IonLabel>Edit account</IonLabel>
+          <IonItem onClick={() => history.push("/user/favoritechefs")}>
+            <IonIcon icon={heartOutline}/>
+            <IonLabel className="ion-margin">Favorite chefs</IonLabel>
           </IonItem>
-          <IonItem>
-            <IonLabel>View orders</IonLabel>
+          <IonItem onClick={() => history.push("/user/reviews")}>
+            <IonIcon icon={starOutline}/>
+            <IonLabel className="ion-margin">Reviews</IonLabel>
+          </IonItem>
+          <IonItem onClick={() => history.push("/user/orders")}>
+            <IonIcon icon={cartOutline}/>
+            <IonLabel className="ion-margin">Orders</IonLabel>
           </IonItem>
         </IonList>
       </IonContent>
