@@ -43,6 +43,9 @@ import Dish from "./pages/Dish";
 import Recipe from "./pages/Recipe";
 import Cart from "./pages/Cart";
 import Chef from "./pages/Chef";
+import Reviews from "./pages/Reviews";
+import Orders from "./pages/Orders";
+import FavChefs from "./pages/FavChefs";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -58,12 +61,16 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        {isAuthenticated && <Cart/>}
+        {isAuthenticated && <Cart />}
         <IonTabs>
           <IonRouterOutlet id="cart">
             <Route path="/:tab(user)/register" component={Register}></Route>
             <Route path="/:tab(user)/signIn" component={SignIn}></Route>
             <Route path="/:tab(user)/account" component={Account}></Route>
+            <Route path="/:tab(user)/reviews" component={Reviews}></Route>
+            <Route path="/:tab(user)/orders" component={Orders}></Route>
+            <Route path="/:tab(user)/favoriteChefs" component={FavChefs}></Route>
+            <Route path="/:tab(user)/chef/:id" component={Chef} exact></Route>
             <Route path="/:tab(dish)/AddDish" component={AddDish} exact></Route>
             <Route path="/:tab(dish)/allDishes" component={Dish} exact></Route>
             <Route path="/:tab(dish)/page/:id" component={Recipe} exact></Route>

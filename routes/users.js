@@ -54,6 +54,14 @@ const issueJWT = (user) => {
   return signedToken;
 };
 
+router.get("/favoriteChefs", passport.authenticate("jwt", { session: false }), (req, res) => {
+  User.findById(req.user._id)
+  .select("favoriteChefs")
+  .populate("favoriteChefs.chef", "_id firstName lastName profilePicture")
+  .then(favChefs => res.json(favChefs))
+  .catch(err => res.json({error: err}))
+})
+
 //Create a user
 router.post(
   "/register",
@@ -100,6 +108,7 @@ router.post(
                   res.json({
                     success: true,
                     user: {
+                      _id: user._id,
                       email: user.email,
                       firstName: user.firstName,
                       lastName: user.lastName,
@@ -144,6 +153,7 @@ router.post("/signIn", (req, res) => {
           res.status(200).json({
             success: true,
             user: {
+              _id: user._id,
               email: user.email,
               firstName: user.firstName,
               lastName: user.lastName,

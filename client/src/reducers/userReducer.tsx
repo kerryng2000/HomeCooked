@@ -2,6 +2,7 @@ interface userInterface {
     isAuthenticated: boolean;
     errorMessage?: string;
     profile?: {
+        _id?: string;
         profilePicture?: string;
         firstName?: string;
         lastName?: string;
@@ -14,6 +15,7 @@ const InitialState: userInterface = {
     isAuthenticated: false,
     errorMessage: '',
     profile: {
+        _id: '',
         profilePicture: '',
         firstName: '',
         lastName: '',
