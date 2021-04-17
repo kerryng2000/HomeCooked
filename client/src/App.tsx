@@ -46,6 +46,8 @@ import Chef from "./pages/Chef";
 import Reviews from "./pages/Reviews";
 import Orders from "./pages/Orders";
 import FavChefs from "./pages/FavChefs";
+import Mailbox from "./pages/Mailbox";
+import Message from "./pages/Message";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -75,6 +77,8 @@ const App: React.FC = () => {
             <Route path="/:tab(dish)/allDishes" component={Dish} exact></Route>
             <Route path="/:tab(dish)/page/:id" component={Recipe} exact></Route>
             <Route path="/:tab(dish)/chef/:id" component={Chef} exact></Route>
+            <Route path="/Mailbox/:id" component={Mailbox} exact></Route>
+            <Route path="/Message/:user" component={Message} exact></Route>
             <Route path="/:tab(user)" exact>
               {isAuthenticated ? (
                 <Redirect to="/user/account" />

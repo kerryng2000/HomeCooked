@@ -31,7 +31,10 @@ require('./models/User');
 require('./models/Dish');
 require('./models/Cart');
 require('./models/Order');
-require('./models/Review')
+require('./models/Review');
+require('./models/Message');
+
+
 
 require('./config/passport')(passport);
 app.use(passport.initialize());
@@ -41,6 +44,8 @@ app.use('/Dishes', require('./routes/Dishes'));
 app.use('/cart', require('./routes/cart'))
 app.use('/orders', require('./routes/orders'))
 app.use('/reviews', require('./routes/reviews'))
+app.use('/mailbox', require('./routes/mailbox'))
+app.use('/message', require('./routes/message'))
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
