@@ -15,6 +15,7 @@ import {
   IonButton,
   IonIcon,
   IonText,
+  IonRouterLink
 } from "@ionic/react";
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -134,6 +135,9 @@ const Recipe: React.FC = () => {
                 <h2>
                   {chef.firstName} {chef.lastName}
                 </h2>
+              </IonCol>
+              <IonCol className="ion-align-self-center">
+              <IonRouterLink href= {`/Message/${chef.email}`}>Have a Question? Send a Message</IonRouterLink>
               </IonCol>
               {email !== chef.email && 
               <IonCol className="ion-align-self-center ion-margin-bottom">
