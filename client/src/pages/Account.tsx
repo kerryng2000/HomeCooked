@@ -8,6 +8,7 @@ import {
   IonLabel,
   IonList,
   IonPage,
+  IonRouterLink
 } from "@ionic/react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +17,7 @@ import { AppState } from "../reducers";
 import { useHistory } from "react-router-dom";
 import { Camera, CameraResultType } from "@capacitor/core";
 import { decode } from "base64-arraybuffer";
-import { cartOutline, heartOutline, personCircleOutline, starOutline } from "ionicons/icons";
+import { cartOutline, heartOutline, mailOutline, starOutline } from "ionicons/icons";
 
 const Account: React.FC = () => {
   const dispatch = useDispatch();
@@ -68,6 +69,10 @@ const Account: React.FC = () => {
             <IonIcon icon={cartOutline}/>
             <IonLabel className="ion-margin">Orders</IonLabel>
           </IonItem>
+          <IonItem href={`/Mailbox/${profile!.email}`}>
+          <IonIcon icon={mailOutline}/>
+          <IonLabel className="ion-margin">Mailbox</IonLabel>
+        </IonItem>
         </IonList>
       </IonContent>
       <IonButton onClick={handleSignOut} className="ion-margin-bottom">Sign out</IonButton>
