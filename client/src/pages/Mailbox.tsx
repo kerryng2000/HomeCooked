@@ -1,4 +1,4 @@
-import { IonList, IonPage, IonItem, IonContent, IonImg} from "@ionic/react"
+import { IonList, IonPage, IonItem, IonContent, IonCol, IonRouterLink, IonItemOptions, IonItemOption, IonHeader} from "@ionic/react"
 import React, { useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
@@ -11,14 +11,19 @@ const Mailbox: React.FC = () => {
   }, []);
       return (
         <IonPage>
+          <IonHeader>Mailbox</IonHeader>
           <IonContent color = "primary" >
-            <IonList color = "primary">
+            <IonList  >
             {
-                dishes.map((mail, index) => {
+                dishes.map((mail) => {
                     return (
-                      <IonItem  className="ion-margin-top" key = {index}>
+                      <IonItem  className="ion-margin-top">
                         sender: {mail['sender']}
+                        <br></br>
                         text: {mail['text']}
+                        <IonCol className="ion-align-self-center">
+                        <IonRouterLink href= {`/Message/${mail['sender']}`}>Reply</IonRouterLink>
+                      </IonCol>
                       </IonItem>
                     );
               })
