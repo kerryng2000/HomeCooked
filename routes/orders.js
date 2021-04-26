@@ -7,6 +7,24 @@ const Stripe = require("stripe");
 const Cart = require("../models/Cart");
 const stripe = new Stripe(process.env.STRIPE_SECRET);
 
+const getDate = () => {
+    let today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+
+    return month + '/' + day + '/' + year;
+  }
+
+router.get("/", passport.authenticate("jwt", { session: false }), (req, res) => {
+    Order.find({ user: req.user._id }).populate("items.dish")
+    .exec()
+    .then(orders => {
+        res.json(orders)
+    })
+    .catch(err => res.json({ error: err }))
+})
+
 router.post("/", passport.authenticate("jwt", { session: false }), async (req, res) => {
     const total = req.body.items.reduce((acc, item) => acc + item.quantity * item.dish.price, 0);
     
@@ -21,6 +39,8 @@ router.post("/", passport.authenticate("jwt", { session: false }), async (req, r
         const order = new Order({
             _id: new mongoose.Types.ObjectId(),
             payment_id: payment.id,
+            total: req.body.items.reduce((acc, item) => acc + item.quantity * item.dish.price, 0),
+            date: getDate(),
             address: {
                 street: req.body.address.street,
                 city: req.body.address.city,

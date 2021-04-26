@@ -197,7 +197,7 @@ const Chef: React.FC = () => {
                   <IonItem
                     className="ion-margin-top"
                     onClick={() => {
-                      history.push(`/dish/page/${dish["_id"]}`);
+                      history.push(`/user/page/${dish["_id"]}`);
                     }}
                   >
                     <IonImg

@@ -59,6 +59,7 @@ const CheckoutForm = () => {
   const state = useRef<HTMLIonInputElement>(null);
   const zip_code = useRef<HTMLIonInputElement>(null);
   const [orderComplete, setOrderComplete] = useState(false);
+  const total = useSelector((state: AppState) => state.cart.total);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -93,7 +94,7 @@ const CheckoutForm = () => {
   
   return (
     <div>
-    {orderComplete ? <h1>Order Complete</h1> : (
+    {orderComplete ? <h1 className="ion-margin">Thank you, your order with a total of ${total} has been completed.</h1> : (
       <form onSubmit={ handleSubmit }>
       <IonGrid>
         <IonRow>
@@ -162,7 +163,7 @@ const CheckoutForm = () => {
           </IonCol>
         </IonRow>
       </IonGrid>
-      <IonButton type="submit" disabled={!stripe}>Place order</IonButton>
+      <IonButton type="submit" disabled={!stripe} className="ion-margin">Place order</IonButton>
     </form>
     )}
     </div>
