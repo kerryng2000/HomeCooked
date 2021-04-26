@@ -29,7 +29,7 @@ const Reviews: React.FC = () => {
     axios.get(`reviews/${userId}`)
     .then(res => setReviews(res.data))
     .catch(err => console.log(err))
-  })
+  }, [])
 
   return (
     <IonPage>

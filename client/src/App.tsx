@@ -73,6 +73,7 @@ const App: React.FC = () => {
             <Route path="/:tab(user)/orders" component={Orders}></Route>
             <Route path="/:tab(user)/favoriteChefs" component={FavChefs}></Route>
             <Route path="/:tab(user)/chef/:id" component={Chef} exact></Route>
+            <Route path="/:tab(user)/page/:id" component={Recipe}></Route>
             <Route path="/:tab(dish)/AddDish" component={AddDish} exact></Route>
             <Route path="/:tab(dish)/allDishes" component={Dish} exact></Route>
             <Route path="/:tab(dish)/page/:id" component={Recipe} exact></Route>
