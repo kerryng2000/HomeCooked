@@ -48,6 +48,7 @@ import Orders from "./pages/Orders";
 import FavChefs from "./pages/FavChefs";
 import Mailbox from "./pages/Mailbox";
 import Message from "./pages/Message";
+import { updateTab } from "./actions/pathActions";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -97,15 +98,15 @@ const App: React.FC = () => {
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="home" href="/home">
-              <IonIcon icon={home} />
+              <IonIcon icon={home} onClick={() => dispatch(updateTab("home"))}/>
               <IonLabel>Home</IonLabel>
             </IonTabButton>
             <IonTabButton tab="dish" href="/dish">
-              <IonIcon icon={fastFood} />
+              <IonIcon icon={fastFood} onClick={() => dispatch(updateTab("dish"))}/>
               <IonLabel>Dishes</IonLabel>
             </IonTabButton>
             <IonTabButton tab="account" href="/user">
-              <IonIcon icon={person} />
+              <IonIcon icon={person} onClick={() => dispatch(updateTab("user"))}/>
               <IonLabel>Account</IonLabel>
             </IonTabButton>
           </IonTabBar>
