@@ -4,6 +4,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { cartReducer } from './cartReducer';
 import { dishReducer } from './dishReducer';
+import { pathReducer } from './pathReducer';
 
 const persistConfig = {
     key: 'root',
@@ -14,7 +15,8 @@ const persistConfig = {
 export const allReducers = combineReducers({
     user: userReducer,
     cart: cartReducer,
-    dish: dishReducer
+    dish: dishReducer,
+    path: pathReducer
 });
 
 export type AppState = ReturnType<typeof allReducers>;

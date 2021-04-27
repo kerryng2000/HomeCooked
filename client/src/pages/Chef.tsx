@@ -55,6 +55,7 @@ const Chef: React.FC = () => {
   const [rating, setRating] = useState<any>(1);
   const descInputRef = useRef<HTMLIonTextareaElement>(null);
   const [loading, setLoading] = useState(false);
+  const tab = useSelector((state: AppState) => state.path.tab)
 
   const requestChef = axios.get(`/users/${params.id}`);
   const requestDishes = axios.get(`/users/dishes/${params.id}`);
@@ -62,6 +63,7 @@ const Chef: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
+    console.log(history);
     axios.all([requestChef, requestDishes, requestReviews]).then(
       axios.spread((...responses) => {
         setChef(responses[0].data);
@@ -197,7 +199,7 @@ const Chef: React.FC = () => {
                   <IonItem
                     className="ion-margin-top"
                     onClick={() => {
-                      history.push(`/user/page/${dish["_id"]}`);
+                      history.push(`/${tab}/page/${dish["_id"]}`);
                     }}
                   >
                     <IonImg
