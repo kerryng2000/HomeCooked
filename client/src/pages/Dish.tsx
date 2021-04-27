@@ -51,8 +51,6 @@ const Dish: React.FC = () => {
       setAllDishes(data);
       setDishes(data);
     })
-
-    console.log("addedDish")
   }, [addedDish]);
 
   const setSearchText = (value) => {

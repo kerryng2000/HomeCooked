@@ -34,6 +34,7 @@ const Recipe: React.FC = () => {
   const dispatch = useDispatch();
   const email = useSelector((state: AppState) => state.user.profile!.email);
   const history = useHistory();
+  const tab = useSelector((state: AppState) => state.path.tab)
 
   const params = useParams();
 
@@ -122,7 +123,7 @@ const Recipe: React.FC = () => {
           <IonGrid className="ion-padding">
             <IonRow>
               <IonCol>
-                <IonAvatar style={profPicStyle} onClick={() => history.push(`/dish/chef/${chef._id}`)}>
+                <IonAvatar style={profPicStyle} onClick={() => history.push(`/${tab}/chef/${chef._id}`)}>
                   <IonImg src={`../../../${chef.profilePicture}`}></IonImg>
                 </IonAvatar>
               </IonCol>
