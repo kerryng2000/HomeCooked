@@ -251,9 +251,7 @@ router.put(
   "/updateProfPic",
   upload.single("profilePicture"),
   passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    console.log(req.file);
-    
+  (req, res) => {  
     User.findOneAndUpdate(
       { _id: req.user._id },
       { profilePicture: req.file.path },
