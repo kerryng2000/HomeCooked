@@ -15,7 +15,7 @@ import {
   IonButton,
   IonIcon,
   IonText,
-  IonRouterLink
+  IonRouterLink,
 } from "@ionic/react";
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -30,11 +30,13 @@ const Recipe: React.FC = () => {
   const [chef, setChef] = useState<any>({});
   const [amount, setAmount] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const isAuthenticated = useSelector((state: AppState) => state.user.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state: AppState) => state.user.isAuthenticated
+  );
   const dispatch = useDispatch();
   const email = useSelector((state: AppState) => state.user.profile!.email);
   const history = useHistory();
-  const tab = useSelector((state: AppState) => state.path.tab)
+  const tab = useSelector((state: AppState) => state.path.tab);
 
   const params = useParams();
 
@@ -50,7 +52,7 @@ const Recipe: React.FC = () => {
       method: "get",
     }).then((response) => {
       setDish(response.data);
-      setChef(response.data.chef)
+      setChef(response.data.chef);
       setLoading(false);
     });
   };
@@ -66,26 +68,22 @@ const Recipe: React.FC = () => {
   };
 
   const increaseAmount = () => {
-    if (amount + 1 <= dish.stock)
-      setAmount(amount + 1);
-  }
+    if (amount + 1 <= dish.stock) setAmount(amount + 1);
+  };
 
   const decreaseAmount = () => {
-    if (amount - 1 >= 0)
-      setAmount(amount - 1);
-  }
+    if (amount - 1 >= 0) setAmount(amount - 1);
+  };
 
   const handleAddToCart = () => {
-    if (amount > 0)
-    {
+    if (amount > 0) {
       const item = {
         dish: dish._id,
-        quantity: amount
-      }
+        quantity: amount,
+      };
       dispatch(addToCart(item));
     }
-
-  }
+  };
 
   const loadingStyle = {
     position: "fixed",
@@ -106,7 +104,7 @@ const Recipe: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="" />
           </IonButtons>
-          <IonTitle style={{fontSize: "24px"}} className="ion-text-center">
+          <IonTitle style={{ fontSize: "24px" }} className="ion-text-center">
             {dish.name}
           </IonTitle>
         </IonToolbar>
@@ -118,17 +116,24 @@ const Recipe: React.FC = () => {
           <IonImg
             className="ion-margin-bottom"
             src={`../../../${dish["foodPicture"]}`}
+            style={{ width: "100%", height: "50%" }}
           ></IonImg>
 
           <IonGrid className="ion-padding">
             <IonRow>
               <IonCol>
-                <IonAvatar style={profPicStyle} onClick={() => history.push(`/${tab}/chef/${chef._id}`)}>
+                <IonAvatar
+                  style={profPicStyle}
+                  onClick={() => history.push(`/${tab}/chef/${chef._id}`)}
+                >
                   <IonImg src={`../../../${chef.profilePicture}`}></IonImg>
                 </IonAvatar>
               </IonCol>
-              <IonCol className="ion-align-self-center">
-                <h1 style={{float: "right",}}>${dish.price}</h1>
+              <IonCol
+                className="ion-align-self-center"
+                style={{ marginLeft: "60px" }}
+              >
+                <h1>${dish.price}</h1>
               </IonCol>
             </IonRow>
             <IonRow>
@@ -137,24 +142,37 @@ const Recipe: React.FC = () => {
                   {chef.firstName} {chef.lastName}
                 </h2>
               </IonCol>
-              <IonCol className="ion-align-self-center">
+              {/*<IonCol className="ion-align-self-center">
               <IonRouterLink href= {`/Message/${chef.email}`}>Have a Question? Send a Message</IonRouterLink>
+              </IonCol>*/}
+              {email !== chef.email && (
+                <IonCol>
+                  <IonButton fill="clear" onClick={decreaseAmount}>
+                    <IonIcon slot="icon-only" icon={removeCircleOutline} />
+                  </IonButton>
+                  <IonText>{amount}</IonText>
+                  <IonButton fill="clear" onClick={increaseAmount}>
+                    <IonIcon slot="icon-only" icon={addCircleOutline} />
+                  </IonButton>
+                </IonCol>
+              )}
+            </IonRow>
+            <IonRow>
+              <IonCol>
+                {isAuthenticated && email !== chef.email && (
+                  <IonRouterLink onClick={() => history.push(`/${tab}/Message/${chef.email}`)}>
+                    Have a Question? Send a Message
+                  </IonRouterLink>
+                )}
               </IonCol>
-              {email !== chef.email && 
-              <IonCol className="ion-align-self-center ion-margin-bottom">
-              <IonButton fill="clear" onClick={decreaseAmount}>
-                <IonIcon slot="icon-only" icon={removeCircleOutline}/>
-              </IonButton>
-              <IonText>{amount}</IonText>
-              <IonButton fill="clear" onClick={increaseAmount}>
-                <IonIcon slot="icon-only" icon={addCircleOutline}/>
-              </IonButton>
-            </IonCol>
-              }
             </IonRow>
           </IonGrid>
-          {isAuthenticated && email !== chef.email && <IonButton onClick={handleAddToCart} expand="block">Add to cart</IonButton>}
         </IonContent>
+      )}
+      {isAuthenticated && email !== chef.email && (
+        <IonButton onClick={handleAddToCart} expand="block">
+          Add to cart
+        </IonButton>
       )}
     </IonPage>
   );
