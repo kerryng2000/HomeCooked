@@ -79,8 +79,9 @@ const App: React.FC = () => {
             <Route path="/:tab(dish)/allDishes" component={Dish} exact></Route>
             <Route path="/:tab(dish)/page/:id" component={Recipe} exact></Route>
             <Route path="/:tab(dish)/chef/:id" component={Chef} exact></Route>
-            <Route path="/Mailbox/:id" component={Mailbox} exact></Route>
-            <Route path="/Message/:user" component={Message} exact></Route>
+            <Route path="/:tab(user)/Mailbox/:id" component={Mailbox} exact></Route>
+            <Route path="/:tab(dish)/Message/:user" component={Message} exact></Route>
+            <Route path="/:tab(user)/Message/:user" component={Message} exact></Route>
             <Route path="/:tab(user)" exact>
               {isAuthenticated ? (
                 <Redirect to="/user/account" />

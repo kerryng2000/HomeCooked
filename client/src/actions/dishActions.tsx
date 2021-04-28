@@ -2,13 +2,22 @@ import axios from 'axios';
 import { Dispatch } from 'redux';
 
 interface DishInterface {
-    name: String,
-    price: Number
+    name: string,
+    price: string,
+    stock: string,
+    foodPicture: Blob
 }
 
-export const Add = (dish: DishInterface, history: any) => {
+export const Add = (dish: DishInterface, history: any, imageFormat: string) => {
     return function(dispatch: Dispatch) {
-    axios.post("/Dishes/AddDish", dish)
+    const formData = new FormData();
+
+    formData.append("name", dish.name);
+    formData.append("price", dish.price);
+    formData.append("stock", dish.stock);
+    formData.append("foodPicture", dish.foodPicture, `.${imageFormat}`);
+
+    axios.post("/Dishes/AddDish", formData)
     .then(res => {
         console.log(res.data);
         dispatch({

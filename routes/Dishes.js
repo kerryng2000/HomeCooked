@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads')
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
+        cb(null, Date.now() + file.originalname)
     }
 });
 
@@ -26,13 +26,14 @@ const fileFilter = (req, file, cb) => {
     fileFilter: fileFilter,
   });
 
-router.post('/AddDish', passport.authenticate("jwt", { session: false }), (req, res) =>{
+router.post('/AddDish', upload.single('foodPicture') ,passport.authenticate("jwt", { session: false }), (req, res) =>{
     const newDish = new Dish({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price,
+        price: parseFloat(req.body.price),
         chef: req.user._id,
-        stock: req.body.stock
+        stock: parseInt(req.body.stock),
+        foodPicture: req.file.path
       });
     try{
         newDish.save()
