@@ -69,7 +69,7 @@ const Account: React.FC = () => {
             <IonIcon icon={cartOutline}/>
             <IonLabel className="ion-margin">Orders</IonLabel>
           </IonItem>
-          <IonItem href={`/Mailbox/${profile!.email}`}>
+          <IonItem onClick={() => history.push(`/user/Mailbox/${profile!.email}`)}>
           <IonIcon icon={mailOutline}/>
           <IonLabel className="ion-margin">Mailbox</IonLabel>
         </IonItem>
