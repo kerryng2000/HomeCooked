@@ -115,7 +115,7 @@ const Recipe: React.FC = () => {
         <IonContent>
           <IonImg
             className="ion-margin-bottom"
-            src={`../../../${dish["foodPicture"]}`}
+            src={`/${dish["foodPicture"]}`}
             style={{ width: "100%", height: "50%" }}
           ></IonImg>
 
@@ -126,7 +126,7 @@ const Recipe: React.FC = () => {
                   style={profPicStyle}
                   onClick={() => history.push(`/${tab}/chef/${chef._id}`)}
                 >
-                  <IonImg src={`../../../${chef.profilePicture}`}></IonImg>
+                  <IonImg src={`/${chef.profilePicture}`}></IonImg>
                 </IonAvatar>
               </IonCol>
               <IonCol

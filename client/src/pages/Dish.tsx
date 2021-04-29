@@ -170,7 +170,7 @@ const Dish: React.FC = () => {
               >
                 <IonImg
                   style={dishPicStyle}
-                  src={`../../../${dish["foodPicture"]}`}
+                  src={`/${dish["foodPicture"]}`}
                 ></IonImg>
                 {dish["name"]}
                 <br />

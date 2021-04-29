@@ -50,7 +50,7 @@ const Reviews: React.FC = () => {
                         <IonCol>
                           <IonAvatar onClick={() => history.push(`/user/chef/${review.user._id}`)}>
                             <IonImg
-                              src={`../../../${review.user.profilePicture}`}
+                              src={`/${review.user.profilePicture}`}
                             />
                           </IonAvatar>
                         </IonCol>
