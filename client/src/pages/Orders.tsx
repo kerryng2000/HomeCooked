@@ -63,7 +63,7 @@ const Orders: React.FC = () => {
                     >
                       <IonImg
                         style={dishPicStyle}
-                        src={`../../../${dish.dish.foodPicture}`}
+                        src={`/${dish.dish.foodPicture}`}
                       ></IonImg>
                       {dish.dish.name}
                       <br />

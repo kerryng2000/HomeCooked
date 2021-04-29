@@ -67,6 +67,6 @@
     "@capacitor/cli": "2.4.6",
     "redux-devtools-extension": "^2.13.8"
   },
-  "proxy": "http://localhost:3000",
+  "proxy": "https://homecooked-backend.herokuapp.com/",
   "description": "An Ionic project"
 }
