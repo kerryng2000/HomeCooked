@@ -168,7 +168,7 @@ const Chef: React.FC = () => {
       ) : (
         <IonContent>
           <IonAvatar style={profPicStyle}>
-            <IonImg src={`../../../${chef.profilePicture}`}></IonImg>
+            <IonImg src={`${chef.profilePicture}`}></IonImg>
           </IonAvatar>
 
           <IonGrid>
@@ -204,7 +204,7 @@ const Chef: React.FC = () => {
                   >
                     <IonImg
                       style={dishPicStyle}
-                      src={`../../../${dish["foodPicture"]}`}
+                      src={`${dish["foodPicture"]}`}
                     ></IonImg>
                     {dish["name"]}
                     <br />
@@ -242,7 +242,7 @@ const Chef: React.FC = () => {
                           <IonCol>
                             <IonAvatar>
                               <IonImg
-                                src={`../../../${review.user.profilePicture}`}
+                                src={`${review.user.profilePicture}`}
                               />
                             </IonAvatar>
                           </IonCol>

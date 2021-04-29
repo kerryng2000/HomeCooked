@@ -106,7 +106,7 @@ const Cart: React.FC = () => {
                         marginRight: "10px",
                       }}
                     >
-                      <IonImg src={`../../../${item.dish.foodPicture}`} />
+                      <IonImg src={`${item.dish.foodPicture}`} />
                     </IonThumbnail>
                     <IonGrid>
                       <IonRow className="ion-align-items-end">

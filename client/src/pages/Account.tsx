@@ -54,7 +54,7 @@ const Account: React.FC = () => {
       <IonContent className="ion-padding">
         <h1 className="ion-margin-bottom">Welcome {profile!.firstName}</h1>
         <IonAvatar onClick={takePhoto} style={profPicStyle}>
-          <IonImg src={`../../../${profile!.profilePicture}`}></IonImg>
+          <IonImg src={`/${profile!.profilePicture}`}></IonImg>
         </IonAvatar>
         <IonList className="ion-margin-top">
           <IonItem onClick={() => history.push("/user/favoritechefs")}>
