@@ -12,6 +12,7 @@ import {
   IonRow,
   IonTitle,
   IonToolbar,
+  IonRippleEffect,
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -26,7 +27,7 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { useHistory } from "react-router";
+import { SERVER_URL } from "../apiConfig";
 
 const stripePromise = loadStripe(
   "pk_test_51IXyYgFh9O3K0dbjc5hSwDk3NOYvjWzyqsCtPf5kFJay1Ak8BLssWNr6ssUigyW3atY5WqmtzilXTHBn4cF8O90D00J0XWz5VX"
@@ -82,64 +83,70 @@ const CheckoutForm = () => {
         items: items
       }
 
-      axios.post("/orders", order)
+      axios.post(`${SERVER_URL}/orders`, order)
       .then(res => {
         console.log(res)
         setOrderComplete(true);
       })
       .catch(error => console.log(error))
     }
-
   }
   
   return (
-    <div>
+    <div style={{marginTop: '50px'}}>
     {orderComplete ? <h1 className="ion-margin">Thank you, your order with a total of ${total} has been completed.</h1> : (
-      <form onSubmit={ handleSubmit }>
+    <form onSubmit={ handleSubmit }>
       <IonGrid>
-        <IonRow>
+        <IonRow justify-content-center align-items-center className="form-row register">
+          <IonCol align-self-center>
+              <IonItem>
+                  <IonLabel position="floating" className="form-label register">Name:</IonLabel>
+                  <IonInput
+                      className="form-input"
+                      value={`${profile!.firstName} ${profile!.lastName}`}
+                      required
+                  />
+              </IonItem>
+          </IonCol>
+        </IonRow>
+        <IonRow justify-content-center align-items-center className="form-row register">
+          <IonCol align-self-center>
+              <IonItem>
+                  <IonLabel position="floating" className="form-label register">Address:</IonLabel>
+                  <IonInput
+                      className="form-input"
+                      ref={street_address}
+                      required
+                  />
+              </IonItem>
+          </IonCol>
+        </IonRow>
+        <IonRow justify-content-center align-items-center className="form-row register">
+          <IonCol align-self-center>
+              <IonItem>
+                  <IonLabel position="floating" className="form-label register">City:</IonLabel>
+                  <IonInput
+                      className="form-input"
+                      ref={city}
+                      required
+                  />
+              </IonItem>
+          </IonCol>
+        </IonRow>
+        <IonRow justify-content-center align-items-center className="form-row register">
           <IonCol>
             <IonItem>
-              <IonLabel position="floating">Name</IonLabel>
-              <IonInput
-                type="text"
-                required={true}
-                value={`${profile!.firstName} ${profile!.lastName}`}
-              ></IonInput>
+              <IonLabel position="floating" className="form-label register">State:</IonLabel>
+              <IonInput ref={state} type="text" required={true} className="form-input"></IonInput>
+            </IonItem>
+          </IonCol>
+          <IonCol>
+            <IonItem>
+              <IonLabel position="floating" className="form-label register">Zip code:</IonLabel>
+              <IonInput ref={zip_code} type="number" required={true} className="form-input"></IonInput>
             </IonItem>
           </IonCol>
         </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonItem>
-              <IonLabel position="floating">Address</IonLabel>
-              <IonInput ref={street_address} type="text" required={true}></IonInput>
-            </IonItem>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonItem>
-              <IonLabel position="floating">City</IonLabel>
-              <IonInput ref={city} type="text" required={true}></IonInput>
-            </IonItem>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonItem>
-              <IonLabel position="floating">State</IonLabel>
-              <IonInput ref={state} type="text" required={true}></IonInput>
-            </IonItem>
-          </IonCol>
-          <IonCol>
-            <IonItem>
-              <IonLabel position="floating">Zip code</IonLabel>
-              <IonInput ref={zip_code} type="number" required={true}></IonInput>
-            </IonItem>
-          </IonCol>
-        </IonRow>
-
         <IonRow className="ion-padding">
           <IonCol>
             <IonLabel position="floating">Card number</IonLabel>
@@ -163,7 +170,23 @@ const CheckoutForm = () => {
           </IonCol>
         </IonRow>
       </IonGrid>
-      <IonButton type="submit" disabled={!stripe} className="ion-margin">Place order</IonButton>
+      <IonRow justify-content-center align-items-center>
+          <IonCol align-self-center>
+              <IonButton
+                  className="c-login-page__submit"
+                  type="submit"
+                  color="primary"
+                  size="large"
+                  expand="block"
+                  shape="round"
+                  disabled={!stripe}
+                  strong
+              >
+                  Place order
+                  <IonRippleEffect></IonRippleEffect>
+              </IonButton>
+          </IonCol>
+      </IonRow>
     </form>
     )}
     </div>

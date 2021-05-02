@@ -10,10 +10,12 @@ import {
   IonList,
   IonPage,
   IonToolbar,
+  IonTitle
 } from "@ionic/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import { SERVER_URL } from '../apiConfig';
 
 const FavChefs: React.FC = () => {
   const [favChefs, setFavChefs] = useState<any[]>([]);
@@ -21,17 +23,18 @@ const FavChefs: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("/users/favoriteChefs")
+      .get(`${SERVER_URL}/users/favoriteChefs`)
       .then((res) => setFavChefs(res.data.favoriteChefs))
       .catch((err) => console.log(err));
   });
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className="ion-padding-top">
+        <IonToolbar className="toolbar-main">
           <IonButtons slot="start">
             <IonBackButton defaultHref="" />
           </IonButtons>
+          <IonTitle>Favorite Chefs</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -40,7 +43,7 @@ const FavChefs: React.FC = () => {
             return (
               <IonItem onClick={() => history.push(`/user/chef/${chef.chef._id}`)}>
                 <IonAvatar>
-                  <IonImg src={`/${chef.chef.profilePicture}`} />
+                  <IonImg src={`${SERVER_URL}/${chef.chef.profilePicture}`} />
                 </IonAvatar>
                 <IonLabel className="ion-margin">{chef.chef.firstName} {chef.chef.lastName}</IonLabel>
               </IonItem>

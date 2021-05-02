@@ -31,6 +31,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import "./index.css"
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { checkAuth } from "./actions/userActions";
@@ -102,11 +103,11 @@ const App: React.FC = () => {
               <IonIcon icon={home} onClick={() => dispatch(updateTab("home"))}/>
               <IonLabel>Home</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="dish" href="/dish">
+            <IonTabButton tab="dish" href="/dish/allDishes">
               <IonIcon icon={fastFood} onClick={() => dispatch(updateTab("dish"))}/>
               <IonLabel>Dishes</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="account" href="/user">
+            <IonTabButton tab="account" href={isAuthenticated ? "/user/account" : "/user/signIn"}>
               <IonIcon icon={person} onClick={() => dispatch(updateTab("user"))}/>
               <IonLabel>Account</IonLabel>
             </IonTabButton>

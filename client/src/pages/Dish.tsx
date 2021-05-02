@@ -1,34 +1,44 @@
 import {
-  IonList,
   IonPage,
   IonItem,
   IonContent,
-  IonRouterLink,
-  IonImg,
   IonToolbar,
   IonButton,
   IonHeader,
   IonButtons,
   IonIcon,
-  IonThumbnail,
   IonSearchbar,
   IonSelect,
   IonLabel,
   IonSelectOption,
-  IonItemSliding,
+  IonTitle,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonNote,
+  IonBackButton,
+  IonToast
 } from "@ionic/react";
+import { searchOutline } from "ionicons/icons";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../reducers";
-import { addCircleOutline, chevronForwardOutline } from "ionicons/icons";
+import { addCircleOutline } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
+import { setErrorFlag } from "../actions/dishActions";
+
+import ProductCard from "../components/ProductCard";
+import { SERVER_URL } from "../apiConfig";
 
 const Dish: React.FC = () => {
   const isAuthenticated = useSelector(
     (state: AppState) => state.user.isAuthenticated
   );
-  const addedDish = useSelector((state: AppState) => state.dish)
+  const addedDish = useSelector((state: AppState) => state.dish.count);
+  const showError = useSelector((state: AppState) => state.dish.showError);
+  const errorMessage = useSelector((state: AppState) => state.dish.errorMessage);
+  const dispatch = useDispatch();
 
   const [allDishes, setAllDishes] = useState<any[]>([]);
   const [dishes, setDishes] = useState<any[]>([]);
@@ -38,7 +48,7 @@ const Dish: React.FC = () => {
 
   const sendGetRequest = () => {
     return axios({
-      url: "/Dishes/allDishes",
+      url: `${SERVER_URL}/Dishes/allDishes`,
       method: "get",
     }).then((response) => {
       return response.data;
@@ -47,7 +57,6 @@ const Dish: React.FC = () => {
 
   useEffect(() => {
     sendGetRequest().then((data) => {
-      
       setAllDishes(data);
       setDishes(data);
     })
@@ -128,28 +137,46 @@ const Dish: React.FC = () => {
     setDishes(copy)    
   }
 
-  const dishPicStyle = {
-    width: "150px",
-    height: "150px",
-    marginRight: "10px",
-  };
+  const search = (e) => {
+    setSearchText(e.target.value);
+  }
+
+  const closeToast = () => {
+    dispatch(setErrorFlag(false, ''));
+  }
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar className="ion-padding-top">
-          {isAuthenticated && (
-            <IonButtons slot="end">
-              <IonButton onClick={() => history.push("/dish/AddDish")}>
-                <IonIcon icon={addCircleOutline} />
-                Add dish
-              </IonButton>
-            </IonButtons>
-          )}
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <IonSearchbar onIonChange={e => setSearchText(e.detail.value!)}/>
+        <IonHeader>
+          <IonToolbar className="toolbar-main">
+            <IonRow>
+              <IonCol size="4" style={{alignItems: 'center', display: 'flex'}}>
+                <IonButtons slot="start">
+                    <IonBackButton defaultHref="" />
+                </IonButtons>
+                <IonTitle >Dish</IonTitle>
+              </IonCol>
+              <IonCol size="4">
+                {isAuthenticated && (
+                  <IonButton onClick={() => history.push("/dish/AddDish")} color="danger" shape="round">
+                    <IonIcon icon={addCircleOutline} />
+                    &nbsp;Add dish
+                  </IonButton>
+                )}
+              </IonCol>
+            </IonRow>
+          </IonToolbar>
+        </IonHeader>
+			
+			<IonContent fullscreen>
+        <IonToast
+          isOpen={showError}
+          onDidDismiss={closeToast}
+          message={errorMessage}
+          duration={2000}
+          cssClass="toast-message"
+       />
+        <IonSearchbar className="search" onKeyUp={ search } placeholder="Search by name..." searchIcon={ searchOutline } animated={ true }  />
         <IonItem>
           <IonLabel>Sort by</IonLabel>
           <IonSelect value={sort} onIonChange={e => sortDishes(e)}>
@@ -159,27 +186,24 @@ const Dish: React.FC = () => {
             <IonSelectOption value="priceHtoL">Price: high to low</IonSelectOption>
           </IonSelect>
         </IonItem>
-        <IonList>
-          {dishes.map((dish) => {
-            return (
-              <IonItem
-                className="ion-margin-top"
-                onClick={() => {
-                  history.push(`/dish/page/${dish["_id"]}`);
-                }}
-              >
-                <IonImg
-                  style={dishPicStyle}
-                  src={`/${dish["foodPicture"]}`}
-                ></IonImg>
-                {dish["name"]}
-                <br />
-                <br />${dish["price"]}
-                <IonIcon slot="end" icon={chevronForwardOutline} />
-              </IonItem>
-            );
-          })}
-        </IonList>
+        <IonGrid>
+          <IonRow className="ion-text-center">
+              <IonCol size="12">
+                  <IonNote>{ dishes && dishes.length } { (dishes.length > 1 || dishes.length === 0) ? " products" : " product" } found</IonNote>
+              </IonCol>
+          </IonRow>
+          <IonRow>
+              { dishes && dishes.map((dish, index) => {
+                return (
+                  <ProductCard 
+                    key={ `category_product_${ index }`} 
+                    product={ dish } 
+                    index={ index } 
+                  />
+                );
+              })}
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

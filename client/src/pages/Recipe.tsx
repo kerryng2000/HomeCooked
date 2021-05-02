@@ -9,13 +9,11 @@ import {
   IonSpinner,
   IonTitle,
   IonAvatar,
-  IonGrid,
   IonCol,
   IonRow,
   IonButton,
   IonIcon,
   IonText,
-  IonRouterLink,
 } from "@ionic/react";
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -24,6 +22,7 @@ import { addCircleOutline, removeCircleOutline } from "ionicons/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../reducers";
 import { addToCart } from "../actions/cartActions";
+import { SERVER_URL } from "../apiConfig";
 
 const Recipe: React.FC = () => {
   const [dish, setDish] = useState<any>({});
@@ -48,9 +47,10 @@ const Recipe: React.FC = () => {
     setLoading(true);
     var newData = tsm.id;
     axios({
-      url: `/Dishes/${newData}`,
+      url: `${SERVER_URL}/Dishes/${newData}`,
       method: "get",
     }).then((response) => {
+      console.log('response data: ', response);
       setDish(response.data);
       setChef(response.data.chef);
       setLoading(false);
@@ -93,14 +93,14 @@ const Recipe: React.FC = () => {
   };
 
   const profPicStyle = {
-    width: "100px",
-    height: "100px",
+    width: "100%",
+    height: 'auto',
   };
 
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className="ion-padding-top ion-margin-bottom">
+        <IonToolbar className="toolbar-main">
           <IonButtons slot="start">
             <IonBackButton defaultHref="" />
           </IonButtons>
@@ -115,62 +115,62 @@ const Recipe: React.FC = () => {
         <IonContent>
           <IonImg
             className="ion-margin-bottom"
-            src={`/${dish["foodPicture"]}`}
-            style={{ width: "100%", height: "50%" }}
+            src={`${SERVER_URL}/${dish["foodPicture"]}`}
+            style={{ width: "100%" }}
           ></IonImg>
 
-          <IonGrid className="ion-padding">
             <IonRow>
-              <IonCol>
+              <IonCol size="6">
                 <IonAvatar
                   style={profPicStyle}
                   onClick={() => history.push(`/${tab}/chef/${chef._id}`)}
                 >
-                  <IonImg src={`/${chef.profilePicture}`}></IonImg>
+                  <IonImg src={`${SERVER_URL}/${chef.profilePicture}`}></IonImg>
                 </IonAvatar>
-              </IonCol>
-              <IonCol
-                className="ion-align-self-center"
-                style={{ marginLeft: "60px" }}
-              >
-                <h1>${dish.price}</h1>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol className="ion-align-self-center">
-                <h2>
+                <h2 style={{textAlign: 'center'}}>
                   {chef.firstName} {chef.lastName}
                 </h2>
               </IonCol>
-              {/*<IonCol className="ion-align-self-center">
-              <IonRouterLink href= {`/Message/${chef.email}`}>Have a Question? Send a Message</IonRouterLink>
-              </IonCol>*/}
-              {email !== chef.email && (
-                <IonCol>
-                  <IonButton fill="clear" onClick={decreaseAmount}>
-                    <IonIcon slot="icon-only" icon={removeCircleOutline} />
-                  </IonButton>
-                  <IonText>{amount}</IonText>
-                  <IonButton fill="clear" onClick={increaseAmount}>
-                    <IonIcon slot="icon-only" icon={addCircleOutline} />
-                  </IonButton>
-                </IonCol>
-              )}
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                {isAuthenticated && email !== chef.email && (
-                  <IonRouterLink onClick={() => history.push(`/${tab}/Message/${chef.email}`)}>
-                    Have a Question? Send a Message
-                  </IonRouterLink>
-                )}
+              <IonCol
+                size="6"
+                className="detail-price-container"
+              >
+                <IonRow className="detail-price">
+                  <h1>${dish.price}</h1>
+                </IonRow>
+                  {email !== chef.email && (
+                    <IonRow className="control-btn">
+                      <IonButton fill="clear" onClick={decreaseAmount}>
+                        <IonIcon slot="icon-only" icon={removeCircleOutline} />
+                      </IonButton>
+                      <IonText>{amount}</IonText>
+                      <IonButton fill="clear" onClick={increaseAmount}>
+                        <IonIcon slot="icon-only" icon={addCircleOutline} />
+                      </IonButton>
+                    </IonRow>
+                  )}
               </IonCol>
             </IonRow>
-          </IonGrid>
+            {isAuthenticated && email !== chef.email && (
+              <>
+                <IonRow>
+                  <IonCol size="2"></IonCol>
+                  <IonCol size="8">
+                    <hr/>
+                  </IonCol>
+                </IonRow>
+                <IonRow className="question-link">
+                  <span>
+                    Have a Question?&nbsp;&nbsp;
+                  </span>
+                  <IonButton color="danger" shape="round" onClick={() => history.push(`/${tab}/Message/${chef.email}`)}>Send a Message</IonButton>
+                </IonRow>
+              </>
+            )}
         </IonContent>
       )}
       {isAuthenticated && email !== chef.email && (
-        <IonButton onClick={handleAddToCart} expand="block">
+        <IonButton onClick={handleAddToCart} style={{margin: 0}}>
           Add to cart
         </IonButton>
       )}

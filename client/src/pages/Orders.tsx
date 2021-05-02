@@ -10,19 +10,21 @@ import {
   IonListHeader,
   IonPage,
   IonToolbar,
+  IonTitle
 } from "@ionic/react";
 import axios from "axios";
 import { chevronForwardOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import { SERVER_URL } from "../apiConfig";
 
 const Orders: React.FC = () => {
-  const [orders, setOrders] = useState<any>([{ items: [{dish: {}}] }]);
+  const [orders, setOrders] = useState<any>([]);
   const history = useHistory();
 
   useEffect(() => {
     axios
-      .get("/orders")
+      .get(`${SERVER_URL}/orders`)
       .then((res) => {
         setOrders(res.data);
         console.log(res.data);
@@ -33,16 +35,17 @@ const Orders: React.FC = () => {
   const dishPicStyle = {
     width: "150px",
     height: "150px",
-    marginRight: "10px",
+    marginRight: "30px",
   };
 
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className="ion-padding-top">
+        <IonToolbar className="toolbar-main">
           <IonButtons slot="start">
             <IonBackButton defaultHref="" />
           </IonButtons>
+          <IonTitle>Orders</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -50,7 +53,7 @@ const Orders: React.FC = () => {
           {orders.map((order) => {
             return (
               <div>
-                <IonListHeader>
+                <IonListHeader className="order-header">
                   {order.date} Total: ${order.total}
                 </IonListHeader>
                 {order.items.map((dish) => {
@@ -63,13 +66,15 @@ const Orders: React.FC = () => {
                     >
                       <IonImg
                         style={dishPicStyle}
-                        src={`/${dish.dish.foodPicture}`}
+                        src={`${SERVER_URL}/${dish.dish.foodPicture}`}
                       ></IonImg>
-                      {dish.dish.name}
-                      <br />
-                      <br />${dish.dish.price}
-                      <br />
-                      <br />Quantity: {dish.quantity}
+                      <span style={{fontSize: '20px', lineHeight: '1.5'}}>
+                        {dish.dish.name}
+                        <br />
+                        ${dish.dish.price}
+                        <br />
+                        Quantity: {dish.quantity}
+                      </span>
                       <IonIcon slot="end" icon={chevronForwardOutline} />
                     </IonItem>
                   );
