@@ -1,45 +1,141 @@
-import { IonButton, IonInput, IonItem, IonLabel, IonPage } from "@ionic/react";
+import {
+    IonButton,
+    IonContent,
+    IonPage,
+    IonRow,
+    IonToast,
+    IonGrid,
+    IonCol,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonRippleEffect,
+    IonImg,
+    IonToolbar,
+    IonTitle,
+    IonHeader,
+    IonRouterLink,
+    IonButtons,
+    IonBackButton,
+} from "@ionic/react";
+import React from "react";
+
 import { signIn } from '../actions/userActions';
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { IonRouterLink } from "@ionic/react";
+import { setErrorMessage } from "../actions/userActions";
+import { AppState } from "../reducers";
 
-const SignIn: React.FC = () => {
-    const emailInputRef = useRef<HTMLIonInputElement>(null);
-    const passwordInputRef = useRef<HTMLIonInputElement>(null);
-    const dispatch = useDispatch();
-    const history = useHistory();
+const SignIn = () => {
+  const emailInputRef = useRef<HTMLIonInputElement>(null);
+  const passwordInputRef = useRef<HTMLIonInputElement>(null);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const showError = useSelector((state: AppState) => state.user.showError);
+  const errorMessage = useSelector((state: AppState) => state.user.errorMessage);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-        const email = emailInputRef.current!.value;
-        const password = passwordInputRef.current!.value;
+      const email = emailInputRef.current!.value;
+      const password = passwordInputRef.current!.value;
 
-        const user = {
-          email: String(email),
-          password: String(password)
-        }
-        
-      dispatch(signIn(user, history));       
-    }
-  
-    return (
-    <IonPage>
-      <form className="ion-padding" onSubmit={ handleSubmit }>
-        <IonItem>
-          <IonLabel position="floating">Email</IonLabel>
-          <IonInput type="email" ref={ emailInputRef }></IonInput>
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Password</IonLabel>
-          <IonInput type="password" ref={ passwordInputRef }></IonInput>
-        </IonItem>
-        <IonButton className="ion-margin-top" type="submit">Sign in</IonButton>
-        <IonRouterLink routerLink="/user/register">Don't have an account? Register here</IonRouterLink>
-      </form>
-    </IonPage>
+      const user = {
+        email: String(email),
+        password: String(password)
+      }
+      
+    dispatch(signIn(user, history));       
+  }
+
+  const closeToast = () => {
+    dispatch(setErrorMessage(false, ''));
+  }
+
+  return (
+      <IonPage className="c-login-page">
+        <IonHeader>
+          <IonToolbar className="toolbar-main">
+            <IonButtons slot="start">
+                <IonBackButton defaultHref="" />
+            </IonButtons>
+            <IonTitle>SignIn</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+            <IonToast
+                isOpen={showError}
+                onDidDismiss={closeToast}
+                message={errorMessage}
+                duration={2000}
+                cssClass="toast-message"
+            />
+            <form onSubmit={handleSubmit} autoComplete="off">
+                <IonGrid>
+                    <IonRow justify-content-center align-items-center>
+                        <IonCol />
+                        <IonCol align-self-center size="5">
+                            <IonImg src="assets/img/auth/auth-logo.svg" />
+                        </IonCol>
+                        <IonCol />
+                    </IonRow>
+
+                    <IonRow justify-content-center align-items-center className="form-row">
+                        <IonCol align-self-center>
+                            <IonItem>
+                                <IonLabel position="floating" className="form-label">Email:</IonLabel>
+                                <IonInput
+                                    type="email"
+                                    name="email"
+                                    className="form-input"
+                                    ref={ emailInputRef }
+                                    required
+                                />
+                            </IonItem>
+                        </IonCol>
+                    </IonRow>
+
+                    <IonRow justify-content-center align-items-center className="form-row">
+                        <IonCol align-self-center>
+                            <IonItem>
+                                <IonLabel position="floating" className="form-label">Password:</IonLabel>
+                                <IonInput
+                                    type="password"
+                                    className="form-input"
+                                    ref={ passwordInputRef }
+                                    required
+                                />
+                            </IonItem>
+                        </IonCol>
+                    </IonRow>
+
+                    <IonRow justify-content-center align-items-center>
+                        <IonCol align-self-center>
+                            <IonButton
+                                className="c-login-page__submit"
+                                type="submit"
+                                color="primary"
+                                size="large"
+                                expand="block"
+                                shape="round"
+                                strong
+                            >
+                                submit
+                                <IonRippleEffect></IonRippleEffect>
+                            </IonButton>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
+            </form>
+            <IonRow className="switch-auth">
+              Don't have an account?&nbsp;
+              <span>
+                <IonRouterLink routerLink="/user/register">Register</IonRouterLink>
+              </span>
+            </IonRow>
+          </IonContent>
+      </IonPage>
   );
 };
 

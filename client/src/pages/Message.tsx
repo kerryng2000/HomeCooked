@@ -9,9 +9,13 @@ import {
     IonToolbar,
     IonButtons,
     IonBackButton,
+    IonRow,
+    IonCol,
+    IonRippleEffect,
+    IonTitle
   } from "@ionic/react";
   import { useRef } from "react";
-  import React, { useState, useEffect} from "react";
+  import React from "react";
   import { useParams } from "react-router-dom";
   import { useDispatch, useSelector } from "react-redux";
 import { Add } from "../actions/messageActions";
@@ -43,21 +47,36 @@ import { AppState } from "../reducers";
     return (
       <IonPage>
         <IonHeader>
-            <IonToolbar className="ion-padding-top">
+            <IonToolbar className="toolbar-main">
               <IonButtons slot="start">
                 <IonBackButton defaultHref=""/>
               </IonButtons>
+              <IonTitle>Message</IonTitle>
             </IonToolbar>
           </IonHeader>
         <IonContent>
         <form className="ion-padding" onSubmit={handleSubmit}>
-        <IonItem>
-          <IonLabel position="floating">What is your Question?</IonLabel>
-          <IonInput type="text" ref={Message}></IonInput>
+        <IonItem style={{marginTop: '20px'}}>
+          <IonLabel position="floating" className="form-label">What is your Question?</IonLabel>
+          <IonInput type="text" ref={Message} className="form-input"></IonInput>
         </IonItem>
-        <IonButton className="ion-margin-top" type="submit">
-          Send
-        </IonButton>
+        <IonRow justify-content-center align-items-center>
+          <IonCol align-self-center>
+              <IonButton
+                  className="c-login-page__submit"
+                  type="submit"
+                  color="primary"
+                  size="large"
+                  expand="block"
+                  shape="round"
+                  strong
+                  style={{marginTop: '20px'}}
+              >
+                  Send
+                  <IonRippleEffect></IonRippleEffect>
+              </IonButton>
+          </IonCol>
+      </IonRow>
       </form>
         </IonContent>
       </IonPage>

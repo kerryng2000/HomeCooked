@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
+import { SERVER_URL } from '../apiConfig';
 
 interface MessageInterface {
     reciever: string, 
@@ -9,7 +10,7 @@ interface MessageInterface {
 
 export const Add = (Mail: MessageInterface, history: any) => {
     return function(dispatch: Dispatch) {
-    axios.post("/Message/SendMessage", Mail)
+    axios.post(`${SERVER_URL}/Message/SendMessage`, Mail)
     .then(res => {
         console.log(res.data);
         dispatch({

@@ -45,7 +45,6 @@ router.post('/AddDish', upload.single('foodPicture') ,passport.authenticate("jwt
 })
 
 router.get('/allDishes',  async(req, res) => {
-   
         const dishes =  await Dish.find().populate("chef", "firstName lastName")
         res.send(dishes)
       

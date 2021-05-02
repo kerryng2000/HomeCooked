@@ -8,9 +8,16 @@ import {
   IonLabel,
   IonList,
   IonPage,
-  IonRouterLink
+  IonToolbar,
+  IonHeader,
+  IonTitle,
+  IonRow,
+  IonCol,
+  IonRippleEffect,
+  IonButtons,
+  IonBackButton
 } from "@ionic/react";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut, updateProfPic } from "../actions/userActions";
 import { AppState } from "../reducers";
@@ -18,6 +25,7 @@ import { useHistory } from "react-router-dom";
 import { Camera, CameraResultType } from "@capacitor/core";
 import { decode } from "base64-arraybuffer";
 import { cartOutline, heartOutline, mailOutline, starOutline } from "ionicons/icons";
+import { SERVER_URL } from "../apiConfig";
 
 const Account: React.FC = () => {
   const dispatch = useDispatch();
@@ -51,31 +59,57 @@ const Account: React.FC = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar className="toolbar-main">
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="" />
+          </IonButtons>
+          <IonTitle>Account</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="ion-padding">
         <h1 className="ion-margin-bottom">Welcome {profile!.firstName}</h1>
         <IonAvatar onClick={takePhoto} style={profPicStyle}>
-          <IonImg src={`/${profile!.profilePicture}`}></IonImg>
+          <IonImg src={`${SERVER_URL}/${profile!.profilePicture}`}></IonImg>
         </IonAvatar>
         <IonList className="ion-margin-top">
           <IonItem onClick={() => history.push("/user/favoritechefs")}>
             <IonIcon icon={heartOutline}/>
-            <IonLabel className="ion-margin">Favorite chefs</IonLabel>
+            <IonLabel className="ion-margin account">Favorite chefs</IonLabel>
           </IonItem>
           <IonItem onClick={() => history.push("/user/reviews")}>
             <IonIcon icon={starOutline}/>
-            <IonLabel className="ion-margin">Reviews</IonLabel>
+            <IonLabel className="ion-margin account">Reviews</IonLabel>
           </IonItem>
           <IonItem onClick={() => history.push("/user/orders")}>
             <IonIcon icon={cartOutline}/>
-            <IonLabel className="ion-margin">Orders</IonLabel>
+            <IonLabel className="ion-margin account">Orders</IonLabel>
           </IonItem>
           <IonItem onClick={() => history.push(`/user/Mailbox/${profile!.email}`)}>
           <IonIcon icon={mailOutline}/>
-          <IonLabel className="ion-margin">Mailbox</IonLabel>
+          <IonLabel className="ion-margin account">Mailbox</IonLabel>
         </IonItem>
         </IonList>
+        <IonRow justify-content-center align-items-center>
+          <IonCol align-self-center>
+              <IonButton
+                  className="c-login-page__submit"
+                  onClick={handleSignOut}
+                  type="submit"
+                  color="primary"
+                  size="large"
+                  expand="block"
+                  shape="round"
+                  style={{marginTop: '20px'}}
+                  strong
+              >
+                  Sign Out
+                  <IonRippleEffect></IonRippleEffect>
+              </IonButton>
+          </IonCol>
+        </IonRow>
       </IonContent>
-      <IonButton onClick={handleSignOut} className="ion-margin-bottom">Sign out</IonButton>
+      
     </IonPage>
   );
 };

@@ -1,7 +1,5 @@
 import {
-  IonApp,
   IonButton,
-  IonButtons,
   IonCol,
   IonContent,
   IonFab,
@@ -11,8 +9,6 @@ import {
   IonIcon,
   IonImg,
   IonItem,
-  IonItemOption,
-  IonItemOptions,
   IonItemSliding,
   IonList,
   IonMenu,
@@ -29,7 +25,7 @@ import {
   removeCircleOutline,
   trashOutline,
 } from "ionicons/icons";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementQuantity,
@@ -39,6 +35,7 @@ import {
 } from "../actions/cartActions";
 import { AppState } from "../reducers";
 import Checkout from "./Checkout";
+import { SERVER_URL } from "../apiConfig";
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
@@ -66,10 +63,25 @@ const Cart: React.FC = () => {
     if (quantity - 1 === 0) dispatch(removeItem(itemId));
   };
 
+  const mockData = [
+    {
+      _id: '432432432',
+      dish: {
+          _id: '432432432',
+          foodPicture: 'uploads\\1619834966901.jpeg',
+          name: "testtt",
+          price: 100,
+          stock: 2,
+          chef: "Ramazan",
+      },
+      quantity: 3,
+    }
+  ]
+
   return (
     <div>
       <IonMenuToggle autoHide={false} menu="cart">
-        <IonFab vertical="top" horizontal="end" style={{ marginTop: "15%" }}>
+        <IonFab vertical="top" horizontal="end" style={{ marginTop: "5px", top: "0" }}>
           <IonFabButton onClick={openCart}>
             <IonIcon icon={cartOutline} />
           </IonFabButton>
@@ -86,16 +98,8 @@ const Cart: React.FC = () => {
             {cartContents.items.map((item) => {
               return (
                 <IonItemSliding>
-                  <IonItemOptions onIonSwipe={() => handleDeleteItem(item._id)}>
-                    <IonItemOption
-                      color="danger"
-                      expandable
-                      onClick={() => handleDeleteItem(item._id)}
-                    >
-                      <IonIcon slot="icon-only" icon={trashOutline} />
-                    </IonItemOption>
-                  </IonItemOptions>
-
+                  <IonIcon icon={trashOutline} style={{position: 'absolute', right: '0', top: '20px', zIndex: '1000', width: '48px'}}
+                      onClick={() => handleDeleteItem(item._id)} color="danger"/>
                   <IonItem className="ion-margin-top">
                     <IonThumbnail
                       style={{
@@ -106,12 +110,34 @@ const Cart: React.FC = () => {
                         marginRight: "10px",
                       }}
                     >
-                      <IonImg src={`${item.dish.foodPicture}`} />
+                      <IonImg src={`${SERVER_URL}/${item.dish.foodPicture}`} />
                     </IonThumbnail>
                     <IonGrid>
-                      <IonRow className="ion-align-items-end">
-                        <IonCol>{item.dish.name}</IonCol>
-                        <IonCol>
+                      <IonRow className="layout-center">
+                        <IonText style={{fontSize: '20px', lineHeight: '2'}}>{item.dish.name}</IonText>
+                      </IonRow>
+                      <IonRow className="layout-center">
+                        <IonText style={{fontSize: '16px', lineHeight: '2'}}>${item.dish.price}</IonText>
+                      </IonRow>
+                      <IonRow justify-content-center>
+                        <IonCol size="4" className="layout-center">
+                          <IonButton
+                            size="small"
+                            fill="clear"
+                            onClick={() =>
+                              handleDecrement(item._id, item.quantity)
+                            }
+                          >
+                            <IonIcon
+                              slot="icon-only"
+                              icon={removeCircleOutline}
+                            />
+                          </IonButton>
+                        </IonCol>
+                        <IonCol size="4" className="layout-center">
+                          <IonText>{item.quantity}</IonText>
+                        </IonCol>
+                        <IonCol size="4" className="layout-center">
                           <IonButton
                             size="small"
                             fill="clear"
@@ -124,28 +150,6 @@ const Cart: React.FC = () => {
                             }
                           >
                             <IonIcon slot="icon-only" icon={addCircleOutline} />
-                          </IonButton>
-                        </IonCol>
-                      </IonRow>
-                      <IonRow>
-                        <IonCol offset="7.7">
-                          <IonText>{item.quantity}</IonText>
-                        </IonCol>
-                      </IonRow>
-                      <IonRow className="ion-align-items-center">
-                        <IonCol>${item.dish.price}</IonCol>
-                        <IonCol>
-                          <IonButton
-                            size="small"
-                            fill="clear"
-                            onClick={() =>
-                              handleDecrement(item._id, item.quantity)
-                            }
-                          >
-                            <IonIcon
-                              slot="icon-only"
-                              icon={removeCircleOutline}
-                            />
                           </IonButton>
                         </IonCol>
                       </IonRow>
@@ -171,8 +175,8 @@ const Cart: React.FC = () => {
       <Checkout
         isOpen={checkout.isOpen}
         onClose={() => {
-          dispatch(getCart())
-          setCheckout({ isOpen: false })
+          dispatch(getCart());
+          setCheckout({ isOpen: false });
         }}
       />
     </div>

@@ -4,22 +4,23 @@ import {
   IonItem,
   IonContent,
   IonCol,
-  IonRouterLink,
-  IonItemOptions,
-  IonItemOption,
   IonHeader,
   IonToolbar,
   IonButtons,
   IonBackButton,
+  IonRow,
+  IonTitle,
+  IonButton
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { AppState } from "../reducers";
+import { SERVER_URL } from "../apiConfig";
 
 const Mailbox: React.FC = () => {
-  const [dishes, setDishes] = useState([]);
+  const [dishes, setDishes] = useState([{}]);
   const params = useParams();
   const tab = useSelector((state: AppState) => state.path.tab);
   const history = useHistory();
@@ -29,10 +30,11 @@ const Mailbox: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className="ion-padding-top">
+        <IonToolbar className="toolbar-main">
           <IonButtons slot="start">
             <IonBackButton defaultHref="" />
           </IonButtons>
+          <IonTitle>Mailbox</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -40,14 +42,18 @@ const Mailbox: React.FC = () => {
           {dishes.map((mail) => {
             return (
               <IonItem className="ion-margin-top">
-                sender: {mail["sender"]}
-                <br></br>
-                text: {mail["text"]}
-                <IonCol className="ion-align-self-center">
-                  <IonRouterLink onClick={() => history.push(`/${tab}/Message/${mail["sender"]}`)}>
-                    Reply
-                  </IonRouterLink>
-                </IonCol>
+                <IonRow>
+                  <IonCol size="10" style={{paddingRight: '10px'}}>
+                    <span style={{fontSize: '24px', lineHeight: '1.5'}}>Snder: {mail["sender"]}</span>
+                    <br/><br/>
+                    <span style={{fontSize: '20px', color: '#888'}}>{mail["text"]}</span>
+                  </IonCol>
+                  <IonCol style={{justifyContent: 'center', display: 'flex', alignItems: 'center'}} size="2">
+                    <IonButton color="success" shape="round" onClick={() => history.push(`/${tab}/Message/${mail["sender"]}`)}>
+                      Reply
+                      </IonButton>
+                  </IonCol>
+                </IonRow>
               </IonItem>
             );
           })}
@@ -60,7 +66,7 @@ const Mailbox: React.FC = () => {
 const sendGetRequest = (tsm: any) => {
   var newData = tsm.id;
   return axios({
-    url: `/Mailbox/${newData}`,
+    url: `${SERVER_URL}/Mailbox/${newData}`,
     method: "get",
   }).then((response) => {
     console.log(response);
