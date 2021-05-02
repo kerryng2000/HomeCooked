@@ -26,7 +26,7 @@ export const register = (user: registerInterface, history: any) => {
             history.push("/user/account");
         })
         .catch(err => {
-            dispatch(setErrorMessage(true, "Invalid login information. Please try with another information."));
+            dispatch(setErrorMessage(true, "Invalid signup information. Please try with another information."));
         });
     }
 }
