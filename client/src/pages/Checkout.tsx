@@ -27,7 +27,6 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { SERVER_URL } from "../apiConfig";
 
 const stripePromise = loadStripe(
   "pk_test_51IXyYgFh9O3K0dbjc5hSwDk3NOYvjWzyqsCtPf5kFJay1Ak8BLssWNr6ssUigyW3atY5WqmtzilXTHBn4cF8O90D00J0XWz5VX"
@@ -36,8 +35,8 @@ const stripePromise = loadStripe(
 const stripeStyle = {
   style: {
     base: {
-      backgroundColor: "#000000",
-      color: "#FFFFFF",
+      backgroundColor: "white",
+      color: "black",
       fontSize: "18px",
       borderStyle: "solid",
       borderBottomWidth: "10px",
@@ -83,7 +82,7 @@ const CheckoutForm = () => {
         items: items
       }
 
-      axios.post(`${SERVER_URL}/orders`, order)
+      axios.post(`/orders`, order)
       .then(res => {
         console.log(res)
         setOrderComplete(true);
@@ -100,9 +99,8 @@ const CheckoutForm = () => {
         <IonRow justify-content-center align-items-center className="form-row register">
           <IonCol align-self-center>
               <IonItem>
-                  <IonLabel position="floating" className="form-label register">Name:</IonLabel>
-                  <IonInput
-                      className="form-input"
+                  <IonLabel position="floating" >Name:</IonLabel>
+                  <IonInput                      
                       value={`${profile!.firstName} ${profile!.lastName}`}
                       required
                   />
@@ -112,9 +110,8 @@ const CheckoutForm = () => {
         <IonRow justify-content-center align-items-center className="form-row register">
           <IonCol align-self-center>
               <IonItem>
-                  <IonLabel position="floating" className="form-label register">Address:</IonLabel>
-                  <IonInput
-                      className="form-input"
+                  <IonLabel position="floating" >Address:</IonLabel>
+                  <IonInput                     
                       ref={street_address}
                       required
                   />
@@ -124,9 +121,8 @@ const CheckoutForm = () => {
         <IonRow justify-content-center align-items-center className="form-row register">
           <IonCol align-self-center>
               <IonItem>
-                  <IonLabel position="floating" className="form-label register">City:</IonLabel>
-                  <IonInput
-                      className="form-input"
+                  <IonLabel position="floating" >City:</IonLabel>
+                  <IonInput                     
                       ref={city}
                       required
                   />
@@ -136,14 +132,14 @@ const CheckoutForm = () => {
         <IonRow justify-content-center align-items-center className="form-row register">
           <IonCol>
             <IonItem>
-              <IonLabel position="floating" className="form-label register">State:</IonLabel>
-              <IonInput ref={state} type="text" required={true} className="form-input"></IonInput>
+              <IonLabel position="floating" >State:</IonLabel>
+              <IonInput ref={state} type="text" required={true} ></IonInput>
             </IonItem>
           </IonCol>
           <IonCol>
             <IonItem>
-              <IonLabel position="floating" className="form-label register">Zip code:</IonLabel>
-              <IonInput ref={zip_code} type="number" required={true} className="form-input"></IonInput>
+              <IonLabel position="floating" >Zip code:</IonLabel>
+              <IonInput ref={zip_code} type="number" required={true} ></IonInput>
             </IonItem>
           </IonCol>
         </IonRow>

@@ -16,7 +16,6 @@ import axios from "axios";
 import { chevronForwardOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { SERVER_URL } from "../apiConfig";
 
 const Orders: React.FC = () => {
   const [orders, setOrders] = useState<any>([]);
@@ -24,7 +23,7 @@ const Orders: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`${SERVER_URL}/orders`)
+      .get(`/orders`)
       .then((res) => {
         setOrders(res.data);
         console.log(res.data);
@@ -66,7 +65,7 @@ const Orders: React.FC = () => {
                     >
                       <IonImg
                         style={dishPicStyle}
-                        src={`${SERVER_URL}/${dish.dish.foodPicture}`}
+                        src={`/${dish.dish.foodPicture}`}
                       ></IonImg>
                       <span style={{fontSize: '20px', lineHeight: '1.5'}}>
                         {dish.dish.name}

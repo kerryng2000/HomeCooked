@@ -22,7 +22,6 @@ import { addCircleOutline, removeCircleOutline } from "ionicons/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../reducers";
 import { addToCart } from "../actions/cartActions";
-import { SERVER_URL } from "../apiConfig";
 
 const Recipe: React.FC = () => {
   const [dish, setDish] = useState<any>({});
@@ -47,7 +46,7 @@ const Recipe: React.FC = () => {
     setLoading(true);
     var newData = tsm.id;
     axios({
-      url: `${SERVER_URL}/Dishes/${newData}`,
+      url: `/Dishes/${newData}`,
       method: "get",
     }).then((response) => {
       console.log('response data: ', response);
@@ -115,7 +114,7 @@ const Recipe: React.FC = () => {
         <IonContent>
           <IonImg
             className="ion-margin-bottom"
-            src={`${SERVER_URL}/${dish["foodPicture"]}`}
+            src={`/${dish["foodPicture"]}`}
             style={{ width: "100%" }}
           ></IonImg>
 
@@ -125,7 +124,7 @@ const Recipe: React.FC = () => {
                   style={profPicStyle}
                   onClick={() => history.push(`/${tab}/chef/${chef._id}`)}
                 >
-                  <IonImg src={`${SERVER_URL}/${chef.profilePicture}`}></IonImg>
+                  <IonImg src={`/${chef.profilePicture}`}></IonImg>
                 </IonAvatar>
                 <h2 style={{textAlign: 'center'}}>
                   {chef.firstName} {chef.lastName}
