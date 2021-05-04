@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import StarRatings from "react-star-ratings";
 import { AppState } from "../reducers";
+import { SERVER_URL } from '../apiConfig';
 
 const Reviews: React.FC = () => {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -28,7 +29,7 @@ const Reviews: React.FC = () => {
 
   useEffect(() => {
     console.log('init');
-    axios.get(`/reviews/${userId}`)
+    axios.get(`${SERVER_URL}/reviews/${userId}`)
     .then(res => setReviews(res.data))
     .catch(err => console.log(err))
   }, [])

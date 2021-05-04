@@ -29,6 +29,7 @@ import { useHistory } from "react-router-dom";
 import { setErrorFlag } from "../actions/dishActions";
 
 import ProductCard from "../components/ProductCard";
+import { SERVER_URL } from "../apiConfig";
 
 const Dish: React.FC = () => {
   const isAuthenticated = useSelector(
@@ -47,7 +48,7 @@ const Dish: React.FC = () => {
 
   const sendGetRequest = () => {
     return axios({
-      url: `/Dishes/allDishes`,
+      url: `${SERVER_URL}/Dishes/allDishes`,
       method: "get",
     }).then((response) => {
       return response.data;

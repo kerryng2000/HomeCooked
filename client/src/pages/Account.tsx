@@ -25,6 +25,7 @@ import { useHistory } from "react-router-dom";
 import { Camera, CameraResultType } from "@capacitor/core";
 import { decode } from "base64-arraybuffer";
 import { cartOutline, heartOutline, mailOutline, starOutline } from "ionicons/icons";
+import { SERVER_URL } from "../apiConfig";
 
 const Account: React.FC = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,9 @@ const Account: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar className="toolbar-main">
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="" />
+          </IonButtons>
           <IonTitle>Account</IonTitle>
         </IonToolbar>
       </IonHeader>

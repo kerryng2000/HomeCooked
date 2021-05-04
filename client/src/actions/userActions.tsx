@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
+import { SERVER_URL } from '../apiConfig';
 
 interface registerInterface {
     firstName: string;
@@ -15,7 +16,7 @@ interface signInInterface {
 
 export const register = (user: registerInterface, history: any) => {
     return function(dispatch: Dispatch) {
-        axios.post(`/users/register`, user)
+        axios.post(`${SERVER_URL}/users/register`, user)
         .then(res => {
             console.log(res.data);
             dispatch({
@@ -32,7 +33,7 @@ export const register = (user: registerInterface, history: any) => {
 
 export const signIn = (user: signInInterface, history: any) => {
     return function(dispatch: Dispatch) {
-        axios.post(`/users/signIn`, user)
+        axios.post(`${SERVER_URL}/users/signIn`, user)
         .then(res => {
             dispatch({
                 type: 'AUTH_SIGN_IN',
@@ -49,7 +50,7 @@ export const signIn = (user: signInInterface, history: any) => {
 
 export const checkAuth = () => {
     return (dispatch: Dispatch) => {
-        axios.get(`/users/checkAuth`)
+        axios.get(`${SERVER_URL}/users/checkAuth`)
         .then((res) => 
             dispatch({
                 type: 'AUTH_SIGN_IN',
@@ -65,7 +66,7 @@ export const checkAuth = () => {
 
 export const signOut = (history: any) => {
     return (dispatch: Dispatch) => {
-        axios.get(`/users/signOut`)
+        axios.get(`${SERVER_URL}/users/signOut`)
         .then(() => {
             dispatch({
                 type: 'AUTH_SIGN_OUT'
@@ -82,7 +83,7 @@ export const updateProfPic = (file: Blob, format: String) => {
 
         formData.append("profilePicture", file, `.${format}`);
                 
-        axios.put(`/users/updateProfPic`, formData)
+        axios.put(`${SERVER_URL}/users/updateProfPic`, formData)
         .then((res) => {
             dispatch({
                 type: 'UPDATE_PROF_PIC',

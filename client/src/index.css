@@ -153,7 +153,6 @@ hr {
 
 
 .search {
-    background: white;
-    color: black;
+    --background: rgb(240, 240, 240);
+    --color: black;
 }
-

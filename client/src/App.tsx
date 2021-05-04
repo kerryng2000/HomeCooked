@@ -30,7 +30,6 @@ import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
 /* Theme variables */
-import "./index.css"
 import "./theme/variables.css";
 import "./index.css"
 import { useDispatch, useSelector } from "react-redux";
@@ -67,7 +66,7 @@ const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         {isAuthenticated && <Cart />}
-        <IonTabs onIonTabsDidChange={(e) => dispatch(updateTab(e.detail.tab))}>
+        <IonTabs>
           <IonRouterOutlet id="cart">
             <Route path="/:tab(user)/register" component={Register}></Route>
             <Route path="/:tab(user)/signIn" component={SignIn}></Route>
@@ -101,15 +100,15 @@ const App: React.FC = () => {
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="home" href="/home">
-              <IonIcon icon={home}/>
+              <IonIcon icon={home} onClick={() => dispatch(updateTab("home"))}/>
               <IonLabel>Home</IonLabel>
             </IonTabButton>
             <IonTabButton tab="dish" href="/dish">
-              <IonIcon icon={fastFood}/>
+              <IonIcon icon={fastFood} onClick={() => dispatch(updateTab("dish"))}/>
               <IonLabel>Dishes</IonLabel>
             </IonTabButton>
             <IonTabButton tab="account" href="/user">
-              <IonIcon icon={person}/>
+              <IonIcon icon={person} onClick={() => dispatch(updateTab("user"))}/>
               <IonLabel>Account</IonLabel>
             </IonTabButton>
           </IonTabBar>
