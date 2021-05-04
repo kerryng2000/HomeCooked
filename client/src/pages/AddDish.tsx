@@ -91,7 +91,7 @@ const AddDish: React.FC = () => {
           <IonLabel position="floating">Dish Stock</IonLabel>
           <IonInput type="number" ref={DishStock}></IonInput>
         </IonItem>
-        <IonImg src={photo} style={{width: "200px", height: "200px"}}></IonImg>
+        <IonImg src={photo} style={{width: "200px", height: "200px"}} className="ion-margin-top"></IonImg>
         <IonButton className="ion-margin-top" type="submit">
           Add
         </IonButton>

@@ -30,7 +30,7 @@ const Home: React.FC = () => {
       </IonHeader>
       <IonContent>
         <IonRow className="home-title layout-center">
-          <span>Ensuring safety during COVID-19.</span>
+          <span style={{fontSize: "16px"}}>Ensuring safety during COVID-19.</span>
         </IonRow>
 
         <IonRow className="home-top">

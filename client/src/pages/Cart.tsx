@@ -157,7 +157,7 @@ const Cart: React.FC = () => {
           </IonList>
         </IonContent>
         {cartContents.total > 0 && (
-          <h1 className="ion-margin">Total: ${cartContents.total}</h1>
+          <h1 className="ion-margin" style={{color: "black"}}>Total: ${cartContents.total}</h1>
         )}
         {cartContents.items.length > 0 && (
           <IonButton
