@@ -103,11 +103,11 @@ const App: React.FC = () => {
               <IonIcon icon={home} onClick={() => dispatch(updateTab("home"))}/>
               <IonLabel>Home</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="dish" href="/dish/allDishes">
+            <IonTabButton tab="dish" href="/dish">
               <IonIcon icon={fastFood} onClick={() => dispatch(updateTab("dish"))}/>
               <IonLabel>Dishes</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="account" href={isAuthenticated ? "/user/account" : "/user/signIn"}>
+            <IonTabButton tab="account" href="/user">
               <IonIcon icon={person} onClick={() => dispatch(updateTab("user"))}/>
               <IonLabel>Account</IonLabel>
             </IonTabButton>
