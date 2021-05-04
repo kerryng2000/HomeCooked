@@ -30,6 +30,7 @@ import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
 /* Theme variables */
+import "./index.css"
 import "./theme/variables.css";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";

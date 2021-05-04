@@ -5,7 +5,6 @@ import {
   IonButtons,
   IonCard,
   IonCardContent,
-  IonCardSubtitle,
   IonCol,
   IonContent,
   IonGrid,
@@ -26,7 +25,6 @@ import {
 } from "@ionic/react";
 import axios from "axios";
 import {
-  addCircleOutline,
   chevronForwardOutline,
   heartOutline,
   heartSharp,
@@ -59,7 +57,7 @@ const Chef: React.FC = () => {
 
   const requestChef = axios.get(`/users/${params.id}`);
   const requestDishes = axios.get(`/users/dishes/${params.id}`);
-  const requestReviews = axios.get(`reviews/${params.id}`);
+  const requestReviews = axios.get(`/reviews/${params.id}`);
 
   useEffect(() => {
     setLoading(true);
@@ -84,10 +82,10 @@ const Chef: React.FC = () => {
     };
 
     axios
-      .post("/reviews", review)
+      .post(`/reviews`, review)
       .then((res) => {
         axios
-          .get(`reviews/${params.id}`)
+          .get(`/reviews/${params.id}`)
           .then((resp) => {
             setReviews(resp.data);
           })
@@ -106,6 +104,7 @@ const Chef: React.FC = () => {
             size="large"
             slot="end"
             icon={heartSharp}
+            style={{paddingRight: '10px'}}
           />
         );
       else
@@ -116,6 +115,7 @@ const Chef: React.FC = () => {
             size="large"
             slot="end"
             icon={heartOutline}
+            style={{paddingRight: '10px'}}
           />
         );
     }
@@ -153,7 +153,7 @@ const Chef: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className="ion-padding-top ion-margin-bottom">
+        <IonToolbar className="toolbar-main">
           <IonButtons slot="start">
             <IonBackButton defaultHref="" />
           </IonButtons>
@@ -168,7 +168,7 @@ const Chef: React.FC = () => {
       ) : (
         <IonContent>
           <IonAvatar style={profPicStyle}>
-            <IonImg src={`${chef.profilePicture}`}></IonImg>
+            <IonImg src={`/${chef.profilePicture}`}></IonImg>
           </IonAvatar>
 
           <IonGrid>
@@ -176,20 +176,37 @@ const Chef: React.FC = () => {
               value={selected}
               onIonChange={(e) => setSelected(e.detail.value)}
             >
-              <IonRow>
-                <IonCol>
-                  <IonItem>
-                    <IonLabel>Dishes</IonLabel>
-                    <IonRadio value="dishes" slot="end"></IonRadio>
-                  </IonItem>
-                </IonCol>
-                <IonCol>
-                  <IonItem>
-                    <IonLabel>Reviews</IonLabel>
-                    <IonRadio value="reviews" slot="end"></IonRadio>
-                  </IonItem>
-                </IonCol>
-              </IonRow>
+              {selected === "dishes" ? 
+                <IonRow>
+                  <IonCol>
+                    <IonItem style={{borderBottom: '3px solid blue'}}>
+                      <IonLabel>Dishes</IonLabel>
+                      <IonRadio value="dishes" slot="end"></IonRadio>
+                    </IonItem>
+                  </IonCol>
+                  <IonCol>
+                    <IonItem>
+                      <IonLabel>Reviews</IonLabel>
+                      <IonRadio value="reviews" slot="end"></IonRadio>
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
+              :
+                <IonRow>
+                  <IonCol>
+                    <IonItem>
+                      <IonLabel>Dishes</IonLabel>
+                      <IonRadio value="dishes" slot="end"></IonRadio>
+                    </IonItem>
+                  </IonCol>
+                  <IonCol>
+                    <IonItem style={{borderBottom: '3px solid blue'}}>
+                      <IonLabel>Reviews</IonLabel>
+                      <IonRadio value="reviews" slot="end"></IonRadio>
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
+              }
             </IonRadioGroup>
           </IonGrid>
           {selected === "dishes" ? (
@@ -204,7 +221,7 @@ const Chef: React.FC = () => {
                   >
                     <IonImg
                       style={dishPicStyle}
-                      src={`${dish["foodPicture"]}`}
+                      src={`/${dish["foodPicture"]}`}
                     ></IonImg>
                     {dish["name"]}
                     <br />
@@ -229,6 +246,7 @@ const Chef: React.FC = () => {
                   <IonTextarea
                     placeholder="Write your review"
                     ref={descInputRef}
+                    className="review-editor"
                   />
                 </IonCardContent>
                 <IonButton onClick={handleSubmit}>Add review</IonButton>
@@ -242,7 +260,7 @@ const Chef: React.FC = () => {
                           <IonCol>
                             <IonAvatar>
                               <IonImg
-                                src={`${review.user.profilePicture}`}
+                                src={`/${review.user.profilePicture}`}
                               />
                             </IonAvatar>
                           </IonCol>

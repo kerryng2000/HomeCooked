@@ -10,6 +10,7 @@ import {
   IonList,
   IonPage,
   IonToolbar,
+  IonTitle
 } from "@ionic/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -21,17 +22,18 @@ const FavChefs: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("/users/favoriteChefs")
+      .get(`/users/favoriteChefs`)
       .then((res) => setFavChefs(res.data.favoriteChefs))
       .catch((err) => console.log(err));
   });
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className="ion-padding-top">
+        <IonToolbar className="toolbar-main">
           <IonButtons slot="start">
             <IonBackButton defaultHref="" />
           </IonButtons>
+          <IonTitle>Favorite Chefs</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

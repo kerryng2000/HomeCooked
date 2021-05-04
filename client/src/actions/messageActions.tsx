@@ -9,7 +9,7 @@ interface MessageInterface {
 
 export const Add = (Mail: MessageInterface, history: any) => {
     return function(dispatch: Dispatch) {
-    axios.post("/Message/SendMessage", Mail)
+    axios.post(`/Message/SendMessage`, Mail)
     .then(res => {
         console.log(res.data);
         dispatch({
