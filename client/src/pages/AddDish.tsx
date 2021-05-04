@@ -13,6 +13,11 @@ import {
   IonFabButton,
   IonIcon,
   IonImg,
+  IonTitle,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonRippleEffect
 } from "@ionic/react";
 import React, { useState } from "react";
 import { useRef } from "react";
@@ -22,7 +27,6 @@ import { useHistory } from "react-router-dom";
 import { camera } from "ionicons/icons";
 import { Camera, CameraResultType } from "@capacitor/core";
 import { decode } from "base64-arraybuffer";
-import { resolve } from "url";
 
 const AddDish: React.FC = () => {
   const DishName = useRef<HTMLIonInputElement>(null);
@@ -32,7 +36,7 @@ const AddDish: React.FC = () => {
   const history = useHistory();
   const [photo, setPhoto] = useState<string>("../../../uploads/defaultfood.jpg");
   const [image, setImage] = useState<any>();
-  
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -71,37 +75,85 @@ const AddDish: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-          <IonToolbar className="ion-padding-top">
-            <IonButtons slot="start">
-              <IonBackButton defaultHref=""/>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
+        <IonToolbar className="toolbar-main">
+          <IonButtons slot="start">
+              <IonBackButton defaultHref="" />
+          </IonButtons>
+          <IonTitle>Add Dish</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
-      <form className="ion-padding" onSubmit={handleSubmit}>
-        <IonItem>
-          <IonLabel position="floating">Dish Name</IonLabel>
-          <IonInput type="text" ref={DishName}></IonInput>
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Dish Price</IonLabel>
-          <IonInput step="0.01" type="number" ref={DishPrice}></IonInput>
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Dish Stock</IonLabel>
-          <IonInput type="number" ref={DishStock}></IonInput>
-        </IonItem>
-        <IonImg src={photo} style={{width: "200px", height: "200px"}}></IonImg>
-        <IonButton className="ion-margin-top" type="submit">
-          Add
-        </IonButton>
-      </form>
-      <IonFab vertical="bottom" horizontal="center" slot="fixed">
-        <IonFabButton onClick={takePhoto}>
-          <IonIcon icon={camera}></IonIcon>
-        </IonFabButton>
-      </IonFab>
-      </IonContent>
+        <form onSubmit={handleSubmit} autoComplete="off">
+            <IonGrid style={{paddingTop: '50px'}}>
+                <IonRow justify-content-center align-items-center className="form-row register">
+                    <IonCol align-self-center>
+                        <IonItem>
+                            <IonLabel position="floating" className="form-label register">Dish Name:</IonLabel>
+                            <IonInput
+                                className="form-input"
+                                ref={ DishName }
+                                required
+                            />
+                        </IonItem>
+                    </IonCol>
+                </IonRow>
+
+                <IonRow justify-content-center align-items-center className="form-row register">
+                    <IonCol align-self-center>
+                        <IonItem>
+                            <IonLabel position="floating" className="form-label">Dish Price:</IonLabel>
+                            <IonInput
+                                className="form-input"
+                                type="number"
+                                ref={ DishPrice }
+                                required
+                            />
+                        </IonItem>
+                    </IonCol>
+                </IonRow>
+
+                <IonRow justify-content-center align-items-center className="form-row register">
+                    <IonCol align-self-center>
+                        <IonItem>
+                            <IonLabel position="floating" className="form-label">Dish Stock:</IonLabel>
+                            <IonInput
+                                className="form-input"
+                                type="number"
+                                ref={ DishStock }
+                                required
+                            />
+                        </IonItem>
+                    </IonCol>
+                </IonRow>
+
+                <IonRow style={{display: 'flex', justifyContent: 'center', margin: '20px 0'}}>
+                  <IonImg src={photo} style={{width: "200px", height: "200px"}}></IonImg>
+                </IonRow>
+
+                <IonRow justify-content-center align-items-center>
+                    <IonCol align-self-center>
+                        <IonButton
+                            className="c-login-page__submit"
+                            type="submit"
+                            color="primary"
+                            size="large"
+                            expand="block"
+                            shape="round"
+                            strong
+                        >
+                            Add
+                            <IonRippleEffect></IonRippleEffect>
+                        </IonButton>
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
+        </form>
+        <IonFab vertical="bottom" horizontal="center" slot="fixed">
+          <IonFabButton onClick={takePhoto}>
+            <IonIcon icon={camera}></IonIcon>
+          </IonFabButton>
+        </IonFab>
+      </IonContent>      
     </IonPage>
   );
 };
