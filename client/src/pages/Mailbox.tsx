@@ -17,6 +17,7 @@ import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { AppState } from "../reducers";
+import { SERVER_URL } from "../apiConfig";
 
 const Mailbox: React.FC = () => {
   const [dishes, setDishes] = useState([{}]);
@@ -65,7 +66,7 @@ const Mailbox: React.FC = () => {
 const sendGetRequest = (tsm: any) => {
   var newData = tsm.id;
   return axios({
-    url: `/Mailbox/${newData}`,
+    url: `${SERVER_URL}/Mailbox/${newData}`,
     method: "get",
   }).then((response) => {
     console.log(response);

@@ -4,7 +4,9 @@ const app = express();
 const cors = require('cors');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 7000;
+
+app.use('/', express.static(__dirname + '/client/build'));
 
 app.use('/uploads', express.static('uploads'));
 

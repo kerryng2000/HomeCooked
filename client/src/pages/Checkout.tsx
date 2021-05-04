@@ -100,8 +100,7 @@ const CheckoutForm = () => {
           <IonCol align-self-center>
               <IonItem>
                   <IonLabel position="floating" >Name:</IonLabel>
-                  <IonInput
-                      
+                  <IonInput                      
                       value={`${profile!.firstName} ${profile!.lastName}`}
                       required
                   />
@@ -112,8 +111,7 @@ const CheckoutForm = () => {
           <IonCol align-self-center>
               <IonItem>
                   <IonLabel position="floating" >Address:</IonLabel>
-                  <IonInput
-                      
+                  <IonInput                     
                       ref={street_address}
                       required
                   />
@@ -124,8 +122,7 @@ const CheckoutForm = () => {
           <IonCol align-self-center>
               <IonItem>
                   <IonLabel position="floating" >City:</IonLabel>
-                  <IonInput
-                      
+                  <IonInput                     
                       ref={city}
                       required
                   />

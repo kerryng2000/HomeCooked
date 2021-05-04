@@ -42,7 +42,7 @@ const FavChefs: React.FC = () => {
             return (
               <IonItem onClick={() => history.push(`/user/chef/${chef.chef._id}`)}>
                 <IonAvatar>
-                  <IonImg src={`/${chef.chef.profilePicture}`} />
+                  <IonImg src={`${SERVER_URL}/${chef.chef.profilePicture}`} />
                 </IonAvatar>
                 <IonLabel className="ion-margin">{chef.chef.firstName} {chef.chef.lastName}</IonLabel>
               </IonItem>

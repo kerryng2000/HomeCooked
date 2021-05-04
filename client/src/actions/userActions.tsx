@@ -95,7 +95,7 @@ export const updateProfPic = (file: Blob, format: String) => {
 
 export const addFavorite = (id: string) => {
     return (dispatch: Dispatch) => {
-    axios.post(`/users/addFavorite/${id}`)
+    axios.post(`${SERVER_URL}/users/addFavorite/${id}`)
     .then(res => {
         dispatch({
             type: 'ADD_FAVORITE',
@@ -108,7 +108,7 @@ export const addFavorite = (id: string) => {
 
 export const removeFavorite = (id: string) => {
     return (dispatch: Dispatch) => {
-    axios.post(`/users/removeFavorite/${id}`)
+    axios.post(`${SERVER_URL}/users/removeFavorite/${id}`)
     .then(res => {
         dispatch({
             type: 'REMOVE_FAVORITE',
