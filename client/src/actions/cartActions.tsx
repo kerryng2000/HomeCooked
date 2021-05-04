@@ -1,6 +1,5 @@
 import axios from "axios"
 import { Dispatch } from "redux"
-import { SERVER_URL } from '../apiConfig';
 
 interface itemInterface {
     dish: string;
@@ -9,7 +8,7 @@ interface itemInterface {
 
 export const addToCart = (item: itemInterface) => {
     return function(dispatch: Dispatch) {
-        axios.post(`${SERVER_URL}/cart`, item)
+        axios.post(`/cart`, item)
         .then(res => {
             console.log(res.data.cart);
             dispatch({
@@ -25,7 +24,7 @@ export const addToCart = (item: itemInterface) => {
 
 export const getCart = () => {
     return function(dispatch: Dispatch) {
-        axios.get(`${SERVER_URL}/cart`)
+        axios.get(`/cart`)
         .then(res => {
             console.log(res.data.cart);
             dispatch({
@@ -41,7 +40,7 @@ export const getCart = () => {
 
 export const removeItem = (itemId: string) => {
     return function(dispatch: Dispatch) {
-        axios.put(`${SERVER_URL}/cart/removeItem`, {itemId: itemId})
+        axios.put(`/cart/removeItem`, {itemId: itemId})
         .then(res => {
             console.log(res.data.cart);
             dispatch({
@@ -57,7 +56,7 @@ export const removeItem = (itemId: string) => {
 
 export const incrementQuantity = (itemId: string) => {
     return function(dispatch: Dispatch) {
-        axios.put(`${SERVER_URL}/cart/incrementQuantity`, { itemId: itemId })
+        axios.put(`/cart/incrementQuantity`, { itemId: itemId })
         .then(res => {
             dispatch({
                 type: "INCREMENT_QUANTITY",
@@ -72,7 +71,7 @@ export const incrementQuantity = (itemId: string) => {
 
 export const decrementQuantity = (itemId: string) => {
     return function(dispatch: Dispatch) {
-        axios.put(`${SERVER_URL}/cart/decrementQuantity`, { itemId: itemId })
+        axios.put(`/cart/decrementQuantity`, { itemId: itemId })
         .then(res => {
             dispatch({
                 type: "DECREMENT_QUANTITY",

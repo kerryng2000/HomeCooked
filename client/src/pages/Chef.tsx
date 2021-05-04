@@ -35,7 +35,6 @@ import { useHistory, useParams } from "react-router";
 import { AppState } from "../reducers";
 import StarRatings from "react-star-ratings";
 import { addFavorite, removeFavorite } from "../actions/userActions";
-import { SERVER_URL } from '../apiConfig';
 
 const Chef: React.FC = () => {
   const params: any = useParams();
@@ -56,9 +55,9 @@ const Chef: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const tab = useSelector((state: AppState) => state.path.tab)
 
-  const requestChef = axios.get(`${SERVER_URL}/users/${params.id}`);
-  const requestDishes = axios.get(`${SERVER_URL}/users/dishes/${params.id}`);
-  const requestReviews = axios.get(`${SERVER_URL}/reviews/${params.id}`);
+  const requestChef = axios.get(`/users/${params.id}`);
+  const requestDishes = axios.get(`/users/dishes/${params.id}`);
+  const requestReviews = axios.get(`/reviews/${params.id}`);
 
   useEffect(() => {
     setLoading(true);
@@ -83,10 +82,10 @@ const Chef: React.FC = () => {
     };
 
     axios
-      .post(`${SERVER_URL}/reviews`, review)
+      .post(`/reviews`, review)
       .then((res) => {
         axios
-          .get(`${SERVER_URL}/reviews/${params.id}`)
+          .get(`/reviews/${params.id}`)
           .then((resp) => {
             setReviews(resp.data);
           })
@@ -169,7 +168,7 @@ const Chef: React.FC = () => {
       ) : (
         <IonContent>
           <IonAvatar style={profPicStyle}>
-            <IonImg src={`${SERVER_URL}/${chef.profilePicture}`}></IonImg>
+            <IonImg src={`/${chef.profilePicture}`}></IonImg>
           </IonAvatar>
 
           <IonGrid>
@@ -222,7 +221,7 @@ const Chef: React.FC = () => {
                   >
                     <IonImg
                       style={dishPicStyle}
-                      src={`${SERVER_URL}/${dish["foodPicture"]}`}
+                      src={`/${dish["foodPicture"]}`}
                     ></IonImg>
                     {dish["name"]}
                     <br />
@@ -261,7 +260,7 @@ const Chef: React.FC = () => {
                           <IonCol>
                             <IonAvatar>
                               <IonImg
-                                src={`${SERVER_URL}/${review.user.profilePicture}`}
+                                src={`/${review.user.profilePicture}`}
                               />
                             </IonAvatar>
                           </IonCol>

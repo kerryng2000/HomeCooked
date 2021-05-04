@@ -15,7 +15,6 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { SERVER_URL } from '../apiConfig';
 
 const FavChefs: React.FC = () => {
   const [favChefs, setFavChefs] = useState<any[]>([]);
@@ -23,7 +22,7 @@ const FavChefs: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`${SERVER_URL}/users/favoriteChefs`)
+      .get(`/users/favoriteChefs`)
       .then((res) => setFavChefs(res.data.favoriteChefs))
       .catch((err) => console.log(err));
   });

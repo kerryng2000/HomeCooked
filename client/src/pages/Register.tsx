@@ -88,9 +88,9 @@ const Register: React.FC = () => {
                     <IonRow justify-content-center align-items-center className="form-row register">
                         <IonCol align-self-center>
                             <IonItem>
-                                <IonLabel position="floating" className="form-label register">First Name:</IonLabel>
+                                <IonLabel position="floating" >First Name:</IonLabel>
                                 <IonInput
-                                    className="form-input"
+                                    
                                     ref={ firstNameInputRef }
                                     required
                                 />
@@ -101,9 +101,9 @@ const Register: React.FC = () => {
                     <IonRow justify-content-center align-items-center className="form-row register">
                         <IonCol align-self-center>
                             <IonItem>
-                                <IonLabel position="floating" className="form-label">Last Name:</IonLabel>
+                                <IonLabel position="floating" >Last Name:</IonLabel>
                                 <IonInput
-                                    className="form-input"
+                                    
                                     ref={ lastNameInputRef }
                                     required
                                 />
@@ -114,11 +114,11 @@ const Register: React.FC = () => {
                     <IonRow justify-content-center align-items-center className="form-row register">
                         <IonCol align-self-center>
                             <IonItem>
-                                <IonLabel position="floating" className="form-label">Email:</IonLabel>
+                                <IonLabel position="floating" >Email:</IonLabel>
                                 <IonInput
                                     type="email"
                                     name="email"
-                                    className="form-input"
+                                    
                                     ref={ emailInputRef }
                                     required
                                 />
@@ -129,10 +129,10 @@ const Register: React.FC = () => {
                     <IonRow justify-content-center align-items-center className="form-row register">
                         <IonCol align-self-center>
                             <IonItem>
-                                <IonLabel position="floating" className="form-label">Password:</IonLabel>
+                                <IonLabel position="floating" >Password:</IonLabel>
                                 <IonInput
                                     type="password"
-                                    className="form-input"
+                                    
                                     ref={ passwordInputRef }
                                     required
                                 />
@@ -158,12 +158,6 @@ const Register: React.FC = () => {
                     </IonRow>
                 </IonGrid>
             </form>
-            <IonRow className="switch-auth">
-              Don't have an account?&nbsp;
-              <span>
-                <IonRouterLink routerLink="/user/signIn">SignIn</IonRouterLink>
-              </span>
-            </IonRow>
           </IonContent>
       </IonPage>
   );
