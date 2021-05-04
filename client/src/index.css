@@ -1,0 +1,158 @@
+.home-top {
+    margin: 0 0 20px 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-top h1 {
+    position: absolute;
+    margin: auto;
+    color: white;
+    font-weight: 900;
+    font-size: 50px;
+}
+
+.toolbar-main {
+    height: 66px; 
+    display: flex;
+    align-items: center;
+}
+
+.home-type {
+    margin: 20px;
+}
+
+.home-type-image {
+    width: 100%;
+}
+
+.home-type-description {
+    font-size: 20px;
+    padding: 0 40px;
+    line-height: 1.5;
+    font-family: monospace;
+}
+.home-type-description h2 {
+    font-size: 32px;
+    font-weight: 500;
+    font-family: system-ui;
+    color: #222;
+}
+
+.home-type-description-1 {
+    font-size: 20px;
+    padding: 20px 10px 0 80px;
+    line-height: 1.5;
+    font-family: monospace;
+    letter-spacing: -0.5;
+}
+.home-type-description-1 h2 {
+    color: black;
+    font-size: 32px;
+    font-weight: 600;
+    font-family: system-ui;
+}
+
+.home-content-img-left {
+    padding: 50px 80px 0 0;
+}
+
+.home-content-img-right {
+    padding: 50px 0 0 80px;
+}
+
+.home-content-desc h3 {
+    font-weight: bold;
+}
+.home-content-desc span {
+    font-size: 14px;
+    font-weight: lighter;
+}
+hr {
+    border-width: 1px!important;
+}
+.question-link {
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.detail-price-container {
+    display: flex;
+    flex-direction: column;
+}
+.detail-price {
+    flex-basis: 80%;
+    min-height: 80%;
+    display: flex;
+}
+.detail-price h1 {
+    margin: auto;
+}
+.control-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-row {
+    margin-bottom: 30px!important;
+}
+.form-label {
+    font-size: 20px!important;
+    transform: none!important;
+    margin-bottom: 10px!important;
+}
+.form-label.register {
+    margin-bottom: 0!important;
+}
+.form-input input {
+    color: black!important;
+    font-size: 24px!important;
+    background: white!important;
+}
+.form-row.register {
+    margin-bottom: 15px!important;
+}
+.switch-auth {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+.ion-margin.account {
+    font-size: 24px;
+}
+.review-editor {
+    font-size: 20px;
+}
+.order-header {
+    font-size: 24px;
+}
+.toast-message {
+    font-size: 20px!important;
+}
+.toast-wrapper {
+    top: 100px!important;
+    bottom: auto!important;
+}
+.layout-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.home-title {
+    background: #dcad44;
+    height: 50px;
+}
+.home-title span {
+    font-size: 24px;
+    color: white;
+    margin: 0;
+    font-family: cursive;
+}
+
+
+.search {
+    background: white;
+    color: black;
+}

@@ -9,6 +9,7 @@ interface userInterface {
         email?: string;
         favoriteChefs?: any[];
     };
+    showError: boolean,
 }
 
 const InitialState: userInterface = {
@@ -21,7 +22,8 @@ const InitialState: userInterface = {
         lastName: '',
         email: '',
         favoriteChefs: []
-    }
+    },
+    showError: false,
 }
 
 export const userReducer = (state = InitialState, action: any): userInterface => {
@@ -39,13 +41,20 @@ export const userReducer = (state = InitialState, action: any): userInterface =>
                     favoriteChefs: []
                 }};
         case 'UPDATE_PROF_PIC':
-            return {...state, profile: {...state.profile, profilePicture: action.payload} }
+            return {...state, profile: {...state.profile, profilePicture: action.payload.profilePicture} }
         case 'AUTH_ERROR':
             return {...state, isAuthenticated: false, errorMessage: action.errorMsg};
         case 'ADD_FAVORITE':
             return {...state, profile: {...state.profile, favoriteChefs: action.payload}}
         case 'REMOVE_FAVORITE':
             return {...state, profile: {...state.profile, favoriteChefs: action.payload}}
+        case "SET_AUTH_ERROR_MESSAGE": {
+            return {
+                ...state,
+                showError: action.payload.flag,
+                errorMessage: action.payload.message,
+            }
+        }
         default:
             return state;
     }
