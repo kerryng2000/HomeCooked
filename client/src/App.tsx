@@ -66,7 +66,7 @@ const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         {isAuthenticated && <Cart />}
-        <IonTabs onIonTabsDidChange={(e) => dispatch(updateTab(e.detail.tab))}>
+        <IonTabs>
           <IonRouterOutlet id="cart">
             <Route path="/:tab(user)/register" component={Register}></Route>
             <Route path="/:tab(user)/signIn" component={SignIn}></Route>
@@ -98,7 +98,7 @@ const App: React.FC = () => {
               <Redirect to="/home" />
             </Route>
           </IonRouterOutlet>
-          <IonTabBar slot="bottom">
+          <IonTabBar slot="bottom" onIonTabsDidChange={(e) => dispatch(updateTab(e.detail.tab))}>
             <IonTabButton tab="home" href="/home">
               <IonIcon icon={home}/>
               <IonLabel>Home</IonLabel>

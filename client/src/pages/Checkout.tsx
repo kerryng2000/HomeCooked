@@ -84,7 +84,6 @@ const CheckoutForm = () => {
 
       axios.post(`/orders`, order)
       .then(res => {
-        console.log(res)
         setOrderComplete(true);
       })
       .catch(error => console.log(error))

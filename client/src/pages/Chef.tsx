@@ -46,7 +46,7 @@ const Chef: React.FC = () => {
   const user = useSelector((state: AppState) => state.user);
   const email = user.profile!.email;
   const [favorite, setFavorite] = useState<boolean>(
-    user.profile!.favoriteChefs!.some((e) => e.chef == params.id)
+    user.profile!.favoriteChefs!.some((e) => e.chef === params.id)
   );
   const history = useHistory();
   const isAuthenticated = user.isAuthenticated;
@@ -61,7 +61,6 @@ const Chef: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    console.log(history);
     axios.all([requestChef, requestDishes, requestReviews]).then(
       axios.spread((...responses) => {
         setChef(responses[0].data);
@@ -218,6 +217,7 @@ const Chef: React.FC = () => {
                     onClick={() => {
                       history.push(`/${tab}/page/${dish["_id"]}`);
                     }}
+                    key={dish._id}
                   >
                     <IonImg
                       style={dishPicStyle}
@@ -254,7 +254,7 @@ const Chef: React.FC = () => {
               <IonList>
                 {reviews.map((review) => {
                   return (
-                    <IonItem>
+                    <IonItem key={review._id}>
                       <IonGrid>
                         <IonRow>
                           <IonCol>

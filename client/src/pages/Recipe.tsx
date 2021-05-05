@@ -15,7 +15,7 @@ import {
   IonIcon,
   IonText,
 } from "@ionic/react";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import { addCircleOutline, removeCircleOutline } from "ionicons/icons";
@@ -49,21 +49,10 @@ const Recipe: React.FC = () => {
       url: `/Dishes/${newData}`,
       method: "get",
     }).then((response) => {
-      console.log('response data: ', response);
       setDish(response.data);
       setChef(response.data.chef);
       setLoading(false);
     });
-  };
-
-  const sendChefRequest = (chefId: any) => {
-    axios
-      .get(`/users/${chefId}`)
-      .then((chef) => {
-        setChef(chef.data);
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
   };
 
   const increaseAmount = () => {

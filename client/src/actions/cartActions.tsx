@@ -26,7 +26,6 @@ export const getCart = () => {
     return function(dispatch: Dispatch) {
         axios.get(`/cart`)
         .then(res => {
-            console.log(res.data.cart);
             dispatch({
                 type: "GET_CART",
                 payload: res.data.cart
@@ -42,7 +41,6 @@ export const removeItem = (itemId: string) => {
     return function(dispatch: Dispatch) {
         axios.put(`/cart/removeItem`, {itemId: itemId})
         .then(res => {
-            console.log(res.data.cart);
             dispatch({
                 type: "REMOVE_ITEM",
                 payload: res.data.cart

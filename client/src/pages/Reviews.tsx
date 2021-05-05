@@ -27,7 +27,6 @@ const Reviews: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log('init');
     axios.get(`/reviews/${userId}`)
     .then(res => setReviews(res.data))
     .catch(err => console.log(err))
@@ -47,7 +46,7 @@ const Reviews: React.FC = () => {
       <IonList>
         {reviews.map((review) => {
           return (
-            <IonItem>
+            <IonItem key={review._id}>
               <IonGrid >
                 <IonRow>
                   <IonCol>

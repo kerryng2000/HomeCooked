@@ -27,7 +27,6 @@ export const Add = (dish: DishInterface, history: any, imageFormat: string) => {
 
         axios.post(`/Dishes/AddDish`, formData)
         .then(res => {
-            console.log(res.data);
             dispatch({
                 type: 'ADD_DISHES',
                 payload: res.data.dish

@@ -15,7 +15,7 @@ const ProductCard = props => {
     const history = useHistory();
 
     const handleAddToCart = (dish_id) => {
-        if(user.isAuthenticated && user.profile!._id != product.chef._id) {
+        if(user.isAuthenticated && user.profile!._id !== product.chef._id) {
             const item = {
                 dish: dish_id,
                 quantity: 1,
@@ -23,7 +23,7 @@ const ProductCard = props => {
             dispatch(addToCart(item));
         } else if(!user.isAuthenticated){
             dispatch(setErrorFlag(true, "You should sign in to purchase."));
-        } else if(user.profile!._id == product.chef._id) {
+        } else if(user.profile!._id === product.chef._id) {
             dispatch(setErrorFlag(true, "This is your product."))
         }
     };

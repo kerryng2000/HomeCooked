@@ -22,7 +22,6 @@ import { useHistory } from "react-router-dom";
 import { camera } from "ionicons/icons";
 import { Camera, CameraResultType } from "@capacitor/core";
 import { decode } from "base64-arraybuffer";
-import { resolve } from "url";
 
 const AddDish: React.FC = () => {
   const DishName = useRef<HTMLIonInputElement>(null);

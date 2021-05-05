@@ -29,7 +29,6 @@ const profile = useSelector((state: AppState) => state.user.profile);
 const params = useParams();
 const Sender= profile?.email;
 const Reciever = params;
-console.log(Reciever['user']);
 const Message = useRef<HTMLIonInputElement>(null);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

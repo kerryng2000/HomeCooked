@@ -40,7 +40,7 @@ const FavChefs: React.FC = () => {
         <IonList>
           {favChefs.map((chef) => {
             return (
-              <IonItem onClick={() => history.push(`/user/chef/${chef.chef._id}`)}>
+              <IonItem onClick={() => history.push(`/user/chef/${chef.chef._id}`)} key={chef._id}>
                 <IonAvatar>
                   <IonImg src={`/${chef.chef.profilePicture}`} />
                 </IonAvatar>

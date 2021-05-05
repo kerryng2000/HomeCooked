@@ -1,7 +1,5 @@
 import {
-  IonApp,
   IonButton,
-  IonButtons,
   IonCol,
   IonContent,
   IonFab,
@@ -29,7 +27,7 @@ import {
   removeCircleOutline,
   trashOutline,
 } from "ionicons/icons";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementQuantity,
@@ -51,7 +49,6 @@ const Cart: React.FC = () => {
   };
 
   const handleDeleteItem = (id: string) => {
-    console.log("Deleting item" + id);
     dispatch(removeItem(id));
     ionListRef.current!.closeSlidingItems();
   };
@@ -85,7 +82,7 @@ const Cart: React.FC = () => {
           <IonList ref={ionListRef}>
             {cartContents.items.map((item) => {
               return (
-                <IonItemSliding>
+                <IonItemSliding key={item._id}>
                   <IonItemOptions onIonSwipe={() => handleDeleteItem(item._id)}>
                     <IonItemOption
                       color="danger"

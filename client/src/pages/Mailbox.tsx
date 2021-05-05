@@ -68,7 +68,6 @@ const sendGetRequest = (tsm: any) => {
     url: `/Mailbox/${newData}`,
     method: "get",
   }).then((response) => {
-    console.log(response);
     return response.data;
   });
 };

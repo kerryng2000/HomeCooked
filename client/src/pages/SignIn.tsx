@@ -14,9 +14,7 @@ import {
   IonToolbar,
   IonTitle,
   IonHeader,
-  IonRouterLink,
-  IonButtons,
-  IonBackButton,
+  IonRouterLink
 } from "@ionic/react";
 import React from "react";
 

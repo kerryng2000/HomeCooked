@@ -14,8 +14,6 @@ import {
   IonRow,
   IonCol,
   IonRippleEffect,
-  IonButtons,
-  IonBackButton
 } from "@ionic/react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";

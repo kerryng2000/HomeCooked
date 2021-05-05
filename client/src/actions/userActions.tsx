@@ -17,7 +17,6 @@ export const register = (user: registerInterface, history: any) => {
     return function(dispatch: Dispatch) {
         axios.post(`/users/register`, user)
         .then(res => {
-            console.log(res.data);
             dispatch({
                 type: 'AUTH_REGISTER',
                 payload: res.data.user

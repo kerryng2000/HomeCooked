@@ -26,7 +26,6 @@ const Orders: React.FC = () => {
       .get(`/orders`)
       .then((res) => {
         setOrders(res.data);
-        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -51,7 +50,7 @@ const Orders: React.FC = () => {
         <IonList>
           {orders.map((order) => {
             return (
-              <div>
+              <div key={order._id}>
                 <IonListHeader className="order-header">
                   {order.date} Total: ${order.total}
                 </IonListHeader>
@@ -62,6 +61,7 @@ const Orders: React.FC = () => {
                       onClick={() => {
                         history.push(`/user/page/${dish.dish._id}`);
                       }}
+                      key={dish._id}
                     >
                       <IonImg
                         style={dishPicStyle}
