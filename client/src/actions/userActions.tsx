@@ -25,7 +25,7 @@ export const register = (user: registerInterface, history: any) => {
             history.push("/user/account");
         })
         .catch(err => {
-            dispatch(setErrorMessage(true, "Invalid signup information. Please try with another information."));
+            dispatch(setErrorMessage(true, "Invalid signup information. Please try with again."));
         });
     }
 }
@@ -41,7 +41,7 @@ export const signIn = (user: signInInterface, history: any) => {
             history.push("/user/account");
         })
         .catch(err => {
-            dispatch(setErrorMessage(true, "Invalid login information. Please make sure your account information."));
+            dispatch(setErrorMessage(true, "Invalid login information. Check your account information."));
         });
     }
 }

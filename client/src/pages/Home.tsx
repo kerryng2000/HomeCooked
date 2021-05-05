@@ -101,7 +101,7 @@ const Home: React.FC = () => {
         <IonRow>
           <IonNote className="home-type-description-1">
             <h2>It's all here. All In one app.</h2>
-            Discover local, on-demand delivery on Pickup from restaurants, nearby grocery and convenience stores, and more.
+            Discover local, on-demand delivery or pickup of great dishes from people like you.
           </IonNote>
         </IonRow>
 
@@ -112,7 +112,7 @@ const Home: React.FC = () => {
         <IonRow style={{paddingBottom: '20px'}}>
           <IonNote className="home-type-description-1">
             <h2>Every flavor welcome!</h2>
-            From your neighborhood sushi spot to the burger and fries you crave, choose from over 300,000 local and national favorites across the U.S., Canada and Australia.
+            Offering a variety of cuisines and dishes, so there's always a dish for you.
           </IonNote>
         </IonRow>
 
