@@ -82,8 +82,8 @@ const Recipe: React.FC = () => {
   };
 
   const profPicStyle = {
-    width: "100%",
-    height: 'auto',
+    width: "80%",
+    height: '80%',
   };
 
   return (
@@ -142,7 +142,7 @@ const Recipe: React.FC = () => {
             </IonRow>
             {isAuthenticated && email !== chef.email && (
               <>
-                <IonRow>
+                <IonRow className="ion-margin-top">
                   <IonCol size="2"></IonCol>
                   <IonCol size="8">
                     <hr/>
