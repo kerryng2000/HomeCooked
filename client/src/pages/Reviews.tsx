@@ -19,6 +19,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import StarRatings from "react-star-ratings";
+import { SERVER_URL } from "../apiConfig";
 import { AppState } from "../reducers";
 
 const Reviews: React.FC = () => {
@@ -27,7 +28,11 @@ const Reviews: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    axios.get(`/reviews/${userId}`)
+    axios.get(`${SERVER_URL}/reviews/${userId}`, {
+      headers: {
+          "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      }
+  })
     .then(res => setReviews(res.data))
     .catch(err => console.log(err))
   }, [])
@@ -52,7 +57,7 @@ const Reviews: React.FC = () => {
                   <IonCol>
                     <IonAvatar onClick={() => history.push(`/user/chef/${review.user._id}`)}>
                       <IonImg
-                        src={`/${review.user.profilePicture}`}
+                        src={`${SERVER_URL}/${review.user.profilePicture}`}
                       />
                     </IonAvatar>
                   </IonCol>

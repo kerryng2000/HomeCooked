@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
+import { SERVER_URL } from '../apiConfig';
 
 interface registerInterface {
     firstName: string;
@@ -15,8 +16,9 @@ interface signInInterface {
 
 export const register = (user: registerInterface, history: any) => {
     return function(dispatch: Dispatch) {
-        axios.post(`/users/register`, user)
+        axios.post(`${SERVER_URL}/users/register`, user)
         .then(res => {
+            localStorage.setItem("jwt", res.data.token)
             dispatch({
                 type: 'AUTH_REGISTER',
                 payload: res.data.user
@@ -31,8 +33,9 @@ export const register = (user: registerInterface, history: any) => {
 
 export const signIn = (user: signInInterface, history: any) => {
     return function(dispatch: Dispatch) {
-        axios.post(`/users/signIn`, user)
+        axios.post(`${SERVER_URL}/users/signIn`, user)
         .then(res => {
+            localStorage.setItem("jwt", res.data.token)
             dispatch({
                 type: 'AUTH_SIGN_IN',
                 payload: res.data.user
@@ -48,8 +51,12 @@ export const signIn = (user: signInInterface, history: any) => {
 
 export const checkAuth = () => {
     return (dispatch: Dispatch) => {
-        axios.get(`/users/checkAuth`)
-        .then((res) => 
+        axios.get(`${SERVER_URL}/users/checkAuth`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+            }
+        })
+        .then((res) =>  
             dispatch({
                 type: 'AUTH_SIGN_IN',
                 payload: res.data.user
@@ -64,8 +71,13 @@ export const checkAuth = () => {
 
 export const signOut = (history: any) => {
     return (dispatch: Dispatch) => {
-        axios.get(`/users/signOut`)
+        axios.get(`${SERVER_URL}/users/signOut`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+            }
+        })
         .then(() => {
+            localStorage.removeItem("jwt");
             dispatch({
                 type: 'AUTH_SIGN_OUT'
             })
@@ -81,7 +93,11 @@ export const updateProfPic = (file: Blob, format: String) => {
 
         formData.append("profilePicture", file, `.${format}`);
                 
-        axios.put(`/users/updateProfPic`, formData)
+        axios.put(`${SERVER_URL}/users/updateProfPic`, formData, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+            }
+        })
         .then((res) => {
             dispatch({
                 type: 'UPDATE_PROF_PIC',
@@ -94,7 +110,11 @@ export const updateProfPic = (file: Blob, format: String) => {
 
 export const addFavorite = (id: string) => {
     return (dispatch: Dispatch) => {
-    axios.post(`/users/addFavorite/${id}`)
+    axios.post(`${SERVER_URL}/users/addFavorite/${id}`, {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+        }
+    })
     .then(res => {
         dispatch({
             type: 'ADD_FAVORITE',
@@ -107,7 +127,11 @@ export const addFavorite = (id: string) => {
 
 export const removeFavorite = (id: string) => {
     return (dispatch: Dispatch) => {
-    axios.post(`/users/removeFavorite/${id}`)
+    axios.post(`${SERVER_URL}/users/removeFavorite/${id}`, {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+        }
+    })
     .then(res => {
         dispatch({
             type: 'REMOVE_FAVORITE',

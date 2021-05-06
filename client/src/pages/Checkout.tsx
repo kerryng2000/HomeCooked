@@ -27,6 +27,7 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
+import { SERVER_URL } from "../apiConfig";
 
 const stripePromise = loadStripe(
   "pk_test_51IXyYgFh9O3K0dbjc5hSwDk3NOYvjWzyqsCtPf5kFJay1Ak8BLssWNr6ssUigyW3atY5WqmtzilXTHBn4cF8O90D00J0XWz5VX"
@@ -82,7 +83,11 @@ const CheckoutForm = () => {
         items: items
       }
 
-      axios.post(`/orders`, order)
+      axios.post(`${SERVER_URL}/orders`, order, {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+        }
+    })
       .then(res => {
         setOrderComplete(true);
       })

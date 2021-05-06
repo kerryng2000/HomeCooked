@@ -35,6 +35,7 @@ import {
   incrementQuantity,
   removeItem,
 } from "../actions/cartActions";
+import { SERVER_URL } from "../apiConfig";
 import { AppState } from "../reducers";
 import Checkout from "./Checkout";
 
@@ -103,7 +104,7 @@ const Cart: React.FC = () => {
                         marginRight: "10px",
                       }}
                     >
-                      <IonImg src={`${item.dish.foodPicture}`} />
+                      <IonImg src={`${SERVER_URL}/${item.dish.foodPicture}`} />
                     </IonThumbnail>
                     <IonGrid>
                       <IonRow className="ion-align-items-end">

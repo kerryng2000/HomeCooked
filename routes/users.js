@@ -104,7 +104,6 @@ router.post(
                 .then((user) => {
                   const jwt = issueJWT(user);
 
-                  res.cookie("access_token", jwt, { httpOnly: true });
                   res.json({
                     success: true,
                     user: {
@@ -115,6 +114,7 @@ router.post(
                       profilePicture: user.profilePicture,
                       favoriteChefs: user.favoriteChefs
                     },
+                    token: jwt
                   });
 
                   transporter.sendMail(mailOptions, (err, info) => {
@@ -149,7 +149,6 @@ router.post("/signIn", (req, res) => {
         if (result) {
           const jwt = issueJWT(user);
 
-          res.cookie("access_token", jwt, { httpOnly: true });
           res.status(200).json({
             success: true,
             user: {
@@ -160,6 +159,7 @@ router.post("/signIn", (req, res) => {
               profilePicture: user.profilePicture,
               favoriteChefs: user.favoriteChefs
             },
+            token: jwt
           });
         } else {
           return res
@@ -176,7 +176,6 @@ router.get(
   "/checkAuth",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log(req.user);
     res.status(200).json({ success: true, msg: "You are authorized", user: {
       profilePicture: req.user.profilePicture,
       _id: req.user._id,
@@ -192,7 +191,6 @@ router.get(
   "/signOut",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.clearCookie("access_token");
     res.json({ success: true });
   }
 );

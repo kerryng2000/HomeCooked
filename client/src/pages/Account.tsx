@@ -23,6 +23,7 @@ import { useHistory } from "react-router-dom";
 import { Camera, CameraResultType } from "@capacitor/core";
 import { decode } from "base64-arraybuffer";
 import { cartOutline, heartOutline, mailOutline, starOutline } from "ionicons/icons";
+import { SERVER_URL } from "../apiConfig";
 
 const Account: React.FC = () => {
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const Account: React.FC = () => {
       <IonContent className="ion-padding">
         <h1 className="ion-margin-bottom">Welcome {profile!.firstName}</h1>
         <IonAvatar onClick={takePhoto} style={profPicStyle}>
-          <IonImg src={`/${profile!.profilePicture}`}></IonImg>
+          <IonImg src={`${SERVER_URL}/${profile!.profilePicture}`}></IonImg>
         </IonAvatar>
         <IonList className="ion-margin-top">
           <IonItem onClick={() => history.push("/user/favoritechefs")}>

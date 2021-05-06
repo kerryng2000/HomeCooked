@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setErrorFlag } from "../actions/dishActions";
 import { useHistory } from "react-router-dom";
 import { AppState } from "../reducers";
+import { SERVER_URL } from "../apiConfig";
 
 const ProductCard = props => {
 
@@ -37,7 +38,7 @@ const ProductCard = props => {
                         <IonIcon className={ styles.productCardAction } size="medium"  icon={heartOutline} />
                         <IonIcon className={ styles.productCardAction } size="medium" icon={ arrowRedoOutline } />
                     </div>
-                    <img src={ '/' + product.foodPicture } alt="Product Image" />
+                    <img src={SERVER_URL + '/' + product.foodPicture } alt="Product Image" />
                     <p className="ion-text-wrap">{ product.name }</p>
                 </IonCardHeader>
 

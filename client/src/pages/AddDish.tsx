@@ -22,6 +22,7 @@ import { useHistory } from "react-router-dom";
 import { camera } from "ionicons/icons";
 import { Camera, CameraResultType } from "@capacitor/core";
 import { decode } from "base64-arraybuffer";
+import { SERVER_URL } from "../apiConfig";
 
 const AddDish: React.FC = () => {
   const DishName = useRef<HTMLIonInputElement>(null);
@@ -29,7 +30,7 @@ const AddDish: React.FC = () => {
   const DishStock = useRef<HTMLIonInputElement>(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [photo, setPhoto] = useState<string>("../../../uploads/defaultfood.jpg");
+  const [photo, setPhoto] = useState<string>(`${SERVER_URL}/uploads/defaultfood.jpg`);
   const [image, setImage] = useState<any>();
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

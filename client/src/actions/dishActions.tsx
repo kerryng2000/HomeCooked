@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
+import { SERVER_URL } from '../apiConfig';
 
 export interface AuthInterface {
     _id?: string;
@@ -25,7 +26,11 @@ export const Add = (dish: DishInterface, history: any, imageFormat: string) => {
         formData.append("stock", dish.stock);
         formData.append("foodPicture", dish.foodPicture, `.${imageFormat}`);
 
-        axios.post(`/Dishes/AddDish`, formData)
+        axios.post(`${SERVER_URL}/Dishes/AddDish`, formData, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+            }
+        })
         .then(res => {
             dispatch({
                 type: 'ADD_DISHES',
