@@ -105,7 +105,7 @@ const Recipe: React.FC = () => {
           <IonImg
             className="ion-margin-bottom"
             src={`${SERVER_URL}/${dish["foodPicture"]}`}
-            style={{ width: "100%" }}
+            style={{ width: "100%"}}
           ></IonImg>
 
             <IonRow>
@@ -127,7 +127,7 @@ const Recipe: React.FC = () => {
                 <IonRow className="detail-price">
                   <h1>${dish.price}</h1>
                 </IonRow>
-                  {email !== chef.email && (
+                  {isAuthenticated && email !== chef.email && (
                     <IonRow className="control-btn">
                       <IonButton fill="clear" onClick={decreaseAmount}>
                         <IonIcon slot="icon-only" icon={removeCircleOutline} />

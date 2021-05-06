@@ -108,7 +108,7 @@ const Cart: React.FC = () => {
                     </IonThumbnail>
                     <IonGrid>
                       <IonRow className="ion-align-items-end">
-                        <IonCol>{item.dish.name}</IonCol>
+                        <IonCol style={{width: "3rem"}}>{item.dish.name}</IonCol>
                         <IonCol>
                           <IonButton
                             size="small"
