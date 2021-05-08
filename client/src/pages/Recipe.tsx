@@ -116,7 +116,7 @@ const Recipe: React.FC = () => {
                 >
                   <IonImg src={`${SERVER_URL}/${chef.profilePicture}`}></IonImg>
                 </IonAvatar>
-                <h2 style={{textAlign: 'center'}}>
+                <h2>
                   {chef.firstName} {chef.lastName}
                 </h2>
               </IonCol>

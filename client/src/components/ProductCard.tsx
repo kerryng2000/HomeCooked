@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonIcon } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonIcon, IonImg } from "@ionic/react";
 import { arrowRedoOutline, cartOutline, heartOutline } from "ionicons/icons";
 import { addToCart } from "../actions/cartActions";
 import styles from "./ProductCard.module.css";
@@ -7,6 +7,7 @@ import { setErrorFlag } from "../actions/dishActions";
 import { useHistory } from "react-router-dom";
 import { AppState } from "../reducers";
 import { SERVER_URL } from "../apiConfig";
+import React from "react";
 
 const ProductCard = props => {
 
@@ -38,7 +39,7 @@ const ProductCard = props => {
                         <IonIcon className={ styles.productCardAction } size="medium"  icon={heartOutline} />
                         <IonIcon className={ styles.productCardAction } size="medium" icon={ arrowRedoOutline } />
                     </div>
-                    <img src={SERVER_URL + '/' + product.foodPicture } alt="Product Image" />
+                    <IonImg src={SERVER_URL + '/' + product.foodPicture } alt="Product Image" />
                     <p className="ion-text-wrap">{ product.name }</p>
                 </IonCardHeader>
 
