@@ -82,7 +82,11 @@ const Chef: React.FC = () => {
     };
 
     axios
-      .post(`${SERVER_URL}/reviews`, review)
+      .post(`${SERVER_URL}/reviews`, review, {
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+        }
+    })
       .then((res) => {
         axios
           .get(`${SERVER_URL}/reviews/${params.id}`)

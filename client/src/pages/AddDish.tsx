@@ -31,7 +31,7 @@ const AddDish: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [photo, setPhoto] = useState<string>(`${SERVER_URL}/uploads/defaultfood.jpg`);
-  const [image, setImage] = useState<any>();
+  const [image, setImage] = useState<any>(null);
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,10 +39,17 @@ const AddDish: React.FC = () => {
     const Dish = DishName.current!.value;
     const Price = DishPrice.current!.value;
     const Stock = DishStock.current!.value;
-    const blob = new Blob([new Uint8Array(decode(image.base64String!))], {
-    type: `image/${image.format}`,
-    });
+    let blob;
 
+    if (image !== null)
+    {
+      blob = new Blob([new Uint8Array(decode(image.base64String!))], {
+        type: `image/${image.format}`,
+        });
+    }
+    else
+      blob = null;
+    
     const dish = {
       name: String(Dish),
       price: String(Price),
@@ -50,7 +57,10 @@ const AddDish: React.FC = () => {
       foodPicture: blob
     };
 
-    dispatch(Add(dish, history, image.format));
+    if (image !== null)
+      dispatch(Add(dish, history, image.format));
+    else 
+      dispatch(Add(dish, history, ""));
   };
 
   const takePhoto = async () => {

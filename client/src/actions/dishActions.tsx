@@ -24,7 +24,9 @@ export const Add = (dish: DishInterface, history: any, imageFormat: string) => {
         formData.append("name", dish.name);
         formData.append("price", dish.price);
         formData.append("stock", dish.stock);
-        formData.append("foodPicture", dish.foodPicture, `.${imageFormat}`);
+
+        if (dish.foodPicture !== null)
+            formData.append("foodPicture", dish.foodPicture, `.${imageFormat}`);
 
         axios.post(`${SERVER_URL}/Dishes/AddDish`, formData, {
             headers: {
